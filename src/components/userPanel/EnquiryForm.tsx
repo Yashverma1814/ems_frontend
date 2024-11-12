@@ -53,7 +53,8 @@ export default function EnquiryForm() {
         data
       );
       alert("Enquiry submitted successfully.");
-    } catch {
+    } catch (err){
+      console.log(err)
       alert("Failed to submit enquiry.");
     }
   };
