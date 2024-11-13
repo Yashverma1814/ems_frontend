@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
+import { useMutation } from "react-query";
 
 type EnquiryFormData = {
   studentName: string;
@@ -44,19 +45,47 @@ export default function EnquiryForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<EnquiryFormData>();
 
-  const onSubmit = async (data: EnquiryFormData) => {
-    try {
-      await axios.post(
-        "https://enquiry-mgmt-backend.onrender.com/enquiries",
-        data
-      );
-      alert("Enquiry submitted successfully.");
-    } catch (err){
-      console.log(err)
-      alert("Failed to submit enquiry.");
+  const mutation = useMutation(
+    (data: EnquiryFormData) =>
+      axios.post("https://enquiry-mgmt-backend.onrender.com/enquiries", data),
+    {
+      onSuccess: () => {
+        // console.log(EnquiryFormData)
+        alert("Enquiry submitted successfully.");
+        reset();
+      },
+      onError: (err: unknown) => {
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status === 409) {
+            alert("An enquiry already exists with this contact number.");
+          } else {
+            alert("Failed to submit enquiry.");
+          }
+        } else {
+          alert("An unexpected error occurred.");
+        }
+      },
     }
+  );
+
+  // const onSubmit = async (data: EnquiryFormData) => {
+  //   try {
+  //     await axios.post(
+  //       "https://enquiry-mgmt-backend.onrender.com/enquiries",
+  //       data
+  //     );
+  //     alert("Enquiry submitted successfully.");
+  //   } catch (err) {
+  //     console.log(err);
+  //     alert("Failed to submit enquiry.");
+  //   }
+  // };
+
+  const onSubmit = (data: EnquiryFormData) => {
+    mutation.mutate(data);
   };
 
   return (
@@ -117,9 +146,9 @@ export default function EnquiryForm() {
                   width: "100%",
                   padding: "8px 12px",
                   borderRadius: "8px",
-                  border: "1px solid #E2E8F0", 
+                  border: "1px solid #E2E8F0",
                   backgroundColor: "white",
-                  color: "#2D3748", 
+                  color: "#2D3748",
                   fontSize: "16px",
                   lineHeight: "1.5",
                   outline: "none",
@@ -152,9 +181,9 @@ export default function EnquiryForm() {
                   width: "100%",
                   padding: "8px 12px",
                   borderRadius: "8px",
-                  border: "1px solid #E2E8F0", 
+                  border: "1px solid #E2E8F0",
                   backgroundColor: "white",
-                  color: "#2D3748", 
+                  color: "#2D3748",
                   fontSize: "16px",
                   lineHeight: "1.5",
                   outline: "none",
@@ -207,14 +236,28 @@ export default function EnquiryForm() {
             <GridItem>
               <Input
                 placeholder="Guardian Phone"
-                {...register("contactDetails.contactMain")}
+                maxLength={10}
+                {...register("contactDetails.contactMain", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: "Please enter a valid phone number",
+                  },
+                })}
               />
             </GridItem>
 
             <GridItem>
               <Input
                 placeholder="Guardian Phone 2 (Optional)"
-                {...register("contactDetails.contactOpt")}
+                maxLength={10}
+                {...register("contactDetails.contactOpt", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: "Please enter a valid phone number",
+                  },
+                })}
               />
             </GridItem>
 
