@@ -31,7 +31,7 @@ type EnquiryFormData = {
     street: string;
     city: string;
     state: string;
-    zipcode: string;
+    zipCode: string;
     country: string;
   };
   enquirySource: string;
@@ -318,7 +318,7 @@ export default function EnquiryForm() {
               </select>
             </GridItem>
             <GridItem>
-              <Input placeholder="Zipcode" {...register("address.zipcode")} />
+              <Input placeholder="Zipcode" {...register("address.zipCode")} />
             </GridItem>
             <GridItem>
               <Input placeholder="Country" {...register("address.country")} />
