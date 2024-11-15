@@ -6,28 +6,28 @@ import { Button, Input, Box, Heading, Text, Table } from '@chakra-ui/react';
 import axios from 'axios';
 import { BaseUrl, BaseUrlfe } from '@/service/apis';
 
-interface LoginFormData {
+interface RegisterFormData {
   username: string;
   password: string;
+}   
+
+interface RegisterResponse{
+    message: string
 }
 
-interface LoginResponse {
-  access_token: string;
-}
-
-const AdminLoginPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+const AdminRegisterPage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
     try {
-      const response = await axios.post<LoginResponse>(`${BaseUrl}/auth/login`, data);
-      localStorage.setItem('token', response.data.access_token); 
-      window.location.href = `${BaseUrlfe}/adminpanel/enquiries`; 
+      const response = await axios.post<RegisterResponse>(`${BaseUrl}/auth/register`, data);
+      alert(response.data.message)
+      window.location.href = `${BaseUrlfe}/adminpanel/login`; 
     } catch (error) {
-      setErrorMessage('Invalid username or password');
+      setErrorMessage('Unable to Register');
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ const AdminLoginPage = () => {
 
   return (
     <Box maxWidth="400px" mx="auto" mt="100px" p="5" borderWidth="1px" borderRadius="lg">
-      <Heading mb="6">Admin Login</Heading>
+      <Heading mb="6">Admin Register</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb="4">
           <Text fontWeight="bold" mb="1">Username</Text>
@@ -68,7 +68,4 @@ const AdminLoginPage = () => {
   );
 };
 
-export default AdminLoginPage;
-
-
-
+export default AdminRegisterPage;

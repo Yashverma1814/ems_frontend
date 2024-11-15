@@ -1,6 +1,7 @@
 // app/layout.tsx 
 
 "use client"
+import Navbar from "@/components/adminpanel/Navbar";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -15,7 +16,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+          <ChakraProvider value={defaultSystem}>
+            <Navbar/>
+            {children}
+          </ChakraProvider>
         </QueryClientProvider>
       </body>
     </html>

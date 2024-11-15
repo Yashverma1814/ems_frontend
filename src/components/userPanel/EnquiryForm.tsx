@@ -13,6 +13,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import { useMutation } from "react-query";
+import { BaseUrl } from "@/service/apis";
 
 type EnquiryFormData = {
   studentName: string;
@@ -50,7 +51,7 @@ export default function EnquiryForm() {
 
   const mutation = useMutation(
     (data: EnquiryFormData) =>
-      axios.post("https://enquiry-mgmt-backend.onrender.com/enquiries", data),
+      axios.post(`${BaseUrl}/enquiries`, data),
     {
       onSuccess: () => {
         // console.log(EnquiryFormData)
@@ -196,7 +197,24 @@ export default function EnquiryForm() {
                 {...register("grade", { required: "Grade is required" })}
               >
                 <option value="">Grade</option>
+                <option value="pre-nursery">Pre Nursery</option>
+                <option value="nursery">Nursery</option>
+                <option value="LKG">LKG</option>
+                <option value="UKG">UKG</option>
+                <option value="KG">KG</option>
                 <option value="first class">GRADE 1</option>
+                <option value="second class">GRADE 2</option>
+                <option value="third class">GRADE 3</option>
+                <option value="fourth class">GRADE 4</option>
+                <option value="fifth class">GRADE 5</option>
+                <option value="sixth class">GRADE 6</option>
+                <option value="seventh class">GRADE 7</option>
+                <option value="eighth class">GRADE 8</option>
+                <option value="nineth class">GRADE 9</option>
+                <option value="tenth class">GRADE 10</option>
+                <option value="eleventh class">GRADE 11</option>
+                <option value="twelfth class">GRADE 12</option>
+                
               </select>
               {errors.grade && (
                 <Text color="red.500">{errors.grade.message}</Text>
