@@ -13,6 +13,7 @@ interface LoginFormData {
 
 interface LoginResponse {
   access_token: string;
+  username:string;
 }
 
 const AdminLoginPage = () => {
@@ -24,7 +25,8 @@ const AdminLoginPage = () => {
     setLoading(true);
     try {
       const response = await axios.post<LoginResponse>(`${BaseUrl}/auth/login`, data);
-      localStorage.setItem('token', response.data.access_token); 
+      localStorage.setItem('token', response.data.access_token);
+      localStorage.setItem('username', response.data.username); 
       window.location.href = `${BaseUrlfe}/adminpanel/enquiries`; 
     } catch (error) {
       setErrorMessage('Invalid username or password');

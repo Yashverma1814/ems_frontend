@@ -1,7 +1,8 @@
 "use client";
+import { IoIosArrowBack } from "react-icons/io";
 
 import EnquiryEditForm from "@/components/adminpanel/EnquiryEditForm";
-import { BaseUrl } from "@/service/apis";
+import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import {
   Box,
   Heading,
@@ -25,13 +26,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
+import { RiArrowRightLine } from "react-icons/ri";
 
 type RemarkFormData = {
   message: string;
-  addedBy: string;
+  addedBy: any;
 };
 
 const fetchEnquiryDetail = async (id: any) => {
@@ -56,7 +59,7 @@ const formatDate = (date: string | Date): string => {
 };
 
 const EnquiryDetail = () => {
-  const { onOpen, onClose } = useDisclosure()
+  const { onOpen, onClose } = useDisclosure();
   const { id } = useParams();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -74,8 +77,13 @@ const EnquiryDetail = () => {
       enabled: !!id,
     }
   );
+
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+
   const [message, setMessage] = useState("");
-  const [adminName, setAdminName] = useState("");
+  // setAdminName(username)
+
   const mutation = useMutation(
     (remarkData: RemarkFormData) =>
       axios.put(`${BaseUrl}/enquiries/add-remark/${data._id}`, remarkData),
@@ -85,6 +93,18 @@ const EnquiryDetail = () => {
       },
       onError: (err) => {
         alert("Failed to add remark");
+      },
+    }
+  );
+
+  const deleteMutation = useMutation(
+    () => axios.delete(`${BaseUrl}/enquiries/${id}`),
+    {
+      onSuccess: () => {
+        alert("Enquiry deleted successfully.");
+      },
+      onError: (err) => {
+        alert("Failed to delete enquiry.");
       },
     }
   );
@@ -107,6 +127,31 @@ const EnquiryDetail = () => {
       </Text>
     );
 
+
+    if (!token) {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          You are Not Logged In{" "}
+          <Link href={`${BaseUrlfe}/adminpanel/login`}>
+            {" "}
+            <Button colorPalette="teal" variant="outline">
+              Click Here
+              <RiArrowRightLine />
+            </Button>
+          </Link>{" "}
+          to Login
+        </div>
+      );
+    }
+
   return (
     <Box
       p={8}
@@ -116,6 +161,14 @@ const EnquiryDetail = () => {
       borderRadius="lg"
       boxShadow="lg"
     >
+      <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
+        <IoIosArrowBack
+          style={{
+            cursor: "pointer",
+            fontSize: "30px",
+          }}
+        />
+      </Link>
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}>
         <GridItem>
           <Box>
@@ -178,8 +231,8 @@ const EnquiryDetail = () => {
               </Text>
               <PopoverRoot positioning={{ placement: "bottom-end" }}>
                 <PopoverTrigger asChild>
-                  <Button size="sm" variant="outline">
-                    Click me
+                  <Button size="sm" colorPalette={"green"} variant="subtle">
+                    Update
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent width="600px">
@@ -189,6 +242,15 @@ const EnquiryDetail = () => {
                   </PopoverBody>
                 </PopoverContent>
               </PopoverRoot>
+              <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
+                <Button
+                  colorPalette={"red"}
+                  variant="subtle"
+                  onClick={() => deleteMutation.mutate()}
+                >
+                  Delete
+                </Button>
+              </Link>
             </VStack>
           </Box>
         </GridItem>
@@ -218,7 +280,7 @@ const EnquiryDetail = () => {
           </Box>
           <PopoverRoot>
             <PopoverTrigger asChild>
-              <Button size="sm" variant="outline">
+              <Button size="sm" colorPalette={"pink"} variant="subtle">
                 Add Remark
               </Button>
             </PopoverTrigger>
@@ -226,14 +288,6 @@ const EnquiryDetail = () => {
               <PopoverArrow />
               <PopoverBody>
                 <Stack gap="4">
-                  <Text>
-                    Admin Name:
-                    <Input
-                      value={adminName}
-                      placeholder="admin name"
-                      onChange={(e) => setAdminName(e.target.value)}
-                    />
-                  </Text>
                   <Text>
                     Remark:
                     <Textarea
@@ -244,9 +298,11 @@ const EnquiryDetail = () => {
                   </Text>
                   <Button
                     onClick={() => {
-                      onSubmit({ message, addedBy: adminName })
+                      onSubmit({ message, addedBy: username });
                       onClose();
                     }}
+                    colorPalette={"green"}
+                    variant="subtle"
                   >
                     Add
                   </Button>

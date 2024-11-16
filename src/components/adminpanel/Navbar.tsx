@@ -8,11 +8,22 @@ import {
   Stack,
   Heading,
   Button,
+  Avatar,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { BaseUrlfe } from "@/service/apis";
+import { RxAvatar } from "react-icons/rx";
 
 const Links = ["Dashboard", "Enquiries"];
+
+const token = localStorage.getItem("token");
+const username = localStorage.getItem("username");
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+};
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -37,9 +48,34 @@ const Navbar = () => {
           </HStack>
         </HStack>
         <Flex alignItems={"center"}>
-          <Button variant="solid" colorScheme="teal" size="sm">
-            Sign Up
-          </Button>
+          {token ? (
+            <>
+              <Grid gridTemplate={{ base: "1fr", md: "repeat(1, 1fr)" }} p={4} justifyItems="center" alignItems="center">
+                <GridItem   >
+                  <RxAvatar
+                    style={{
+                      fontSize: "35px",
+                    }}
+                  />
+                </GridItem>
+                <GridItem>
+                  <div>
+                    <label htmlFor="">{username}</label>
+                  </div>
+                </GridItem>
+              </Grid>
+              <Button
+                variant="surface"
+                colorPalette="red"
+                size="sm"
+                onClick={() => logout()}
+              >
+                <Link href={`${BaseUrlfe}/adminpanel/login`}>Log Out</Link>
+              </Button>
+            </>
+          ) : (
+            ""
+          )}
         </Flex>
       </Flex>
 

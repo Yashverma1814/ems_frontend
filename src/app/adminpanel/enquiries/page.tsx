@@ -151,7 +151,7 @@ const AdminEnquiriesPage: FC = () => {
         <DrawerBackdrop />
         <DrawerTrigger asChild>
           <Button variant="outline" size="sm">
-            Menu
+            Filters
           </Button>
         </DrawerTrigger>
         <DrawerContent
@@ -362,7 +362,7 @@ const AdminEnquiriesPage: FC = () => {
                     }}
                   >
                     <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
-                      <Button>View Enquiry</Button>
+                      <Button colorPalette="teal" variant="solid">View Enquiry</Button>
                     </Link>
                   </td>
                 </tr>
