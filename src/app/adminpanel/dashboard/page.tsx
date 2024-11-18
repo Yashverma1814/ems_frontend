@@ -1,14 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
   Card,
-  CardHeader,
-  CardBody,
-  Heading,
-  Text,
   Button,
   Center,
   Spinner,
@@ -16,8 +12,9 @@ import {
 import { useQuery } from "react-query";
 import Link from "next/link";
 import { BaseUrlfe } from "@/service/apis";
+import { toast, ToastContainer } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
 
-// Dummy API call (replace this with the actual API endpoint)
 const fetchTotalEnquiries = async (): Promise<number> => {
   const response = await fetch("http://localhost:5000/enquiries/");
   if (!response.ok) {
@@ -25,6 +22,7 @@ const fetchTotalEnquiries = async (): Promise<number> => {
   }
   const data = await response.json();
   console.log(data, length);
+  // toast.success("datafetched")
   return data.length;
 };
 
@@ -33,7 +31,9 @@ const Dashboard = () => {
     queryFn: fetchTotalEnquiries,
   });
 
+
   if (isLoading)
+    // toast.warning("loading")
     return (
       <Center height="100vh">
         <Spinner size="xl" />
@@ -42,29 +42,8 @@ const Dashboard = () => {
 
   return (
     <Box p={4}>
+      {/* <ToastContainer position="top-right" autoClose={10000} /> */}
       <Flex justify="center" align="center" minHeight="100vh">
-        {/* <Card
-          maxW="sm"
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          p={6}
-          background={cardBackground}
-          shadow="xl"
-        >
-          <CardHeader>
-            <Heading size="md" color="gray.600">Total Enquiries</Heading>
-          </CardHeader>
-          <CardBody>
-            {isLoading ? (
-              <Text fontSize="4xl" fontWeight="bold">Loading...</Text>
-            ) : error ? (
-              <Text fontSize="md" color="red.500">Error: {error.message}</Text>
-            ) : (
-              <Text fontSize="4xl" fontWeight="bold">{totalEnquiries}</Text>
-            )}
-          </CardBody>
-        </Card> */}
         <Card.Root width="320px">
           <Card.Body gap="2">
             <Card.Title mt="2">Total Number of Enquiries: </Card.Title>
@@ -82,3 +61,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+

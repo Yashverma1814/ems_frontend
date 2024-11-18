@@ -22,7 +22,6 @@ export default function UserPanel() {
         alignItems="center"
         mb={{ base: "50", md: "50" }} 
       >
-        {/* EMS Logo */}
         <Image
           src="https://logowik.com/content/uploads/images/ems3178.logowik.com.webp" 
           alt="EMS Logo"
@@ -31,7 +30,6 @@ export default function UserPanel() {
         />
       </HStack>
 
-      {/* Form Section */}
       <Box
         w={{ base: "100%", sm: "100%", md: "100%", lg: "100%" }} 
         maxW="container.md"

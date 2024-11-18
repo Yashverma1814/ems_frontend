@@ -23,6 +23,9 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { useParams } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 type EnquiryFormData = {
   studentName: string;
@@ -96,10 +99,12 @@ export default function EnquiryEditForm() {
       axios.put(`${BaseUrl}/enquiries/${id}`, updatedData),
     {
       onSuccess: () => {
-        alert("Enquiry updated successfully.");
+        // alert("Enquiry updated successfully.");
+        toast.success("Enquiry updated successfully.")
       },
       onError: (err) => {
-        alert("Failed to update enquiry.");
+        // alert("Failed to update enquiry.");
+        toast.success("Failed to update enquiry.")
       },
     }
   );
@@ -141,6 +146,7 @@ export default function EnquiryEditForm() {
             justifyContent="center"
             bg="gray.50"
           >
+            <ToastContainer/>
             <Box
               maxW="container.md"
               w="full"

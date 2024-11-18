@@ -32,6 +32,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { RiArrowRightLine } from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type RemarkFormData = {
   message: string;
@@ -69,6 +71,7 @@ const EnquiryDetail = () => {
     if (buttonRef.current) {
       buttonRef.current.click();
     }
+
   }, []);
 
   const { data, isLoading, isError } = useQuery(
@@ -113,10 +116,12 @@ const EnquiryDetail = () => {
       axios.put(`${BaseUrl}/enquiries/add-remark/${data._id}`, remarkData),
     {
       onSuccess: () => {
-        alert("Remark added successfully.");
+        toast.success("Remark added successfully.")
+        // alert("Remark added successfully.");
       },
       onError: (err) => {
         alert("Failed to add remark");
+        toast.success("Failed to add remark")
       },
     }
   );
@@ -125,10 +130,12 @@ const EnquiryDetail = () => {
     () => axios.delete(`${BaseUrl}/enquiries/${id}`),
     {
       onSuccess: () => {
-        alert("Enquiry deleted successfully.");
+        toast.success("Enquiry deleted successfully")
+        // alert("Enquiry deleted successfully.");
       },
       onError: (err) => {
-        alert("Failed to delete enquiry.");
+        toast.success("Failed to delete enquiry.")
+        // alert("Failed to delete enquiry.");
       },
     }
   );
@@ -177,6 +184,7 @@ const EnquiryDetail = () => {
 
   return (
     <Box p={8} maxW="1200px" mx="auto">
+      <ToastContainer />
       <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
         <IoIosArrowBack
           style={{
