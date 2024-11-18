@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
+import { IoFilterOutline } from "react-icons/io5";
 import axios from "axios";
 import {
   Box,
@@ -20,6 +21,7 @@ import {
   DrawerTrigger,
   For,
   Grid,
+  Input,
   SelectContent,
   SelectItem,
   SelectLabel,
@@ -34,6 +36,8 @@ import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { RiArrowRightLine } from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Enquiry {
   _id: string;
@@ -74,6 +78,7 @@ const source = createListCollection({
 
 const AdminEnquiriesPage: FC = () => {
   const [page, setPage] = useState(1);
+  const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
   const [data, setData] = useState<Enquiry[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -107,6 +112,14 @@ const AdminEnquiriesPage: FC = () => {
     setPage(1);
   };
 
+  const handleManuallyPageSet = (val: number) => {
+    if (val > totalPages || val <= 0) {
+      setMPage(1);
+    } else {
+      setPage(val);
+    }
+  };
+
   useEffect(() => {
     fetchEnquiries();
   }, [page, limit]);
@@ -119,7 +132,12 @@ const AdminEnquiriesPage: FC = () => {
 
   const token = localStorage.getItem("token");
 
-  if (loading) return <Center height="100vh"><Spinner size="xl"/></Center>
+  if (loading)
+    return (
+      <Center height="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
 
   if (!token) {
     return (
@@ -144,23 +162,28 @@ const AdminEnquiriesPage: FC = () => {
       </div>
     );
   }
+  
 
   return (
     <Box p="5">
       <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-        <DrawerBackdrop />
+        
         <DrawerTrigger asChild>
           <Button variant="outline" size="sm">
-            Filters
+            <IoFilterOutline />
           </Button>
         </DrawerTrigger>
         <DrawerContent
           style={{
             position: "fixed",
+            top:0,
+            left:0,
             width: "20vw",
-            height: "90vh",
+            height: "100vh",
             overflow: "auto",
             zIndex: 150,
+            transition: "transform 0.4s ease-in-out", 
+            transform: open ? "translateX(0)" : "translateX(-100%)", 
           }}
         >
           <DrawerHeader>
@@ -361,8 +384,12 @@ const AdminEnquiriesPage: FC = () => {
                       borderBottom: "1px solid #E2E8F0",
                     }}
                   >
-                    <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
-                      <Button colorPalette="teal" variant="solid">View Enquiry</Button>
+                    <Link
+                      href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}
+                    >
+                      <Button colorPalette="teal" variant="solid">
+                        View Enquiry
+                      </Button>
                     </Link>
                   </td>
                 </tr>
@@ -372,12 +399,12 @@ const AdminEnquiriesPage: FC = () => {
         )}
       </Box>
       <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}>
-        <Stack gap="5" width="320px" height={100}>
+        <Stack gap="5" width="150px" height={100}>
           <SelectRoot
             collection={noOfLimit}
             onValueChange={(e) => setLimit(+e.value)}
           >
-            <SelectLabel>Select Number of limit</SelectLabel>
+            <SelectLabel>limit</SelectLabel>
             <SelectTrigger>
               <SelectValueText placeholder={`${limit}`} />
             </SelectTrigger>
@@ -390,7 +417,7 @@ const AdminEnquiriesPage: FC = () => {
             </SelectContent>
           </SelectRoot>
         </Stack>
-        <Box>
+        <Box justifyItems="center" alignItems="center">
           <Button
             onClick={() => handlePageChange(page - 1)}
             disabled={page === 1}
@@ -400,7 +427,7 @@ const AdminEnquiriesPage: FC = () => {
             Previous
           </Button>
           <Text display="inline" mx="2">
-            Page {page}
+            Page {page} / {totalPages}
           </Text>
           <Button
             onClick={() => handlePageChange(page + 1)}
@@ -409,6 +436,25 @@ const AdminEnquiriesPage: FC = () => {
           >
             Next
           </Button>
+          <Box>
+            <Input
+              type="number"
+              value={mPage}
+              onChange={(e) => {
+                setMPage(+e.target.value);
+              }}
+              width="75px"
+              justifyContent="center"
+              alignContent="center"
+            />
+            <br />
+            <Button
+              onClick={() => handleManuallyPageSet(mPage)}
+              variant={"subtle"}
+            >
+              Search
+            </Button>
+          </Box>
         </Box>
       </Grid>
     </Box>

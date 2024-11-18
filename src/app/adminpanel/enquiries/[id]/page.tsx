@@ -24,6 +24,7 @@ import {
   Textarea,
   PopoverCloseTrigger,
   useDisclosure,
+  Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
@@ -77,12 +78,35 @@ const EnquiryDetail = () => {
       enabled: !!id,
     }
   );
+  const [token, setToken] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
+  useEffect(() => {
+    // Check if we're on the client side
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      const storedUsername = localStorage.getItem("username");
+
+      setToken(storedToken);
+      setUsername(storedUsername);
+    }
+  }, []);
 
   const [message, setMessage] = useState("");
+  const secondButtonRef = useRef<HTMLButtonElement>(null);
+
   // setAdminName(username)
+
+  const handleUpdateBtnClick = () => {
+    console.log("Update Button clicked");
+    if (secondButtonRef.current) {
+      secondButtonRef.current.click();
+    }
+  };
+
+  const handleCloseBtnClick = () => {
+    console.log("Close button clicked");
+  };
 
   const mutation = useMutation(
     (remarkData: RemarkFormData) =>
@@ -111,7 +135,7 @@ const EnquiryDetail = () => {
 
   const onSubmit = (data: RemarkFormData) => {
     mutation.mutate(data);
-    onClose();
+    // onClose();
   };
 
   if (isLoading)
@@ -127,40 +151,32 @@ const EnquiryDetail = () => {
       </Text>
     );
 
-
-    if (!token) {
-      return (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          You are Not Logged In{" "}
-          <Link href={`${BaseUrlfe}/adminpanel/login`}>
-            {" "}
-            <Button colorPalette="teal" variant="outline">
-              Click Here
-              <RiArrowRightLine />
-            </Button>
-          </Link>{" "}
-          to Login
-        </div>
-      );
-    }
+  if (!token) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        You are Not Logged In{" "}
+        <Link href={`${BaseUrlfe}/adminpanel/login`}>
+          {" "}
+          <Button colorPalette="teal" variant="outline">
+            Click Here
+            <RiArrowRightLine />
+          </Button>
+        </Link>{" "}
+        to Login
+      </div>
+    );
+  }
 
   return (
-    <Box
-      p={8}
-      maxW="1400px"
-      mx="auto"
-      borderWidth={1}
-      borderRadius="lg"
-      boxShadow="lg"
-    >
+    <Box p={8} maxW="1200px" mx="auto">
       <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
         <IoIosArrowBack
           style={{
@@ -171,11 +187,18 @@ const EnquiryDetail = () => {
       </Link>
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}>
         <GridItem>
-          <Box>
+          <Box
+            p={6}
+            borderWidth={1}
+            borderRadius="lg"
+            bg="gray.50"
+            boxShadow="md"
+          >
             <Heading as="h2" size="2xl" mb={6} textAlign="center">
               Enquiry Details
             </Heading>
             <VStack spaceX={4} align="flex-start">
+              <Text></Text>
               <Text>
                 <strong>Student Name:</strong> {data.studentName}
               </Text>
@@ -226,56 +249,55 @@ const EnquiryDetail = () => {
               <Text>
                 <strong>Description:</strong> {data.description}
               </Text>
-              <Text>
-                <strong>Remarks:</strong>{" "}
-              </Text>
-              <PopoverRoot positioning={{ placement: "bottom-end" }}>
-                <PopoverTrigger asChild>
-                  <Button size="sm" colorPalette={"green"} variant="subtle">
-                    Update
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent width="600px">
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <EnquiryEditForm />
-                  </PopoverBody>
-                </PopoverContent>
-              </PopoverRoot>
-              <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
-                <Button
-                  colorPalette={"red"}
-                  variant="subtle"
-                  onClick={() => deleteMutation.mutate()}
-                >
-                  Delete
-                </Button>
-              </Link>
+
+              <EnquiryEditForm />
+
+              <Button
+                colorPalette={"red"}
+                variant="subtle"
+                onClick={() => deleteMutation.mutate()}
+              >
+                <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>Delete</Link>
+              </Button>
             </VStack>
           </Box>
         </GridItem>
         <GridItem>
           <Box
-            w="full"
-            maxW="container.md"
-            maxH="400px"
-            overflowY="scroll"
-            p="4"
-            border="1px"
-            borderColor="gray.200"
-            borderRadius="md"
+            p={6}
+            borderWidth={1}
+            borderRadius="lg"
+            height="500px"
+            bg="gray.50"
             boxShadow="md"
+            overflowY="auto"
           >
+            <Text>
+              <strong>Remarks:</strong>{" "}
+            </Text>
             {data.remark.map((remark: any) => (
-              <Card.Root width="600px" key={remark._id}>
-                <Card.Body gap="2">
-                  <Card.Title mt="2">{remark.addedBy}</Card.Title>
-                  <Card.Description>{remark.message}</Card.Description>
-                </Card.Body>
-                <Card.Footer justifyContent="flex-end">
-                  <Text>added at: {formatDate(remark.date)}</Text>
-                </Card.Footer>
-              </Card.Root>
+              <Box
+                key={remark._id}
+                p={4}
+                mb={4}
+                bg="white"
+                borderRadius="md"
+                boxShadow="sm"
+                borderWidth="1px"
+                borderColor="gray.200"
+              >
+                <Flex justifyContent="space-between" alignItems="center" mb={2}>
+                  <Heading as="h4" size="sm" color="gray.700">
+                    {remark.addedBy}
+                  </Heading>
+                  <Text fontSize="sm" color="gray.500">
+                    {formatDate(remark.date)}
+                  </Text>
+                </Flex>
+                <Text fontSize="md" color="gray.800">
+                  {remark.message}
+                </Text>
+              </Box>
             ))}
           </Box>
           <PopoverRoot>
@@ -296,16 +318,36 @@ const EnquiryDetail = () => {
                       onChange={(e) => setMessage(e.target.value)}
                     />
                   </Text>
-                  <Button
+                  <PopoverCloseTrigger
+                    colorPalette="green"
                     onClick={() => {
                       onSubmit({ message, addedBy: username });
                       onClose();
                     }}
-                    colorPalette={"green"}
-                    variant="subtle"
                   >
-                    Add
-                  </Button>
+                    <Box
+                      as="div"
+                      display="inline-block"
+                      padding="8px 16px"
+                      borderRadius="md"
+                      marginTop="1rem"
+                      backgroundColor="white"
+                      color="green.700"
+                      boxShadow="sm"
+                      borderWidth="1px"
+                      borderColor="green.200"
+                      _hover={{
+                        backgroundColor: "green.50",
+                        cursor: "pointer",
+                      }}
+                      _active={{
+                        backgroundColor: "green.100",
+                      }}
+                      textAlign="center"
+                    >
+                      Add
+                    </Box>
+                  </PopoverCloseTrigger>
                   <PopoverCloseTrigger />
                 </Stack>
               </PopoverBody>
