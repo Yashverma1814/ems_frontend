@@ -59,7 +59,7 @@ const AdminLoginPage = () => {
             placeholder="Enter username"
             {...register("username", { required: "Username is required" })}
             // focusBorderColor="green.400"
-            // errorBorderColor="red.400"
+            // errorBorderColor="red.400"x
           />
           {errors.username && (
             <Text color="red.500" mt="2" fontSize="sm">
@@ -105,3 +105,5 @@ const AdminLoginPage = () => {
 };
 
 export default AdminLoginPage;
+
+

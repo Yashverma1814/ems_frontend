@@ -19,13 +19,21 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverCloseTrigger,
+  DrawerRoot,
+  DrawerBackdrop,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerBody,
+  DrawerFooter,
+  DrawerActionTrigger,
+  DrawerCloseTrigger,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { useParams } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { Toaster, toaster } from "@/components/ui/toaster";
 
 type EnquiryFormData = {
   studentName: string;
@@ -100,11 +108,17 @@ export default function EnquiryEditForm() {
     {
       onSuccess: () => {
         // alert("Enquiry updated successfully.");
-        toast.success("Enquiry updated successfully.")
+        toaster.create({
+          title: "Enquiry updated successfully.",
+          type: "success",
+        });
       },
       onError: (err) => {
         // alert("Failed to update enquiry.");
-        toast.success("Failed to update enquiry.")
+        toaster.create({
+          title: "Failed to update enquiry.",
+          type: "error",
+        });
       },
     }
   );
@@ -128,25 +142,42 @@ export default function EnquiryEditForm() {
     );
 
   return (
-    <PopoverRoot positioning={{ placement: "bottom-end" }}>
-      <PopoverTrigger asChild>
-        <Button size="sm" colorPalette={"green"} variant="subtle">
-          Update
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent width="600px">
-        <PopoverArrow />
-        <PopoverBody>
+    // <PopoverRoot positioning={{ placement: "bottom-end" }}>
+    //   <PopoverTrigger asChild>
+    //     <Button size="sm" colorPalette={"green"} variant="subtle">
+    //       Update
+    //     </Button>
+    //   </PopoverTrigger>
+    //   <PopoverContent width="600px">
+    //     <PopoverArrow />
+    //     <PopoverBody>
+
+    <DrawerRoot placement="bottom">
+      <DrawerBackdrop />
+      <DrawerTrigger asChild>
+        <Button colorPalette={"green"} variant="subtle">Edit Enquiry</Button>
+      </DrawerTrigger>
+      <DrawerContent
+        offset="4"
+        rounded="md"
+        style={{
+          transform: "translate(0rem,-85%)",
+        }}
+      >
+        <DrawerHeader>
+          <DrawerTitle>Update Enquiry</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
           <Box
             w="full"
-            h="100vh"
+            // h="100vh"
             p="4"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bg="gray.50"
+            // display="flex"
+            // alignItems="center"
+            // justifyContent="center"
+            // bg="gray.50"
           >
-            <ToastContainer/>
+            <Toaster />
             <Box
               maxW="container.md"
               w="full"
@@ -385,45 +416,21 @@ export default function EnquiryEditForm() {
                     </label>
                   </GridItem>
                 </Grid>
-                {/* <Button
-                    type="submit"
-                    colorPalette={"green"}
-                    variant="subtle"
-                    size="lg"
-                    mt="6"
-                    w="full"
-                  > */}
-                <PopoverCloseTrigger type="submit">
-                  <Box
-                    as="div"
-                    display="inline-block"
-                    padding="8px 16px"
-                    borderRadius="md"
-                    marginTop="1rem"
-                    backgroundColor="white"
-                    color="green.700"
-                    boxShadow="sm"
-                    borderWidth="1px"
-                    borderColor="green.200"
-                    _hover={{
-                      backgroundColor: "green.50",
-                      cursor: "pointer",
-                    }}
-                    _active={{
-                      backgroundColor: "green.100",
-                    }}
-                    textAlign="center"
-                  >
-                    Update Enquiry
-                  </Box>
-                </PopoverCloseTrigger>
-
-                {/* </Button> */}
+                <DrawerActionTrigger asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerActionTrigger>
+                <DrawerActionTrigger asChild>
+                  <Button variant={"surface"} type="submit" colorPalette={"green"}>
+                    Update
+                  </Button>
+                </DrawerActionTrigger>
               </form>
             </Box>
           </Box>
-        </PopoverBody>
-      </PopoverContent>
-    </PopoverRoot>
+        </DrawerBody>
+        <DrawerFooter></DrawerFooter>
+        <DrawerCloseTrigger />
+      </DrawerContent>
+    </DrawerRoot>
   );
 }

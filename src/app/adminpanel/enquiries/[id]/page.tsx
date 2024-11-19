@@ -32,8 +32,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { RiArrowRightLine } from "react-icons/ri";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toaster } from "@/components/ui/toaster"
 
 type RemarkFormData = {
   message: string;
@@ -85,7 +85,6 @@ const EnquiryDetail = () => {
   const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if we're on the client side
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
       const storedUsername = localStorage.getItem("username");
@@ -98,30 +97,23 @@ const EnquiryDetail = () => {
   const [message, setMessage] = useState("");
   const secondButtonRef = useRef<HTMLButtonElement>(null);
 
-  // setAdminName(username)
-
-  const handleUpdateBtnClick = () => {
-    console.log("Update Button clicked");
-    if (secondButtonRef.current) {
-      secondButtonRef.current.click();
-    }
-  };
-
-  const handleCloseBtnClick = () => {
-    console.log("Close button clicked");
-  };
 
   const mutation = useMutation(
     (remarkData: RemarkFormData) =>
       axios.put(`${BaseUrl}/enquiries/add-remark/${data._id}`, remarkData),
     {
       onSuccess: () => {
-        toast.success("Remark added successfully.")
-        // alert("Remark added successfully.");
+        toaster.create({
+          title: "Remark added successfully.",
+          type:"success"
+        })
       },
       onError: (err) => {
         alert("Failed to add remark");
-        toast.success("Failed to add remark")
+        toaster.create({
+          title: "Failed to add remark",
+          type:"error"
+        })
       },
     }
   );
@@ -130,27 +122,31 @@ const EnquiryDetail = () => {
     () => axios.delete(`${BaseUrl}/enquiries/${id}`),
     {
       onSuccess: () => {
-        toast.success("Enquiry deleted successfully")
-        // alert("Enquiry deleted successfully.");
+        toaster.create({
+          title: "Enquiry deleted successfully.",
+          type:"success"
+        })
       },
       onError: (err) => {
-        toast.success("Failed to delete enquiry.")
-        // alert("Failed to delete enquiry.");
+        toaster.create({
+          title: "Failed to delete enquiry.",
+          type:"error"
+        })
       },
     }
   );
 
   const onSubmit = (data: RemarkFormData) => {
     mutation.mutate(data);
-    // onClose();
+    onClose();
   };
 
-  if (isLoading)
+  if (isLoading){
     return (
       <Center height="100vh">
         <Spinner size="xl" />
       </Center>
-    );
+    );}
   if (isError)
     return (
       <Text color="red.500" textAlign="center">
@@ -184,7 +180,7 @@ const EnquiryDetail = () => {
 
   return (
     <Box p={8} maxW="1200px" mx="auto">
-      <ToastContainer />
+      <Toaster />
       <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
         <IoIosArrowBack
           style={{
@@ -193,7 +189,7 @@ const EnquiryDetail = () => {
           }}
         />
       </Link>
-      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}>
         <GridItem>
           <Box
             p={6}
@@ -259,6 +255,7 @@ const EnquiryDetail = () => {
               </Text>
 
               <EnquiryEditForm />
+              {/* <EnquiryUpdateDrawer /> */}
 
               <Button
                 colorPalette={"red"}
@@ -270,7 +267,7 @@ const EnquiryDetail = () => {
             </VStack>
           </Box>
         </GridItem>
-        <GridItem>
+        {/* <GridItem>
           <Box
             p={6}
             borderWidth={1}
@@ -362,7 +359,7 @@ const EnquiryDetail = () => {
               </PopoverBody>
             </PopoverContent>
           </PopoverRoot>
-        </GridItem>
+        </GridItem> */}
       </Grid>
     </Box>
   );

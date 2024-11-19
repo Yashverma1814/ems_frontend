@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import { BaseUrl } from "@/service/apis";
+import { Toaster, toaster } from "@/components/ui/toaster"
+
 
 type EnquiryFormData = {
   studentName: string;
@@ -54,37 +56,36 @@ export default function EnquiryForm() {
       axios.post(`${BaseUrl}/enquiries`, data),
     {
       onSuccess: () => {
-        // console.log(EnquiryFormData)
-        alert("Enquiry submitted successfully.");
+        toaster.create({
+          title:"Enquiry submitted successfully.",
+          type:"success"
+        })
         reset();
       },
       onError: (err: unknown) => {
         if (axios.isAxiosError(err)) {
           if (err.response?.status === 409) {
-            alert("An enquiry already exists with this contact number.");
+            toaster.create({
+              title:"An enquiry already exists with this contact number",
+              type:"error"
+            })
           } else {
-            alert("Failed to submit enquiry.");
+            toaster.create({
+              title:"Failed to submit enquiry.",
+              type:"error"
+            })
           }
         } else {
-          alert("An unexpected error occurred.");
+          toaster.create({
+            title:"An unexpected error occurred..",
+            type:"error"
+          })
         }
       },
     }
   );
 
-  // const onSubmit = async (data: EnquiryFormData) => {
-  //   try {
-  //     await axios.post(
-  //       "https://enquiry-mgmt-backend.onrender.com/enquiries",
-  //       data
-  //     );
-  //     alert("Enquiry submitted successfully.");
-  //   } catch (err) {
-  //     console.log(err);
-  //     alert("Failed to submit enquiry.");
-  //   }
-  // };
-
+  
   const onSubmit = (data: EnquiryFormData) => {
     mutation.mutate(data);
   };
@@ -99,6 +100,7 @@ export default function EnquiryForm() {
       justifyContent="center"
       bg="gray.50"
     >
+      <Toaster />
       <Box
         maxW="container.md"
         w="full"

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Input, Box, Heading, Text, Table } from '@chakra-ui/react';
+import { Button, Input, Box, Heading, Text, Table, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import { BaseUrl, BaseUrlfe } from '@/service/apis';
 
@@ -61,7 +61,7 @@ const AdminRegisterPage = () => {
         </Table.Root>
         {errorMessage && <Text color="red.500" mt="2">{errorMessage}</Text>}
         <Button mt="6" colorScheme="green" type="submit" width="full">
-          Login
+        {loading ? <Spinner size="sm" mr="2" /> : null}Register
         </Button>
       </form>
     </Box>
