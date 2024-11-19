@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 import Link from "next/link";
 import { BaseUrlfe } from "@/service/apis";
 import { toast, ToastContainer } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const fetchTotalEnquiries = async (): Promise<number> => {
   const response = await fetch("http://localhost:5000/enquiries/");
@@ -22,7 +22,6 @@ const fetchTotalEnquiries = async (): Promise<number> => {
   }
   const data = await response.json();
   console.log(data, length);
-  // toast.success("datafetched")
   return data.length;
 };
 
@@ -30,6 +29,10 @@ const Dashboard = () => {
   const { data, isLoading, error } = useQuery({
     queryFn: fetchTotalEnquiries,
   });
+
+  useEffect(()=>{
+    toast.success("Welcome to admin dashboard")
+  },[])
 
 
   if (isLoading)
@@ -42,7 +45,7 @@ const Dashboard = () => {
 
   return (
     <Box p={4}>
-      {/* <ToastContainer position="top-right" autoClose={10000} /> */}
+      <ToastContainer />
       <Flex justify="center" align="center" minHeight="100vh">
         <Card.Root width="320px">
           <Card.Body gap="2">
@@ -51,7 +54,9 @@ const Dashboard = () => {
           </Card.Body>
           <Card.Footer justifyContent="flex-end"> 
             <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
-            <Button variant="outline">View</Button>
+            <Button variant="surface" onClick={()=>{
+              toast.success("Redirected to enquiry list section")
+            }} >View</Button>
             </Link>
           </Card.Footer>
         </Card.Root>

@@ -330,6 +330,7 @@ const EnquiryDetail = () => {
                     colorPalette="green"
                     onClick={() => {
                       onSubmit({ message, addedBy: username });
+                      setMessage("")
                       onClose();
                     }}
                   >

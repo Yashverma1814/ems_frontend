@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Button, Input, Box, Heading, Text, Table } from '@chakra-ui/react';
-import axios from 'axios';
-import { BaseUrl, BaseUrlfe } from '@/service/apis';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button, Input, Box, Heading, Text, Spinner } from "@chakra-ui/react";
+import axios from "axios";
+import { BaseUrl, BaseUrlfe } from "@/service/apis";
 
 interface LoginFormData {
   username: string;
@@ -13,57 +13,91 @@ interface LoginFormData {
 
 interface LoginResponse {
   access_token: string;
-  username:string;
+  username: string;
 }
 
 const AdminLoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {
       const response = await axios.post<LoginResponse>(`${BaseUrl}/auth/login`, data);
-      localStorage.setItem('token', response.data.access_token);
-      localStorage.setItem('username', response.data.username); 
-      window.location.href = `${BaseUrlfe}/adminpanel/enquiries`; 
+      localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("username", response.data.username);
+      window.location.href = `${BaseUrlfe}/adminpanel/enquiries`;
     } catch (error) {
-      setErrorMessage('Invalid username or password');
+      setErrorMessage("Invalid username or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Box maxWidth="400px" mx="auto" mt="100px" p="5" borderWidth="1px" borderRadius="lg">
-      <Heading mb="6">Admin Login</Heading>
+    <Box
+      maxWidth="400px"
+      mx="auto"
+      mt="100px"
+      p="8"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="lg"
+      backgroundColor="white"
+    >
+      <Heading mb="6" textAlign="center" color="green.500">
+        Admin Login
+      </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box mb="4">
-          <Text fontWeight="bold" mb="1">Username</Text>
+        <Box mb="6">
+          <Text fontWeight="bold" mb="2" color="gray.600">
+            Username
+          </Text>
           <Input
             id="username"
             placeholder="Enter username"
-            {...register('username', { required: 'Username is required' })}
+            {...register("username", { required: "Username is required" })}
+            // focusBorderColor="green.400"
+            // errorBorderColor="red.400"
           />
-          {errors.username && <Text color="red.500" mt="1" fontSize="sm">{errors.username.message}</Text>}
+          {errors.username && (
+            <Text color="red.500" mt="2" fontSize="sm">
+              {errors.username.message}
+            </Text>
+          )}
         </Box>
-        <Box mb="4">
-          <Text fontWeight="bold" mb="1">Password</Text>
+        <Box mb="6">
+          <Text fontWeight="bold" mb="2" color="gray.600">
+            Password
+          </Text>
           <Input
             id="password"
             type="password"
             placeholder="Enter password"
-            {...register('password', { required: 'Password is required' })}
+            {...register("password", { required: "Password is required" })}
+            // focusBorderColor="green.400"
+            // errorBorderColor="red.400"
           />
-          {errors.password && <Text color="red.500" mt="1" fontSize="sm">{errors.password.message}</Text>}
+          {errors.password && (
+            <Text color="red.500" mt="2" fontSize="sm">
+              {errors.password.message}
+            </Text>
+          )}
         </Box>
-        <Table.Root>
-
-        </Table.Root>
-        {errorMessage && <Text color="red.500" mt="2">{errorMessage}</Text>}
-        <Button mt="6" colorScheme="green" type="submit" width="full">
-          Login
+        {errorMessage && (
+          <Text color="red.500" mt="4" textAlign="center">
+            {errorMessage}
+          </Text>
+        )}
+        <Button
+          mt="8"
+          colorScheme="green"
+          type="submit"
+          width="full"
+          // isDisabled={loading}
+        >
+          {loading ? <Spinner size="sm" mr="2" /> : null} Login
         </Button>
       </form>
     </Box>
@@ -71,6 +105,3 @@ const AdminLoginPage = () => {
 };
 
 export default AdminLoginPage;
-
-
-
