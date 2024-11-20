@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -21,7 +21,7 @@ import {
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import Link from "next/link";
 import { RiArrowRightLine } from "react-icons/ri";
-import "react-toastify/dist/ReactToastify.css";
+import { useQuery } from "react-query";
 import { TableList } from "@/components/adminpanel/TableList";
 import { noOfLimit } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
@@ -36,65 +36,75 @@ export interface Enquiry {
   enquirySource: string;
 }
 
+const fetchEnquiries = async (params: {
+  limit: number;
+  page: number;
+  state: string;
+  enquirySource: string;
+  searchedName: string;
+}) => {
+  const { limit, page, state, enquirySource, searchedName } = params;
+  const response = await axios.get(
+    `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}`
+  );
+  return response.data;
+};
+
 const AdminEnquiriesPage: FC = () => {
+  const[open,setOpen] = useState(false)
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
-  const [data, setData] = useState<Enquiry[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [open, setOpen] = useState(false);
   const [stnState, setStnState] = useState("");
   const [enqSource, setEnqSource] = useState("");
   const [searchedStnName, setSearchedStnName] = useState("");
   const [searched, setSearched] = useState(0);
 
-  const fetchEnquiries = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${stnState}&enquirySource=${enqSource}&searchedName=${searchedStnName}`
-      );
-      setData(response.data.enquiries);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error("Failed to fetch enquiries", error);
-    } finally {
-      setLoading(false);
+  const { data, isLoading } = useQuery(
+    ["enquiries", { page, limit, stnState, enqSource, searchedStnName, searched }],
+    () =>
+      fetchEnquiries({
+        limit,
+        page,
+        state: stnState,
+        enquirySource: enqSource,
+        searchedName: searchedStnName,
+      }),
+    {
+      keepPreviousData: true, 
+      staleTime: 30000, 
     }
-  };
+  );
 
   const handleClearFilter = () => {
     setStnState("");
     setEnqSource("");
     setLimit(7);
     setPage(1);
-    setSearchedStnName("")
-    setSearched(0)
+    setSearchedStnName("");
+    setSearched(0);
   };
 
   const handleManuallyPageSet = (val: number) => {
-    if (val > totalPages || val <= 0) {
+    if (val > (data?.totalPages || 1) || val <= 0) {
       setMPage(1);
     } else {
       setPage(val);
     }
   };
+
   const searchedClick = () => {
     setSearched(searched + 1);
   };
 
-  useEffect(() => {
-    fetchEnquiries();
-  }, [page, limit, searched]);
-
   const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
+    if (newPage > 0 && newPage <= (data?.totalPages || 1)) {
       setPage(newPage);
     }
   };
+
   const token = localStorage.getItem("token");
-  if (loading)
+  if (isLoading)
     return (
       <Center height="100vh">
         <Spinner size="xl" />
@@ -128,7 +138,6 @@ const AdminEnquiriesPage: FC = () => {
     setStnState,
     setEnqSource,
     handleClearFilter,
-    fetchEnquiries,
     setPage,
     setSearchedStnName,
     searchedClick,
@@ -143,7 +152,8 @@ const AdminEnquiriesPage: FC = () => {
       </Text>
 
       <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
-        {loading ? <div>Loading...</div> : <TableList enqList={data} />}
+        {isLoading ? <div>Loading...</div> : <TableList enqList={data?.enquiries || []} queryKey={["enquiries", { page, limit, stnState, enqSource, searchedStnName, searched }]} />
+      }
       </Box>
       <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}>
         <Stack gap="5" width="150px" height={100}>
@@ -174,11 +184,11 @@ const AdminEnquiriesPage: FC = () => {
             Previous
           </Button>
           <Text display="inline" mx="2">
-            Page {page} / {totalPages}
+            Page {page} / {data?.totalPages || 1}
           </Text>
           <Button
             onClick={() => handlePageChange(page + 1)}
-            disabled={page >= totalPages}
+            disabled={page >= (data?.totalPages || 1)}
             mt="4"
           >
             Next
