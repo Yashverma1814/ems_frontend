@@ -23,7 +23,7 @@ import Link from "next/link";
 import { RiArrowRightLine } from "react-icons/ri";
 import "react-toastify/dist/ReactToastify.css";
 import { TableList } from "@/components/adminpanel/TableList";
-import { noOfLimit, states, source } from "@/service/collection";
+import { noOfLimit } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
 
 export interface Enquiry {
@@ -46,13 +46,14 @@ const AdminEnquiriesPage: FC = () => {
   const [open, setOpen] = useState(false);
   const [stnState, setStnState] = useState("");
   const [enqSource, setEnqSource] = useState("");
-
+  const [searchedStnName, setSearchedStnName] = useState("");
+  const [searched, setSearched] = useState(0);
 
   const fetchEnquiries = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${stnState}&enquirySource=${enqSource}`
+        `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${stnState}&enquirySource=${enqSource}&searchedName=${searchedStnName}`
       );
       setData(response.data.enquiries);
       setTotalPages(response.data.totalPages);
@@ -66,8 +67,10 @@ const AdminEnquiriesPage: FC = () => {
   const handleClearFilter = () => {
     setStnState("");
     setEnqSource("");
-    setLimit(5);
+    setLimit(7);
     setPage(1);
+    setSearchedStnName("")
+    setSearched(0)
   };
 
   const handleManuallyPageSet = (val: number) => {
@@ -77,20 +80,20 @@ const AdminEnquiriesPage: FC = () => {
       setPage(val);
     }
   };
+  const searchedClick = () => {
+    setSearched(searched + 1);
+  };
 
   useEffect(() => {
     fetchEnquiries();
-  }, [page, limit]);
-
+  }, [page, limit, searched]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
     }
   };
-
   const token = localStorage.getItem("token");
-
   if (loading)
     return (
       <Center height="100vh">
@@ -120,19 +123,21 @@ const AdminEnquiriesPage: FC = () => {
     open,
     stnState,
     enqSource,
+    searchedStnName,
     setOpen,
     setStnState,
     setEnqSource,
     handleClearFilter,
     fetchEnquiries,
     setPage,
-
-}
+    setSearchedStnName,
+    searchedClick,
+  };
 
   return (
     <Box p="5">
-      
-      <Filters filterObj={filterObj}/>
+      <Filters filterObj={filterObj} />
+
       <Text fontSize="2xl" mb="4">
         Admin Enquiries Dashboard
       </Text>

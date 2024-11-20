@@ -11,11 +11,13 @@ import {
   Heading,
   Grid,
   GridItem,
+  Stack,
 } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import { BaseUrl } from "@/service/apis";
-import { Toaster, toaster } from "@/components/ui/toaster"
-
+import { Toaster, toaster } from "@/components/ui/toaster";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 type EnquiryFormData = {
   studentName: string;
@@ -39,10 +41,9 @@ type EnquiryFormData = {
   };
   enquirySource: string;
   description: string;
-  wantHostelInfo: boolean;
-  wantTransportInfo: boolean;
+  wantHostelInfo: "";
+  wantTransportInfo: "";
 };
-
 export default function EnquiryForm() {
   const {
     register,
@@ -51,41 +52,41 @@ export default function EnquiryForm() {
     reset,
   } = useForm<EnquiryFormData>();
 
+  const [hostelInfo, setHostelInfo] = useState(false);
+  const [transportInfo, setTransportInfo] = useState(false);
   const mutation = useMutation(
-    (data: EnquiryFormData) =>
-      axios.post(`${BaseUrl}/enquiries`, data),
+    (data: EnquiryFormData) => axios.post(`${BaseUrl}/enquiries`, data),
     {
       onSuccess: () => {
         toaster.create({
-          title:"Enquiry submitted successfully.",
-          type:"success"
-        })
+          title: "Enquiry submitted successfully.",
+          type: "success",
+        });
         reset();
       },
       onError: (err: unknown) => {
         if (axios.isAxiosError(err)) {
           if (err.response?.status === 409) {
             toaster.create({
-              title:"An enquiry already exists with this contact number",
-              type:"error"
-            })
+              title: "An enquiry already exists with this contact number",
+              type: "error",
+            });
           } else {
             toaster.create({
-              title:"Failed to submit enquiry.",
-              type:"error"
-            })
+              title: "Failed to submit enquiry.",
+              type: "error",
+            });
           }
         } else {
           toaster.create({
-            title:"An unexpected error occurred..",
-            type:"error"
-          })
+            title: "An unexpected error occurred..",
+            type: "error",
+          });
         }
       },
     }
   );
 
-  
   const onSubmit = (data: EnquiryFormData) => {
     mutation.mutate(data);
   };
@@ -216,7 +217,6 @@ export default function EnquiryForm() {
                 <option value="tenth class">GRADE 10</option>
                 <option value="eleventh class">GRADE 11</option>
                 <option value="twelfth class">GRADE 12</option>
-                
               </select>
               {errors.grade && (
                 <Text color="red.500">{errors.grade.message}</Text>
@@ -373,7 +373,6 @@ export default function EnquiryForm() {
               >
                 <option value="">Enquiry Source</option>
                 <option value="website">Website</option>
-                <option value="school_fair">School Fair</option>
                 <option value="referral">referral</option>
                 <option value="other">other</option>
               </select>
@@ -387,76 +386,22 @@ export default function EnquiryForm() {
             </GridItem>
 
             <GridItem>
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  color: "#2D3748",
-                  gap: "8px",
-                }}
-              >
-                <input
-                  type="checkbox"
+              <Stack align="flex-start">
+                <Checkbox
+                  variant={"outline"}
                   {...register("wantHostelInfo")}
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "4px",
-                    border: "2px solid #CBD5E0",
-                    backgroundColor: "white",
-                    appearance: "none",
-                    cursor: "pointer",
-                    transition:
-                      "background-color 0.2s ease, border-color 0.2s ease",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "#319795")}
-                  onBlur={(e) => (e.target.style.borderColor = "#CBD5E0")}
-                  onChange={(e) =>
-                    (e.target.style.backgroundColor = e.target.checked
-                      ? "#319795"
-                      : "white")
-                  }
-                />
-                Want Hostel?
-              </label>
-            </GridItem>
-            <GridItem>
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  color: "#2D3748",
-                  gap: "8px",
-                }}
-              >
-                <input
-                  type="checkbox"
+                  value="true"
+                >
+                  Want Hostel?
+                </Checkbox>
+                <Checkbox
+                  variant={"outline"}
                   {...register("wantTransportInfo")}
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "4px",
-                    border: "2px solid #CBD5E0",
-                    backgroundColor: "white",
-                    appearance: "none",
-                    cursor: "pointer",
-                    transition:
-                      "background-color 0.2s ease, border-color 0.2s ease",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "#319795")}
-                  onBlur={(e) => (e.target.style.borderColor = "#CBD5E0")}
-                  onChange={(e) =>
-                    (e.target.style.backgroundColor = e.target.checked
-                      ? "#319795"
-                      : "white")
-                  }
-                />
-                Want Transport?
-              </label>
+                  value="true"
+                >
+                  Want Transportation?
+                </Checkbox>
+              </Stack>
             </GridItem>
           </Grid>
 

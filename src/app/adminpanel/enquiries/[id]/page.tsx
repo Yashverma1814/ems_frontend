@@ -1,5 +1,6 @@
 "use client";
 import { IoIosArrowBack } from "react-icons/io";
+import { TbListDetails } from "react-icons/tb";
 
 import EnquiryEditForm from "@/components/adminpanel/EnquiryEditForm";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
@@ -11,20 +12,9 @@ import {
   Spinner,
   Center,
   Button,
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverBody,
-  Grid,
-  GridItem,
-  Card,
-  Stack,
-  Input,
-  Textarea,
-  PopoverCloseTrigger,
   useDisclosure,
   Flex,
+  Tabs,
 } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
@@ -33,7 +23,9 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { RiArrowRightLine } from "react-icons/ri";
 import "react-toastify/dist/ReactToastify.css";
-import { Toaster, toaster } from "@/components/ui/toaster"
+import { Toaster, toaster } from "@/components/ui/toaster";
+import { AddRemark } from "@/components/adminpanel/AddRemark";
+import { SiRemark } from "react-icons/si";
 
 type RemarkFormData = {
   message: string;
@@ -61,8 +53,8 @@ const formatDate = (date: string | Date): string => {
   return [day, month, year].join("-");
 };
 
-const EnquiryDetail = () => {
-  const { onOpen, onClose } = useDisclosure();
+export const EnquiryDetail = () => {
+  const { onClose } = useDisclosure();
   const { id } = useParams();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -71,7 +63,6 @@ const EnquiryDetail = () => {
     if (buttonRef.current) {
       buttonRef.current.click();
     }
-
   }, []);
 
   const { data, isLoading, isError } = useQuery(
@@ -97,7 +88,6 @@ const EnquiryDetail = () => {
   const [message, setMessage] = useState("");
   const secondButtonRef = useRef<HTMLButtonElement>(null);
 
-
   const mutation = useMutation(
     (remarkData: RemarkFormData) =>
       axios.put(`${BaseUrl}/enquiries/add-remark/${data._id}`, remarkData),
@@ -105,15 +95,15 @@ const EnquiryDetail = () => {
       onSuccess: () => {
         toaster.create({
           title: "Remark added successfully.",
-          type:"success"
-        })
+          type: "success",
+        });
       },
       onError: (err) => {
         alert("Failed to add remark");
         toaster.create({
           title: "Failed to add remark",
-          type:"error"
-        })
+          type: "error",
+        });
       },
     }
   );
@@ -124,14 +114,14 @@ const EnquiryDetail = () => {
       onSuccess: () => {
         toaster.create({
           title: "Enquiry deleted successfully.",
-          type:"success"
-        })
+          type: "success",
+        });
       },
       onError: (err) => {
         toaster.create({
           title: "Failed to delete enquiry.",
-          type:"error"
-        })
+          type: "error",
+        });
       },
     }
   );
@@ -141,12 +131,13 @@ const EnquiryDetail = () => {
     onClose();
   };
 
-  if (isLoading){
+  if (isLoading) {
     return (
       <Center height="100vh">
         <Spinner size="xl" />
       </Center>
-    );}
+    );
+  }
   if (isError)
     return (
       <Text color="red.500" textAlign="center">
@@ -156,15 +147,7 @@ const EnquiryDetail = () => {
 
   if (!token) {
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
+      <center>
         You are Not Logged In{" "}
         <Link href={`${BaseUrlfe}/adminpanel/login`}>
           {" "}
@@ -174,9 +157,18 @@ const EnquiryDetail = () => {
           </Button>
         </Link>{" "}
         to Login
-      </div>
+      </center>
     );
   }
+
+  const addRemarkObj = {
+    data,
+    formatDate,
+    message,
+    setMessage,
+    username,
+    onSubmit,
+  };
 
   return (
     <Box p={8} maxW="1200px" mx="auto">
@@ -189,15 +181,20 @@ const EnquiryDetail = () => {
           }}
         />
       </Link>
-      <Grid templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}>
-        <GridItem>
-          <Box
-            p={6}
-            borderWidth={1}
-            borderRadius="lg"
-            bg="gray.50"
-            boxShadow="md"
-          >
+      <Tabs.Root defaultValue="details" variant="plain">
+        <Tabs.List bg="bg.muted" rounded="l3" p="1">
+          <Tabs.Trigger value="details">
+            <TbListDetails />
+            Details
+          </Tabs.Trigger>
+          <Tabs.Trigger value="remarks">
+            <SiRemark />
+            Remarks
+          </Tabs.Trigger>
+          <Tabs.Indicator rounded="l2" />
+        </Tabs.List>
+        <Tabs.Content value="details">
+          <Box>
             <Heading as="h2" size="2xl" mb={6} textAlign="center">
               Enquiry Details
             </Heading>
@@ -255,7 +252,6 @@ const EnquiryDetail = () => {
               </Text>
 
               <EnquiryEditForm />
-              {/* <EnquiryUpdateDrawer /> */}
 
               <Button
                 colorPalette={"red"}
@@ -266,101 +262,11 @@ const EnquiryDetail = () => {
               </Button>
             </VStack>
           </Box>
-        </GridItem>
-        {/* <GridItem>
-          <Box
-            p={6}
-            borderWidth={1}
-            borderRadius="lg"
-            height="500px"
-            bg="gray.50"
-            boxShadow="md"
-            overflowY="auto"
-          >
-            <Text>
-              <strong>Remarks:</strong>{" "}
-            </Text>
-            {data.remark.map((remark: any) => (
-              <Box
-                key={remark._id}
-                p={4}
-                mb={4}
-                bg="white"
-                borderRadius="md"
-                boxShadow="sm"
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                <Flex justifyContent="space-between" alignItems="center" mb={2}>
-                  <Heading as="h4" size="sm" color="gray.700">
-                    {remark.addedBy}
-                  </Heading>
-                  <Text fontSize="sm" color="gray.500">
-                    {formatDate(remark.date)}
-                  </Text>
-                </Flex>
-                <Text fontSize="md" color="gray.800">
-                  {remark.message}
-                </Text>
-              </Box>
-            ))}
-          </Box>
-          <PopoverRoot>
-            <PopoverTrigger asChild>
-              <Button size="sm" colorPalette={"pink"} variant="subtle">
-                Add Remark
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverBody>
-                <Stack gap="4">
-                  <Text>
-                    Remark:
-                    <Textarea
-                      placeholder="Start typing your Remark..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                    />
-                  </Text>
-                  <PopoverCloseTrigger
-                    colorPalette="green"
-                    onClick={() => {
-                      onSubmit({ message, addedBy: username });
-                      setMessage("")
-                      onClose();
-                    }}
-                  >
-                    <Box
-                      as="div"
-                      display="inline-block"
-                      padding="8px 16px"
-                      borderRadius="md"
-                      marginTop="1rem"
-                      backgroundColor="white"
-                      color="green.700"
-                      boxShadow="sm"
-                      borderWidth="1px"
-                      borderColor="green.200"
-                      _hover={{
-                        backgroundColor: "green.50",
-                        cursor: "pointer",
-                      }}
-                      _active={{
-                        backgroundColor: "green.100",
-                      }}
-                      textAlign="center"
-                    >
-                      Add
-                    </Box>
-                  </PopoverCloseTrigger>
-                  <PopoverCloseTrigger />
-                </Stack>
-              </PopoverBody>
-            </PopoverContent>
-          </PopoverRoot>
-        </GridItem> */}
-      </Grid>
+        </Tabs.Content>
+        <Tabs.Content value="remarks">
+          <AddRemark addRemarkObj={addRemarkObj} />
+        </Tabs.Content>
+      </Tabs.Root>
     </Box>
   );
 };

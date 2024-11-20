@@ -17,19 +17,29 @@ import {
   SelectTrigger,
   SelectValueText,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { IoFilterOutline } from "react-icons/io5";
+import { SearchBox } from "./SearchBox";
 
+export const Filters = ({ filterObj }: any) => {
+  // console.log(filterObj)
+  const handleApply = () => {
+    filterObj.fetchEnquiries();
+    filterObj.setPage(1);
+  };
 
-
-export const Filters = ({filterObj}:any) => {
-
-    const handleApply = () =>{
-        filterObj.fetchEnquiries()
-        filterObj.setPage(1)
-    }
+  const searchObj = {
+    searchedStnName: filterObj.searchedStnName,
+    setSearchedStnName: filterObj.setSearchedStnName,
+    searchedClick: filterObj.searchedClick,
+  };
   return (
-    <DrawerRoot open={filterObj.open} onOpenChange={(e) => filterObj.setOpen(e.open)}>
+    <DrawerRoot
+      open={filterObj.open}
+      onOpenChange={(e) => filterObj.setOpen(e.open)}
+      placement={"start"}
+    >
       <DrawerTrigger asChild>
         <Button variant="outline" size="sm">
           <IoFilterOutline />
@@ -38,7 +48,7 @@ export const Filters = ({filterObj}:any) => {
       <DrawerContent
         style={{
           position: "fixed",
-          height:"80vh"
+          height: "80vh",
         }}
       >
         <DrawerHeader>
@@ -46,13 +56,20 @@ export const Filters = ({filterObj}:any) => {
         </DrawerHeader>
         <DrawerBody>
           <Stack gap="5" width="250px" height={100}>
+            <Text fontWeight={"medium"}>Search Student Name</Text>
+            <SearchBox searchObj={searchObj} />
+          </Stack>
+
+          <Stack gap="5" width="250px" height={100}>
             <SelectRoot
               collection={states}
               onValueChange={(e) => filterObj.setStnState(e.value.toString())}
             >
               <SelectLabel>Select State</SelectLabel>
               <SelectTrigger>
-                <SelectValueText placeholder={`${filterObj.stnState || "Select"}`} />
+                <SelectValueText
+                  placeholder={`${filterObj.stnState || "Select"}`}
+                />
               </SelectTrigger>
               <SelectContent>
                 {states.items.map((s) => (
@@ -71,7 +88,9 @@ export const Filters = ({filterObj}:any) => {
             >
               <SelectLabel>Select Enquiry Source</SelectLabel>
               <SelectTrigger>
-                <SelectValueText placeholder={`${filterObj.enqSource || "Select"}`} />
+                <SelectValueText
+                  placeholder={`${filterObj.enqSource || "Select"}`}
+                />
               </SelectTrigger>
               <SelectContent>
                 {source.items.map((s) => (
@@ -91,7 +110,7 @@ export const Filters = ({filterObj}:any) => {
             <Button variant="outline">Cancel</Button>
           </DrawerActionTrigger>
           <DrawerActionTrigger asChild>
-            <Button onClick={ handleApply}>Apply</Button>
+            <Button onClick={handleApply}>Apply</Button>
           </DrawerActionTrigger>
         </DrawerFooter>
         <DrawerCloseTrigger />

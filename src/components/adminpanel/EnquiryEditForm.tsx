@@ -13,12 +13,6 @@ import {
   GridItem,
   Spinner,
   Center,
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseTrigger,
   DrawerRoot,
   DrawerBackdrop,
   DrawerTrigger,
@@ -107,14 +101,12 @@ export default function EnquiryEditForm() {
       axios.put(`${BaseUrl}/enquiries/${id}`, updatedData),
     {
       onSuccess: () => {
-        // alert("Enquiry updated successfully.");
         toaster.create({
           title: "Enquiry updated successfully.",
           type: "success",
         });
       },
       onError: (err) => {
-        // alert("Failed to update enquiry.");
         toaster.create({
           title: "Failed to update enquiry.",
           type: "error",
@@ -142,50 +134,28 @@ export default function EnquiryEditForm() {
     );
 
   return (
-    // <PopoverRoot positioning={{ placement: "bottom-end" }}>
-    //   <PopoverTrigger asChild>
-    //     <Button size="sm" colorPalette={"green"} variant="subtle">
-    //       Update
-    //     </Button>
-    //   </PopoverTrigger>
-    //   <PopoverContent width="600px">
-    //     <PopoverArrow />
-    //     <PopoverBody>
 
-    <DrawerRoot placement="bottom">
+    <DrawerRoot placement="bottom" size="lg">
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <Button colorPalette={"green"} variant="subtle">Edit Enquiry</Button>
+        <Button colorPalette={"green"} variant="subtle">
+          Edit Enquiry
+        </Button>
       </DrawerTrigger>
       <DrawerContent
         offset="4"
         rounded="md"
         style={{
-          transform: "translate(0rem,-85%)",
+          transform: "translate(0rem,-92%)",
         }}
       >
-        <DrawerHeader>
-          <DrawerTitle>Update Enquiry</DrawerTitle>
-        </DrawerHeader>
         <DrawerBody>
           <Box
             w="full"
-            // h="100vh"
             p="4"
-            // display="flex"
-            // alignItems="center"
-            // justifyContent="center"
-            // bg="gray.50"
           >
             <Toaster />
-            <Box
-              maxW="container.md"
-              w="full"
-              p="6"
-              bg="white"
-              borderRadius="lg"
-              boxShadow="xl"
-            >
+            <Box>
               <Heading
                 mb="6"
                 as="h2"
@@ -207,7 +177,7 @@ export default function EnquiryEditForm() {
                 </Heading>
 
                 <Grid
-                  templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
+                  templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                   gap={6}
                 >
                   <GridItem>
@@ -283,7 +253,7 @@ export default function EnquiryEditForm() {
                 </Heading>
 
                 <Grid
-                  templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
+                  templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                   gap={6}
                 >
                   <GridItem>
@@ -331,7 +301,7 @@ export default function EnquiryEditForm() {
                   Address
                 </Heading>
                 <Grid
-                  templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
+                  templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                   gap={6}
                 >
                   <GridItem>
@@ -356,7 +326,7 @@ export default function EnquiryEditForm() {
                       <option value="">Select State</option>
                       <option value="uttarakhand">Uttarakhand</option>
                       <option value="delhi">Delhi</option>
-                      {/* Additional states */}
+
                     </select>
                   </GridItem>
                   <GridItem>
@@ -379,7 +349,7 @@ export default function EnquiryEditForm() {
                 </Heading>
 
                 <Grid
-                  templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
+                  templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}
                   gap={6}
                 >
                   <GridItem>
@@ -420,7 +390,11 @@ export default function EnquiryEditForm() {
                   <Button variant="outline">Cancel</Button>
                 </DrawerActionTrigger>
                 <DrawerActionTrigger asChild>
-                  <Button variant={"surface"} type="submit" colorPalette={"green"}>
+                  <Button
+                    variant={"surface"}
+                    type="submit"
+                    colorPalette={"green"}
+                  >
                     Update
                   </Button>
                 </DrawerActionTrigger>
