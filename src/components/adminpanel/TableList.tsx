@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "react-query";
 import { toaster, Toaster } from "../ui/toaster";
+import moment from "moment";
 
 export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey: any }) => {
   const queryClient = useQueryClient();
@@ -49,6 +50,7 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
             <Table.ColumnHeader textAlign={"center"}>Grade</Table.ColumnHeader>
             <Table.ColumnHeader textAlign={"center"}>Guardian Contact</Table.ColumnHeader>
             <Table.ColumnHeader textAlign={"center"}>Enquiry Source</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign={"center"}>Asked</Table.ColumnHeader>
             <Table.ColumnHeader colSpan={2} textAlign={"center"}>Actions</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
@@ -61,6 +63,7 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
                 {enquiry.contactDetails.contactMain || ""}
               </Table.Cell>
               <Table.Cell textAlign={"center"}>{enquiry.enquirySource}</Table.Cell>
+              <Table.Cell textAlign={"center"}>{moment(enquiry.createdAt).fromNow()}</Table.Cell>
               <Table.Cell textAlign={"center"} width={"5px"}>
                 <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
                   <Button variant={"subtle"} colorPalette="green">

@@ -12,6 +12,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Box, Flex, Heading, Stack, Text, Textarea } from "@chakra-ui/react";
+import moment from "moment";
 
 export const AddRemark = ({ addRemarkObj }: any) => {
 
@@ -52,7 +53,7 @@ export const AddRemark = ({ addRemarkObj }: any) => {
               <Heading as="h4" size="sm" color="gray.700">
                 {remark.addedBy}
               </Heading>
-              <Text>{addRemarkObj.formatDate(remark.date)}</Text>
+              <Text>{moment(remark.date).fromNow()}</Text>
             </Flex>
             <Text>{remark.message}</Text>
           </Box>

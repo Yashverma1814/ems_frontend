@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Input, Box, Heading, Text, Table, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import { BaseUrl, BaseUrlfe } from '@/service/apis';
+import { toaster, Toaster } from '@/components/ui/toaster';
 
 interface RegisterFormData {
   username: string;
@@ -24,9 +25,16 @@ const AdminRegisterPage = () => {
     setLoading(true);
     try {
       const response = await axios.post<RegisterResponse>(`${BaseUrl}/auth/register`, data);
-      alert(response.data.message)
+      toaster.create({
+        title: "Registered Successfully",
+        type: "success",
+      });
       window.location.href = `${BaseUrlfe}/adminpanel/login`; 
     } catch (error) {
+      toaster.create({
+        title: "Failed to Regsister",
+        type: "error",
+      });
       setErrorMessage('Unable to Register');
     } finally {
       setLoading(false);
@@ -36,6 +44,7 @@ const AdminRegisterPage = () => {
   return (
     <Box maxWidth="400px" mx="auto" mt="100px" p="5" borderWidth="1px" borderRadius="lg">
       <Heading mb="6">Admin Register</Heading>
+      <Toaster />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb="4">
           <Text fontWeight="bold" mb="1">Username</Text>

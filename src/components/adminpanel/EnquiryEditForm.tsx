@@ -1,5 +1,5 @@
 "use client";
-
+import moment from 'moment'
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import {
@@ -17,8 +17,6 @@ import {
   DrawerBackdrop,
   DrawerTrigger,
   DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
   DrawerBody,
   DrawerFooter,
   DrawerActionTrigger,
@@ -64,17 +62,6 @@ const fetchEnquiryDetail = async (id: any) => {
   }
 };
 
-const formatDate = (date: string | Date): string => {
-  const d = new Date(date);
-  let month = "" + (d.getMonth() + 1);
-  let day = "" + d.getDate();
-  const year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-  console.log([month, day, year].join("-"));
-  return [month, day, year].join("-");
-};
 
 export default function EnquiryEditForm() {
   const { id } = useParams();
@@ -95,7 +82,7 @@ export default function EnquiryEditForm() {
       onSuccess: (data) => reset(data),
     }
   );
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const mutation = useMutation(
     (updatedData: EnquiryFormData) =>
       axios.put(`${BaseUrl}/enquiries/${id}`, updatedData),
@@ -105,7 +92,7 @@ export default function EnquiryEditForm() {
           title: "Enquiry updated successfully.",
           type: "success",
         });
-        queryClient.invalidateQueries(["enquiry", id])
+        queryClient.invalidateQueries(["enquiry", id]);
       },
       onError: (err) => {
         toaster.create({
@@ -135,7 +122,6 @@ export default function EnquiryEditForm() {
     );
 
   return (
-
     <DrawerRoot placement="bottom" size="lg">
       <DrawerBackdrop />
       <DrawerTrigger asChild>
@@ -151,10 +137,7 @@ export default function EnquiryEditForm() {
         }}
       >
         <DrawerBody>
-          <Box
-            w="full"
-            p="4"
-          >
+          <Box w="full" p="4">
             <Toaster />
             <Box>
               <Heading
@@ -230,8 +213,21 @@ export default function EnquiryEditForm() {
 
                   <GridItem>
                     <Text>
-                      <strong>D.O.B.:</strong> {formatDate(data.dateOfBirth)}
+                      <strong>D.O.B.:</strong> Current: {moment(data.dateOfBirth).format('YYYY-MM-DD')}
                     </Text>
+                    <Input
+                        type="date"
+                        placeholder="Date of Birth"
+                        {...register("dateOfBirth", {
+                          required: "Date of Birth is required",
+                        })}
+                        defaultValue="2020-11-05"
+                      />
+                      {errors.dateOfBirth && (
+                        <Text color="red.500">
+                          {errors.dateOfBirth.message}
+                        </Text>
+                      )}
                   </GridItem>
 
                   <GridItem>
@@ -327,7 +323,6 @@ export default function EnquiryEditForm() {
                       <option value="">Select State</option>
                       <option value="uttarakhand">Uttarakhand</option>
                       <option value="delhi">Delhi</option>
-
                     </select>
                   </GridItem>
                   <GridItem>

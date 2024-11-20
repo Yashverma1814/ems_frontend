@@ -34,6 +34,7 @@ export interface Enquiry {
     contactMain: string;
   };
   enquirySource: string;
+  createdAt:Date;
 }
 
 const fetchEnquiries = async (params: {
@@ -146,6 +147,7 @@ const AdminEnquiriesPage: FC = () => {
     setSearchedStnName,
     searchedClick,
   };
+  console.log(data)
 
   return (
     <Box p="5">
@@ -153,6 +155,9 @@ const AdminEnquiriesPage: FC = () => {
 
       <Text fontSize="2xl" mb="4">
         Admin Enquiries Dashboard
+      </Text>
+      <Text fontSize="lg" mb="4" fontWeight={"medium"}>
+        Total Enquiries : {data.total}
       </Text>
 
       <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">

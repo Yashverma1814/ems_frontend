@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { AddRemark } from "@/components/adminpanel/AddRemark";
 import { SiRemark } from "react-icons/si";
+import moment from "moment";
 
 type RemarkFormData = {
   message: string;
@@ -252,6 +253,9 @@ export const EnquiryDetail = () => {
               </Text>
               <Text>
                 <strong>Description:</strong> {data.description}
+              </Text>
+              <Text>
+                <strong>AskedAt: </strong>{moment(data.createdAt).format("dddd, MMMM Do YYYY, HH:mm:SS")}
               </Text>
 
               <EnquiryEditForm />
