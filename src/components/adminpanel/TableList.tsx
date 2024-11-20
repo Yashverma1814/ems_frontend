@@ -18,7 +18,6 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
           type: "success",
         });
 
-        // Invalidate the specific query key to refresh the data
         queryClient.invalidateQueries(queryKey);
       },
       onError: (err) => {
