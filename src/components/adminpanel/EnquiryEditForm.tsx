@@ -1,5 +1,5 @@
 "use client";
-import moment from 'moment'
+import moment from "moment";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import {
@@ -21,11 +21,13 @@ import {
   DrawerFooter,
   DrawerActionTrigger,
   DrawerCloseTrigger,
+  createListCollection,
 } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { useParams } from "next/navigation";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { SelectContent, SelectTrigger, SelectValueText } from "../ui/select";
 
 type EnquiryFormData = {
   studentName: string;
@@ -62,7 +64,6 @@ const fetchEnquiryDetail = async (id: any) => {
   }
 };
 
-
 export default function EnquiryEditForm() {
   const { id } = useParams();
   const {
@@ -83,7 +84,7 @@ export default function EnquiryEditForm() {
     }
   );
   const queryClient = useQueryClient();
-  const mutation = useMutation(
+  const updateMutation = useMutation(
     (updatedData: EnquiryFormData) =>
       axios.put(`${BaseUrl}/enquiries/${id}`, updatedData),
     {
@@ -104,8 +105,24 @@ export default function EnquiryEditForm() {
   );
 
   const onSubmit = (data: EnquiryFormData) => {
-    mutation.mutate(data);
+    console.log("Submitting Data:", data);
+    updateMutation.mutate(data, {
+      onSuccess: () => {
+        console.log("Data updated successfully");
+      },
+      onError: (error) => {
+        console.error("Update failed:", error);
+      },
+    });
   };
+  const relations = createListCollection({
+    items: [
+      { label: "Father", value: "father" },
+      { label: "Mother", value: "mother" },
+      { label: "Guardian", value: "guardian" },
+      { label: "Other", value: "other" },
+    ],
+  })
 
   if (isLoading)
     return (
@@ -206,6 +223,7 @@ export default function EnquiryEditForm() {
                       <option value="guardian">Guardian</option>
                       <option value="other">Other</option>
                     </select>
+
                     {errors.relation && (
                       <Text color="red.500">{errors.relation.message}</Text>
                     )}
@@ -213,21 +231,18 @@ export default function EnquiryEditForm() {
 
                   <GridItem>
                     <Text>
-                      <strong>D.O.B.:</strong> Current: {moment(data.dateOfBirth).format('YYYY-MM-DD')}
+                      <strong>D.O.B.:</strong> Current:{" "}
+                      {moment(data.dateOfBirth).format("YYYY-MM-DD")}
                     </Text>
                     <Input
-                        type="date"
-                        placeholder="Date of Birth"
-                        {...register("dateOfBirth", {
-                          required: "Date of Birth is required",
-                        })}
-                        defaultValue="2020-11-05"
-                      />
-                      {errors.dateOfBirth && (
-                        <Text color="red.500">
-                          {errors.dateOfBirth.message}
-                        </Text>
-                      )}
+                      type="date"
+                      placeholder="Date of Birth"
+                      {...register("dateOfBirth")}
+                      defaultValue="2020-11-05"
+                    />
+                    {errors.dateOfBirth && (
+                      <Text color="red.500">{errors.dateOfBirth.message}</Text>
+                    )}
                   </GridItem>
 
                   <GridItem>
