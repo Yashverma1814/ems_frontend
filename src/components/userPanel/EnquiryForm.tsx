@@ -12,6 +12,7 @@ import {
   Grid,
   GridItem,
   Stack,
+  Spinner,
 } from "@chakra-ui/react";
 import { useMutation } from "react-query";
 import { BaseUrl } from "@/service/apis";
@@ -86,7 +87,7 @@ export default function EnquiryForm() {
       },
     }
   );
-
+  const {isLoading} = mutation
   const onSubmit = (data: EnquiryFormData) => {
     mutation.mutate(data);
   };
@@ -406,6 +407,7 @@ export default function EnquiryForm() {
           </Grid>
 
           <Button type="submit" colorScheme="green" size="lg" w="full" mt="6">
+            {isLoading?<Spinner />:""}
             Submit Enquiry
           </Button>
         </form>

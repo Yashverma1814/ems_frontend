@@ -1,5 +1,4 @@
-import { Button, Group, HStack, Input, Kbd } from "@chakra-ui/react";
-import { IoSearch } from "react-icons/io5";
+import { Group, HStack, Input, Kbd } from "@chakra-ui/react";
 
 export const SearchBox = ({ searchObj }: any) => {
     console.log(searchObj)
@@ -11,13 +10,6 @@ export const SearchBox = ({ searchObj }: any) => {
           value={searchObj.searchedStnName}
           onChange={(e) => {searchObj.setSearchedStnName(e.target.value)}}
         />
-        <Button
-          variant={"subtle"}
-          colorPalette={"green"}
-          onClick={() => searchObj.searchedClick()}
-        >
-          <IoSearch />
-        </Button>
       </Group>
     </HStack>
   );

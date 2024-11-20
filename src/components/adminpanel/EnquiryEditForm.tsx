@@ -24,7 +24,7 @@ import {
   DrawerActionTrigger,
   DrawerCloseTrigger,
 } from "@chakra-ui/react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { useParams } from "next/navigation";
 import { Toaster, toaster } from "@/components/ui/toaster";
@@ -95,7 +95,7 @@ export default function EnquiryEditForm() {
       onSuccess: (data) => reset(data),
     }
   );
-
+  const queryClient = useQueryClient()
   const mutation = useMutation(
     (updatedData: EnquiryFormData) =>
       axios.put(`${BaseUrl}/enquiries/${id}`, updatedData),
@@ -105,6 +105,7 @@ export default function EnquiryEditForm() {
           title: "Enquiry updated successfully.",
           type: "success",
         });
+        queryClient.invalidateQueries(["enquiry", id])
       },
       onError: (err) => {
         toaster.create({

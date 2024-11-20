@@ -1,6 +1,6 @@
 import { Enquiry } from "@/app/adminpanel/enquiries/page";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
-import { Button, Table } from "@chakra-ui/react";
+import { Button, Center, Spinner, Table } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "react-query";
@@ -28,6 +28,16 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
       },
     }
   );
+
+  const {isLoading} = deleteMutation
+
+  if(isLoading){
+    return(
+      <Center>
+        <Spinner />
+      </Center>
+    )
+  }
 
   return (
     <Table.ScrollArea borderWidth="1px">

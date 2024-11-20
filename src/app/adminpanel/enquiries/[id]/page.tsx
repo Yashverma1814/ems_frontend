@@ -20,7 +20,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { RiArrowRightLine } from "react-icons/ri";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster, toaster } from "@/components/ui/toaster";
@@ -74,6 +74,7 @@ export const EnquiryDetail = () => {
   );
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -97,6 +98,7 @@ export const EnquiryDetail = () => {
           title: "Remark added successfully.",
           type: "success",
         });
+        queryClient.invalidateQueries(["enquiry", id])
       },
       onError: (err) => {
         alert("Failed to add remark");
@@ -116,6 +118,7 @@ export const EnquiryDetail = () => {
           title: "Enquiry deleted successfully.",
           type: "success",
         });
+        
       },
       onError: (err) => {
         toaster.create({

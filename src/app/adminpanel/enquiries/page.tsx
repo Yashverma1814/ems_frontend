@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -75,6 +75,10 @@ const AdminEnquiriesPage: FC = () => {
       staleTime: 30000, 
     }
   );
+  
+  useEffect(()=>{
+    setPage(1)
+  },[searchedStnName])
 
   const handleClearFilter = () => {
     setStnState("");
