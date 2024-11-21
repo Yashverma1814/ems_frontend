@@ -92,7 +92,7 @@ export const statesIndia = createListCollection({
 
 export const enqSource = createListCollection({
   items:[
-    { label: "Website", value: "father" },
+    { label: "Website", value: "website" },
     { label: "Referral", value: "referral" },
     { label: "Other", value: "other" },
   ]
