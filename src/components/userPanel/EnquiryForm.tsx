@@ -97,7 +97,7 @@ export default function EnquiryForm() {
         </Heading>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600">
+          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="3rem">
             Student Information
           </Heading>
 
@@ -190,15 +190,10 @@ export default function EnquiryForm() {
                 placeholder="Current School"
                 {...register("currentSchool")}
               />
-              {errors.dateOfBirth && (
-                <Text color="red.500">{errors.dateOfBirth.message}</Text>
-              )}
             </GridItem>
           </Grid>
 
-          <br />
-          <br />
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600">
+          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
             Contact Details
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
@@ -214,6 +209,9 @@ export default function EnquiryForm() {
                   },
                 })}
               />
+              {errors.contactDetails?.contactMain && (
+                <Text color="red.500">Phone Number is Required</Text>
+              )}
             </GridItem>
 
             <GridItem>
@@ -246,9 +244,7 @@ export default function EnquiryForm() {
             </GridItem>
           </Grid>
 
-          <br />
-          <br />
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600">
+          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
             Address
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
@@ -284,9 +280,7 @@ export default function EnquiryForm() {
             </GridItem>
           </Grid>
 
-          <br />
-          <br />
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600">
+          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
             Others
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
