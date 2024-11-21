@@ -60,11 +60,10 @@ const AdminEnquiriesPage: FC = () => {
   const [stnState, setStnState] = useState("");
   const [enqSource, setEnqSource] = useState("");
   const [searchedStnName, setSearchedStnName] = useState("");
-  const [searched, setSearched] = useState(0);
   const [appliedClick,setAppliedClick] = useState(0)
 
   const { data, isLoading } = useQuery(
-    ["enquiries", { page, limit, appliedClick, searchedStnName, searched }],
+    ["enquiries", { page, limit, appliedClick, searchedStnName }],
     () =>
       fetchEnquiries({
         limit,
@@ -89,7 +88,6 @@ const AdminEnquiriesPage: FC = () => {
     setLimit(7);
     setPage(1);
     setSearchedStnName("");
-    setSearched(0);
     setAppliedClick(0)
   };
 
@@ -101,9 +99,6 @@ const AdminEnquiriesPage: FC = () => {
     }
   };
 
-  const searchedClick = () => {
-    setSearched(searched + 1);
-  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= (data?.totalPages || 1)) {
@@ -149,7 +144,6 @@ const AdminEnquiriesPage: FC = () => {
     handleClearFilter,
     setPage,
     setSearchedStnName,
-    searchedClick,
     setAppliedClick,
   };
   console.log(data)
@@ -168,7 +162,7 @@ const AdminEnquiriesPage: FC = () => {
       </Text>
 
       <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
-        {isLoading ? <div>Loading...</div> : <TableList enqList={data?.enquiries || []} queryKey={["enquiries", { page, limit, stnState, enqSource, searchedStnName, searched }]} />
+        {isLoading ? <div>Loading...</div> : <TableList enqList={data?.enquiries || []} queryKey={["enquiries", { page, limit,  searchedStnName,appliedClick }]} />
       }
       </Box>
       <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}>

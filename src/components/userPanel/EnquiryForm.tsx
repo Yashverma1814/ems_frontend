@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import {
   Box,
   Button,
@@ -18,35 +18,15 @@ import { useMutation } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
-import { SelectContent, SelectItem, SelectLabel, SelectRoot, SelectTrigger, SelectValueText } from "../ui/select";
+import {
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "../ui/select";
 import { enqSource, grade, relation, statesIndia } from "@/service/collection";
-
-type EnquiryFormData = {
-  studentName: string;
-  guardianName: string;
-  relation: string;
-  dateOfBirth: string;
-  grade: string;
-  currentSchool: string;
-  contactDetails: {
-    contactMain: string;
-    contactOpt: string;
-    email: string;
-    socialMediaHandles: { twitter: string };
-  };
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  enquirySource: string;
-  description: string;
-  wantHostelInfo: "";
-  wantTransportInfo: "";
-};
+import { EnquiryFormData } from "@/service/typesForSubmission";
 
 export default function EnquiryForm() {
   const {
@@ -149,40 +129,44 @@ export default function EnquiryForm() {
             </GridItem>
 
             <GridItem>
-                <SelectRoot collection={relation} size="md" 
+              <SelectRoot
+                collection={relation}
+                size="md"
                 {...register("relation", { required: "Relation is required" })}
-                >
-                  <SelectTrigger>
-                    <SelectValueText placeholder="Select Relation *" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {relation.items.map((rel) => (
-                      <SelectItem item={rel} key={rel.value}>
-                        {rel.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectRoot>
+              >
+                <SelectTrigger>
+                  <SelectValueText placeholder="Select Relation *" />
+                </SelectTrigger>
+                <SelectContent>
+                  {relation.items.map((rel) => (
+                    <SelectItem item={rel} key={rel.value}>
+                      {rel.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
               {errors.relation && (
                 <Text color="red.500">{errors.relation.message}</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <SelectRoot collection={grade} size="md" 
+              <SelectRoot
+                collection={grade}
+                size="md"
                 {...register("grade", { required: "Grade is required" })}
-                >
-                  <SelectTrigger>
-                    <SelectValueText placeholder="Select Grade of Student" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {grade.items.map((gra) => (
-                      <SelectItem item={gra} key={gra.value}>
-                        {gra.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectRoot>
+              >
+                <SelectTrigger>
+                  <SelectValueText placeholder="Select Grade of Student" />
+                </SelectTrigger>
+                <SelectContent>
+                  {grade.items.map((gra) => (
+                    <SelectItem item={gra} key={gra.value}>
+                      {gra.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
               {errors.grade && (
                 <Text color="red.500">{errors.grade.message}</Text>
               )}
@@ -275,21 +259,22 @@ export default function EnquiryForm() {
               <Input placeholder="City" {...register("address.city")} />
             </GridItem>
             <GridItem>
-              
-              <SelectRoot collection={statesIndia} size="md" 
+              <SelectRoot
+                collection={statesIndia}
+                size="md"
                 {...register("address.state")}
-                >
-                  <SelectTrigger>
-                    <SelectValueText placeholder="Select states" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statesIndia.items.map((sta) => (
-                      <SelectItem item={sta} key={sta.value}>
-                        {sta.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectRoot>
+              >
+                <SelectTrigger>
+                  <SelectValueText placeholder="Select states" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statesIndia.items.map((sta) => (
+                    <SelectItem item={sta} key={sta.value}>
+                      {sta.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
             </GridItem>
             <GridItem>
               <Input placeholder="Zipcode" {...register("address.zipCode")} />
@@ -306,21 +291,23 @@ export default function EnquiryForm() {
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
             <GridItem>
-              <SelectRoot collection={enqSource} size="md" 
+              <SelectRoot
+                collection={enqSource}
+                size="md"
                 {...register("enquirySource")}
                 width="250px"
-                >
-                  <SelectTrigger>
-                    <SelectValueText placeholder="Select Source" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {enqSource.items.map((sou) => (
-                      <SelectItem item={sou} key={sou.value}>
-                        {sou.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectRoot>
+              >
+                <SelectTrigger>
+                  <SelectValueText placeholder="Select Source" />
+                </SelectTrigger>
+                <SelectContent>
+                  {enqSource.items.map((sou) => (
+                    <SelectItem item={sou} key={sou.value}>
+                      {sou.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectRoot>
             </GridItem>
 
             <GridItem>

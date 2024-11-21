@@ -43,17 +43,6 @@ const fetchEnquiryDetail = async (id: any) => {
   }
 };
 
-const formatDate = (date: string | Date): string => {
-  const d = new Date(date);
-  let month = "" + (d.getMonth() + 1);
-  let day = "" + d.getDate();
-  const year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-  // console.log([day,month, year].join("-"));
-  return [day, month, year].join("-");
-};
 
 export const EnquiryDetail = () => {
   const { onClose } = useDisclosure();
@@ -76,7 +65,7 @@ export const EnquiryDetail = () => {
   );
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -100,7 +89,7 @@ export const EnquiryDetail = () => {
           title: "Remark added successfully.",
           type: "success",
         });
-        queryClient.invalidateQueries(["enquiry", id])
+        queryClient.invalidateQueries(["enquiry", id]);
       },
       onError: (err) => {
         alert("Failed to add remark");
@@ -120,7 +109,6 @@ export const EnquiryDetail = () => {
           title: "Enquiry deleted successfully.",
           type: "success",
         });
-        
       },
       onError: (err) => {
         toaster.create({
@@ -177,106 +165,102 @@ export const EnquiryDetail = () => {
   return (
     <Box>
       <Navbar />
-    <Box p={8} maxW="1200px" mx="auto">
-      <Toaster />
-      <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
-        <IoIosArrowBack
-          style={{
-            cursor: "pointer",
-            fontSize: "30px",
-          }}
-        />
-      </Link>
-      <Tabs.Root defaultValue="details" variant="plain">
-        <Tabs.List bg="bg.muted" rounded="l3" p="1">
-          <Tabs.Trigger value="details">
-            <TbListDetails />
-            Details
-          </Tabs.Trigger>
-          <Tabs.Trigger value="remarks">
-            <SiRemark />
-            Remarks
-          </Tabs.Trigger>
-          <Tabs.Indicator rounded="l2" />
-        </Tabs.List>
-        <Tabs.Content value="details">
-          <Box>
-            <Heading as="h2" size="2xl" mb={6} textAlign="center">
-              Enquiry Details
-            </Heading>
-            <VStack spaceX={4} align="flex-start">
-              <Text></Text>
-              <Text>
-                <strong>Student Name:</strong> {data.studentName}
-              </Text>
-              <Text>
-                <strong>Grade:</strong> {data.grade}
-              </Text>
-              <Text>
-                <strong>Guardian Contact:</strong>{" "}
-                {data.contactDetails.contactMain}
-              </Text>
-              <Text>
-                <strong>Enquiry Source:</strong> {data.enquirySource}
-              </Text>
-              <Text>
-                <strong>Guardian Name:</strong> {data.guardianName}
-              </Text>
-              <Text>
-                <strong>Other Contact Number:</strong>{" "}
-                {data.contactDetails.contactOpt}
-              </Text>
-              <Text>
-                <strong>Relation with Student:</strong> {data.relation}
-              </Text>
-              <Text>
-                <strong>D.O.B.:</strong> {moment(data.dateOfBirth).format("DD-MM-YYYY")}
-              </Text>
-              <Text>
-                <strong>Email:</strong> {data.contactDetails.email}
-              </Text>
-              <Text>
-                <strong>Address:</strong>{" "}
-                {data.address.street +
-                  " " +
-                  data.address.city +
-                  " " +
-                  data.address.state +
-                  " " +
-                  data.address.country}
-              </Text>
-              <Text>
-                <strong>Wanted Hostel Info?</strong>{" "}
-                {data.wantHostelInfo ? "Yes" : "No"}
-              </Text>
-              <Text>
-                <strong>Wanted Transportation Info?</strong>{" "}
-                {data.wantTransportInfo ? "Yes" : "No"}
-              </Text>
-              <Text>
-                <strong>Description:</strong> {data.description}
-              </Text>
-              <Text>
-                <strong>AskedAt: </strong>{moment(data.createdAt).format("dddd, MMMM Do YYYY, HH:mm:SS")}
-              </Text>
+      <Box p={8} maxW="1200px" mx="auto">
+        <Toaster />
+        <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
+          <IoIosArrowBack
+            style={{
+              cursor: "pointer",
+              fontSize: "30px",
+            }}
+          />
+        </Link>
+        <Tabs.Root defaultValue="details" variant="plain">
+          <Tabs.List bg="bg.muted" rounded="l3" p="1">
+            <Tabs.Trigger value="details">
+              <TbListDetails />
+              Details
+            </Tabs.Trigger>
+            <Tabs.Trigger value="remarks">
+              <SiRemark />
+              Remarks
+            </Tabs.Trigger>
+            <Tabs.Indicator rounded="l2" />
+          </Tabs.List>
+          <Tabs.Content value="details">
+            <Box>
+              <Heading as="h2" size="2xl" mb={6} textAlign="center">
+                Enquiry Details
+              </Heading>
+              <VStack spaceX={4} align="flex-start">
+                <Text></Text>
+                <Text>
+                  <strong>Student Name:</strong> {data.studentName}
+                </Text>
+                <Text>
+                  <strong>Grade:</strong> {data.grade}
+                </Text>
+                <Text>
+                  <strong>Guardian Contact:</strong>{" "}
+                  {data.contactDetails.contactMain}
+                </Text>
+                <Text>
+                  <strong>Enquiry Source:</strong> {data.enquirySource}
+                </Text>
+                <Text>
+                  <strong>Guardian Name:</strong> {data.guardianName}
+                </Text>
+                <Text>
+                  <strong>Other Contact Number:</strong>{" "}
+                  {data.contactDetails.contactOpt}
+                </Text>
+                <Text>
+                  <strong>Relation with Student:</strong> {data.relation}
+                </Text>
+                <Text>
+                  <strong>D.O.B.:</strong>{" "}
+                  {moment(data.dateOfBirth).format("DD-MM-YYYY")}
+                </Text>
+                <Text>
+                  <strong>Email:</strong> {data.contactDetails.email}
+                </Text>
+                <Text>
+                  <strong>Address:</strong>{" "}
+                  {data.address.street +
+                    " " +
+                    data.address.city +
+                    " " +
+                    data.address.state +
+                    " " +
+                    data.address.country}
+                </Text>
+                <Text>
+                  <strong>Wanted Hostel Info?</strong>{" "}
+                  {data.wantHostelInfo ? "Yes" : "No"}
+                </Text>
+                <Text>
+                  <strong>Wanted Transportation Info?</strong>{" "}
+                  {data.wantTransportInfo ? "Yes" : "No"}
+                </Text>
+                <Text>
+                  <strong>Description:</strong> {data.description}
+                </Text>
+                <Text>
+                  <strong>AskedAt: </strong>
+                  {moment(data.createdAt).format(
+                    "dddd, MMMM Do YYYY, HH:mm:SS"
+                  )}
+                </Text>
 
-              <EnquiryEditForm />
-
-              <Button
-                colorPalette={"red"}
-                variant="subtle"
-                onClick={() => deleteMutation.mutate()}
-              >
-                <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>Delete</Link>
-              </Button>
-            </VStack>
-          </Box>
-        </Tabs.Content>
-        <Tabs.Content value="remarks">
-          <AddRemark addRemarkObj={addRemarkObj} />
-        </Tabs.Content>
-      </Tabs.Root>
-    </Box>
+                <EnquiryEditForm />
+              </VStack>
+            </Box>
+          </Tabs.Content>
+          <Tabs.Content value="remarks">
+            <AddRemark addRemarkObj={addRemarkObj} />
+          </Tabs.Content>
+        </Tabs.Root>
+      </Box>
     </Box>
   );
 };
