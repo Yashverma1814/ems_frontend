@@ -7,7 +7,13 @@ import { useMutation, useQueryClient } from "react-query";
 import { toaster, Toaster } from "../ui/toaster";
 import moment from "moment";
 
-export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey: any }) => {
+export const TableList = ({
+  enqList,
+  queryKey,
+}: {
+  enqList: Enquiry[];
+  queryKey: any;
+}) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation(
@@ -30,14 +36,14 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
     }
   );
 
-  const {isLoading} = deleteMutation
+  const { isLoading } = deleteMutation;
 
-  if(isLoading){
-    return(
+  if (isLoading) {
+    return (
       <Center>
         <Spinner />
       </Center>
-    )
+    );
   }
 
   return (
@@ -46,24 +52,39 @@ export const TableList = ({ enqList, queryKey }: { enqList: Enquiry[]; queryKey:
         <Toaster />
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader textAlign={"center"}>Student Name</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign={"center"}>
+              Student Name
+            </Table.ColumnHeader>
             <Table.ColumnHeader textAlign={"center"}>Grade</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>Guardian Contact</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>Enquiry Source</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign={"center"}>
+              Guardian Contact
+            </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign={"center"}>
+              Enquiry Source
+            </Table.ColumnHeader>
             <Table.ColumnHeader textAlign={"center"}>Asked</Table.ColumnHeader>
-            <Table.ColumnHeader colSpan={2} textAlign={"center"}>Actions</Table.ColumnHeader>
+            <Table.ColumnHeader colSpan={2} textAlign={"center"}>
+              Actions
+            </Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {enqList.map((enquiry: Enquiry) => (
             <Table.Row key={enquiry._id}>
-              <Table.Cell textAlign={"center"}>{enquiry.studentName}</Table.Cell>
+              <Table.Cell textAlign={"center"}>
+                
+                {enquiry.studentName}
+              </Table.Cell>
               <Table.Cell textAlign={"center"}>{enquiry.grade}</Table.Cell>
               <Table.Cell textAlign={"center"}>
                 {enquiry.contactDetails.contactMain || ""}
               </Table.Cell>
-              <Table.Cell textAlign={"center"}>{enquiry.enquirySource}</Table.Cell>
-              <Table.Cell textAlign={"center"}>{moment(enquiry.createdAt).fromNow()}</Table.Cell>
+              <Table.Cell textAlign={"center"}>
+                {enquiry.enquirySource}
+              </Table.Cell>
+              <Table.Cell textAlign={"center"}>
+                {moment(enquiry.createdAt).fromNow()}
+              </Table.Cell>
               <Table.Cell textAlign={"center"} width={"5px"}>
                 <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
                   <Button variant={"subtle"} colorPalette="green">

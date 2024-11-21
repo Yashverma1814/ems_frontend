@@ -25,6 +25,7 @@ import { useQuery } from "react-query";
 import { TableList } from "@/components/adminpanel/TableList";
 import { noOfLimit } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
+import Navbar from "@/components/adminpanel/Navbar";
 
 export interface Enquiry {
   _id: string;
@@ -52,7 +53,7 @@ const fetchEnquiries = async (params: {
 };
 
 const AdminEnquiriesPage: FC = () => {
-  const[open,setOpen] = useState(false)
+  const [open,setOpen] = useState(false)
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
@@ -60,9 +61,10 @@ const AdminEnquiriesPage: FC = () => {
   const [enqSource, setEnqSource] = useState("");
   const [searchedStnName, setSearchedStnName] = useState("");
   const [searched, setSearched] = useState(0);
+  const [appliedClick,setAppliedClick] = useState(0)
 
   const { data, isLoading } = useQuery(
-    ["enquiries", { page, limit, stnState, enqSource, searchedStnName, searched }],
+    ["enquiries", { page, limit, appliedClick, searchedStnName, searched }],
     () =>
       fetchEnquiries({
         limit,
@@ -88,6 +90,7 @@ const AdminEnquiriesPage: FC = () => {
     setPage(1);
     setSearchedStnName("");
     setSearched(0);
+    setAppliedClick(0)
   };
 
   const handleManuallyPageSet = (val: number) => {
@@ -139,6 +142,7 @@ const AdminEnquiriesPage: FC = () => {
     stnState,
     enqSource,
     searchedStnName,
+    appliedClick,
     setOpen,
     setStnState,
     setEnqSource,
@@ -146,10 +150,13 @@ const AdminEnquiriesPage: FC = () => {
     setPage,
     setSearchedStnName,
     searchedClick,
+    setAppliedClick,
   };
   console.log(data)
 
   return (
+    <Box>
+      <Navbar/>
     <Box p="5">
       <Filters filterObj={filterObj} />
 
@@ -223,6 +230,7 @@ const AdminEnquiriesPage: FC = () => {
           </Box>
         </Box>
       </Grid>
+      </Box>
     </Box>
   );
 };

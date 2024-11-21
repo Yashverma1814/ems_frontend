@@ -27,7 +27,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { BaseUrl } from "@/service/apis";
 import { useParams } from "next/navigation";
 import { Toaster, toaster } from "@/components/ui/toaster";
-import { SelectContent, SelectTrigger, SelectValueText } from "../ui/select";
+import { Field } from "../ui/field";
 
 type EnquiryFormData = {
   studentName: string;
@@ -122,7 +122,7 @@ export default function EnquiryEditForm() {
       { label: "Guardian", value: "guardian" },
       { label: "Other", value: "other" },
     ],
-  })
+  });
 
   if (isLoading)
     return (
@@ -246,10 +246,12 @@ export default function EnquiryEditForm() {
                   </GridItem>
 
                   <GridItem>
-                    <Input
-                      placeholder="Current School"
-                      {...register("currentSchool")}
-                    />
+                    
+                      <Input
+                        placeholder="Current School"
+                        marginTop={"1.2rem"}
+                        {...register("currentSchool")}
+                      />
                   </GridItem>
                 </Grid>
 

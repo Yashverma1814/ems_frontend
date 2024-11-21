@@ -27,6 +27,7 @@ import { Toaster, toaster } from "@/components/ui/toaster";
 import { AddRemark } from "@/components/adminpanel/AddRemark";
 import { SiRemark } from "react-icons/si";
 import moment from "moment";
+import Navbar from "@/components/adminpanel/Navbar";
 
 type RemarkFormData = {
   message: string;
@@ -167,7 +168,6 @@ export const EnquiryDetail = () => {
 
   const addRemarkObj = {
     data,
-    formatDate,
     message,
     setMessage,
     username,
@@ -175,6 +175,8 @@ export const EnquiryDetail = () => {
   };
 
   return (
+    <Box>
+      <Navbar />
     <Box p={8} maxW="1200px" mx="auto">
       <Toaster />
       <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
@@ -228,7 +230,7 @@ export const EnquiryDetail = () => {
                 <strong>Relation with Student:</strong> {data.relation}
               </Text>
               <Text>
-                <strong>D.O.B.:</strong> {formatDate(data.dateOfBirth)}
+                <strong>D.O.B.:</strong> {moment(data.dateOfBirth).format("DD-MM-YYYY")}
               </Text>
               <Text>
                 <strong>Email:</strong> {data.contactDetails.email}
@@ -274,6 +276,7 @@ export const EnquiryDetail = () => {
           <AddRemark addRemarkObj={addRemarkObj} />
         </Tabs.Content>
       </Tabs.Root>
+    </Box>
     </Box>
   );
 };

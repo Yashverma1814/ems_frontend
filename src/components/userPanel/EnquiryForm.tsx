@@ -19,6 +19,8 @@ import { BaseUrl } from "@/service/apis";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import { SelectContent, SelectItem, SelectLabel, SelectRoot, SelectTrigger, SelectValueText } from "../ui/select";
+import { enqSource, grade, relation, statesIndia } from "@/service/collection";
 
 type EnquiryFormData = {
   studentName: string;
@@ -45,6 +47,7 @@ type EnquiryFormData = {
   wantHostelInfo: "";
   wantTransportInfo: "";
 };
+
 export default function EnquiryForm() {
   const {
     register,
@@ -53,8 +56,6 @@ export default function EnquiryForm() {
     reset,
   } = useForm<EnquiryFormData>();
 
-  const [hostelInfo, setHostelInfo] = useState(false);
-  const [transportInfo, setTransportInfo] = useState(false);
   const mutation = useMutation(
     (data: EnquiryFormData) => axios.post(`${BaseUrl}/enquiries`, data),
     {
@@ -87,7 +88,7 @@ export default function EnquiryForm() {
       },
     }
   );
-  const {isLoading} = mutation
+  const { isLoading } = mutation;
   const onSubmit = (data: EnquiryFormData) => {
     mutation.mutate(data);
   };
@@ -123,7 +124,7 @@ export default function EnquiryForm() {
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem>
               <Input
-                placeholder="Student Name"
+                placeholder="Student Name *"
                 {...register("studentName", {
                   required: "Student Name is required",
                 })}
@@ -135,90 +136,53 @@ export default function EnquiryForm() {
 
             <GridItem>
               <Input
-                placeholder="Guardian Name"
+                placeholder="Guardian Name *"
                 {...register("guardianName", {
                   required: "Guardian Name is required",
                 })}
               />
               {errors.guardianName && (
-                <Text color="red.500">{errors.guardianName.message}</Text>
+                <Text color="red.500">
+                  required{errors.guardianName.message}
+                </Text>
               )}
             </GridItem>
 
             <GridItem>
-              <select
-                style={{
-                  width: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  border: "1px solid #E2E8F0",
-                  backgroundColor: "white",
-                  color: "#2D3748",
-                  fontSize: "16px",
-                  lineHeight: "1.5",
-                  outline: "none",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                  transition: "box-shadow 0.2s ease-in-out",
-                }}
-                onFocus={(e) =>
-                  (e.target.style.boxShadow = "0 0 0 2px #319795")
-                }
+                <SelectRoot collection={relation} size="md" 
                 {...register("relation", { required: "Relation is required" })}
-              >
-                <option value="">Relation with Child</option>
-                <option value="father">Father</option>
-                <option value="mother">Mother</option>
-                <option value="guardian">Guardian</option>
-                <option value="other">Other</option>
-              </select>
-              {errors.relation && (
-                <Text color="red.500">{errors.relation.message}</Text>
-              )}
-
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Relation *" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {relation.items.map((rel) => (
+                      <SelectItem item={rel} key={rel.value}>
+                        {rel.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
               {errors.relation && (
                 <Text color="red.500">{errors.relation.message}</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <select
-                style={{
-                  width: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  border: "1px solid #E2E8F0",
-                  backgroundColor: "white",
-                  color: "#2D3748",
-                  fontSize: "16px",
-                  lineHeight: "1.5",
-                  outline: "none",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                  transition: "box-shadow 0.2s ease-in-out",
-                }}
-                onFocus={(e) =>
-                  (e.target.style.boxShadow = "0 0 0 2px #319795")
-                }
+              <SelectRoot collection={grade} size="md" 
                 {...register("grade", { required: "Grade is required" })}
-              >
-                <option value="">Grade</option>
-                <option value="pre-nursery">Pre Nursery</option>
-                <option value="nursery">Nursery</option>
-                <option value="LKG">LKG</option>
-                <option value="UKG">UKG</option>
-                <option value="KG">KG</option>
-                <option value="first class">GRADE 1</option>
-                <option value="second class">GRADE 2</option>
-                <option value="third class">GRADE 3</option>
-                <option value="fourth class">GRADE 4</option>
-                <option value="fifth class">GRADE 5</option>
-                <option value="sixth class">GRADE 6</option>
-                <option value="seventh class">GRADE 7</option>
-                <option value="eighth class">GRADE 8</option>
-                <option value="nineth class">GRADE 9</option>
-                <option value="tenth class">GRADE 10</option>
-                <option value="eleventh class">GRADE 11</option>
-                <option value="twelfth class">GRADE 12</option>
-              </select>
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Grade of Student" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {grade.items.map((gra) => (
+                      <SelectItem item={gra} key={gra.value}>
+                        {gra.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
               {errors.grade && (
                 <Text color="red.500">{errors.grade.message}</Text>
               )}
@@ -227,7 +191,7 @@ export default function EnquiryForm() {
             <GridItem>
               <Input
                 type="date"
-                placeholder="Date of Birth"
+                placeholder="Date of Birth *"
                 {...register("dateOfBirth", {
                   required: "Date of Birth is required",
                 })}
@@ -256,7 +220,7 @@ export default function EnquiryForm() {
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem>
               <Input
-                placeholder="Guardian Phone"
+                placeholder="Guardian Phone *"
                 maxLength={10}
                 {...register("contactDetails.contactMain", {
                   required: "Phone number is required",
@@ -273,7 +237,6 @@ export default function EnquiryForm() {
                 placeholder="Guardian Phone 2 (Optional)"
                 maxLength={10}
                 {...register("contactDetails.contactOpt", {
-                  required: "Phone number is required",
                   pattern: {
                     value: /^[0-9]*$/,
                     message: "Please enter a valid phone number",
@@ -284,8 +247,10 @@ export default function EnquiryForm() {
 
             <GridItem>
               <Input
-                placeholder="Guardian Email"
-                {...register("contactDetails.email")}
+                placeholder="Guardian Email *"
+                {...register("contactDetails.email", {
+                  required: "Email is required",
+                })}
               />
             </GridItem>
 
@@ -310,33 +275,21 @@ export default function EnquiryForm() {
               <Input placeholder="City" {...register("address.city")} />
             </GridItem>
             <GridItem>
-              <select
-                style={{
-                  width: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  border: "1px solid #E2E8F0", // Light gray border
-                  backgroundColor: "white",
-                  color: "#2D3748", // Dark gray text color
-                  fontSize: "16px",
-                  lineHeight: "1.5",
-                  outline: "none",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                  transition: "box-shadow 0.2s ease-in-out",
-                }}
-                onFocus={(e) =>
-                  (e.target.style.boxShadow = "0 0 0 2px #319795")
-                }
+              
+              <SelectRoot collection={statesIndia} size="md" 
                 {...register("address.state")}
-              >
-                <option value="">Select State</option>
-                <option value="uttarakhand">Uttarakhand</option>
-                <option value="delhi">Delhi</option>
-                <option value="kerala">Kerala</option>
-                <option value="karnataka">Karnataka</option>
-                <option value="maharashtra">Maharashtra</option>
-                <option value="Hyderabad">Hyderabad</option>
-              </select>
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select states" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statesIndia.items.map((sta) => (
+                      <SelectItem item={sta} key={sta.value}>
+                        {sta.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
             </GridItem>
             <GridItem>
               <Input placeholder="Zipcode" {...register("address.zipCode")} />
@@ -353,30 +306,21 @@ export default function EnquiryForm() {
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
             <GridItem>
-              <select
-                style={{
-                  width: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  border: "1px solid #E2E8F0",
-                  backgroundColor: "white",
-                  color: "#2D3748",
-                  fontSize: "16px",
-                  lineHeight: "1.5",
-                  outline: "none",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                  transition: "box-shadow 0.2s ease-in-out",
-                }}
-                onFocus={(e) =>
-                  (e.target.style.boxShadow = "0 0 0 2px #319795")
-                }
+              <SelectRoot collection={enqSource} size="md" 
                 {...register("enquirySource")}
-              >
-                <option value="">Enquiry Source</option>
-                <option value="website">Website</option>
-                <option value="referral">referral</option>
-                <option value="other">other</option>
-              </select>
+                width="250px"
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Source" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {enqSource.items.map((sou) => (
+                      <SelectItem item={sou} key={sou.value}>
+                        {sou.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
             </GridItem>
 
             <GridItem>
@@ -407,7 +351,7 @@ export default function EnquiryForm() {
           </Grid>
 
           <Button type="submit" colorScheme="green" size="lg" w="full" mt="6">
-            {isLoading?<Spinner />:""}
+            {isLoading ? <Spinner /> : ""}
             Submit Enquiry
           </Button>
         </form>

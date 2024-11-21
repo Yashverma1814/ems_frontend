@@ -17,7 +17,6 @@ export default function RootLayout({
       <body>
         <QueryClientProvider client={queryClient}>
           <ChakraProvider value={defaultSystem}>
-            <Navbar/>
             {children}
           </ChakraProvider>
         </QueryClientProvider>

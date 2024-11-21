@@ -25,8 +25,9 @@ import { SearchBox } from "./SearchBox";
 export const Filters = ({ filterObj }: any) => {
   // console.log(filterObj)
   const handleApply = () => {
-    filterObj.fetchEnquiries();
+    // filterObj.fetchEnquiries();
     filterObj.setPage(1);
+    filterObj.setAppliedClick(filterObj.appliedClick+1)
   };
 
   const searchObj = {
