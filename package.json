@@ -18,6 +18,7 @@
     "avatar": "^0.1.0",
     "axios": "^1.7.7",
     "chakra": "^0.0.3",
+    "chakra-multiselect": "^0.4.13",
     "checkbox": "^0.0.1",
     "drawer": "^0.0.2",
     "framer-motion": "^11.11.11",

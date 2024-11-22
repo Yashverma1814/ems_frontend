@@ -142,7 +142,7 @@ export const EnquiryDetail = () => {
     return (
       <center>
         You are Not Logged In{" "}
-        <Link href={`${BaseUrlfe}/adminpanel/login`}>
+        <Link href={`/adminpanel/login`}>
           {" "}
           <Button colorPalette="teal" variant="outline">
             Click Here

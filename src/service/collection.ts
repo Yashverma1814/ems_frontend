@@ -98,3 +98,16 @@ export const enqSource = createListCollection({
   ]
 })
 
+export const extraFields = [
+    { label: "Student Name", value: "addStnName",fn:"setAddStnName" },
+    { label: "Grade", value: "addGrade",fn:"setAddGrade" },
+    { label: "Guardian Contact", value: "addGuardianContact",fn:"setAddGuadianContact" },
+    { label: "Source", value: "addSource",fn:"setAddSource" },
+    { label: "Asked", value: "addAsked",fn:"setAddAsked" },
+    { label: "Email", value: "addEmail",fn:"setAddEmail" },
+    { label: "State", value: "addState" ,fn:"setAddState"},
+    { label: "Gaurdian Name", value: "addGuardianName",fn:"setAddGuardianName" },
+    { label: "Relation", value: "addRelation",fn:"setAddRelation" }
+  ]
+
+

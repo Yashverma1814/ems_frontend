@@ -1800,6 +1800,11 @@ caniuse-lite@^1.0.30001579:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001680.tgz#5380ede637a33b9f9f1fc6045ea99bd142f3da5e"
   integrity sha512-rPQy70G6AGUMnbwS1z6Xg+RkHYPAi18ihs47GH0jcxIG7wArmPgY3XbS2sRdBbxJljp3thdT8BIqv9ccCypiPA==
 
+chakra-multiselect@^0.4.13:
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/chakra-multiselect/-/chakra-multiselect-0.4.13.tgz#d0b184a48d28f70b8f4c36a22c669a53513fc82c"
+  integrity sha512-OsBqEbfLSfMuW/WjGlCeuON50ZbPvsjz+Ba6EnE5+8rox5898Z++FBhMWZpcgI2TulSpL7v5tBPxB26zf+bRew==
+
 chakra@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/chakra/-/chakra-0.0.3.tgz#a1c0f36c6ea6c1e934daac583fac7fd29c65ef23"

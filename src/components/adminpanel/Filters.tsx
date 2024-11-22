@@ -1,6 +1,7 @@
 import { source, states } from "@/service/collection";
 import {
   Button,
+  ButtonProps,
   DrawerActionTrigger,
   DrawerBody,
   DrawerCloseTrigger,
@@ -22,9 +23,13 @@ import {
 import { IoFilterOutline } from "react-icons/io5";
 import { SearchBox } from "./SearchBox";
 
-export const Filters = ({ filterObj }: any) => {
+type FilterProps = {
+  filterObj: any
+}
+
+export const Filters = ({ filterObj }: FilterProps) => {
   // console.log(filterObj)
-  const handleApply = () => {
+  const handleApply: ButtonProps['onClick']  = (e) => {
     // filterObj.fetchEnquiries();
     filterObj.setPage(1);
     filterObj.setAppliedClick(filterObj.appliedClick+1)

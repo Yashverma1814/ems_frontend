@@ -1,11 +1,20 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
+import { RiArrowRightLine } from "react-icons/ri";
 import axios from "axios";
+import Link from "next/link";
+import { useQuery } from "react-query";
+import { BaseUrl, BaseUrlfe } from "@/service/apis";
+import { TableList } from "@/components/adminpanel/TableList";
+import { noOfLimit } from "@/service/collection";
+import { Filters } from "@/components/adminpanel/Filters";
+import Navbar from "@/components/adminpanel/Navbar";
 import {
   Box,
   Button,
   Center,
+  Flex,
   Grid,
   Input,
   SelectContent,
@@ -18,14 +27,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { BaseUrl, BaseUrlfe } from "@/service/apis";
-import Link from "next/link";
-import { RiArrowRightLine } from "react-icons/ri";
-import { useQuery } from "react-query";
-import { TableList } from "@/components/adminpanel/TableList";
-import { noOfLimit } from "@/service/collection";
-import { Filters } from "@/components/adminpanel/Filters";
-import Navbar from "@/components/adminpanel/Navbar";
+import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
 
 export interface Enquiry {
   _id: string;
@@ -33,9 +35,16 @@ export interface Enquiry {
   grade: string;
   contactDetails: {
     contactMain: string;
+    email: string;
   };
   enquirySource: string;
-  createdAt:Date;
+  createdAt: Date;
+
+  guardianName: string;
+  relation: string;
+  address: {
+    state: string;
+  };
 }
 
 const fetchEnquiries = async (params: {
@@ -53,14 +62,48 @@ const fetchEnquiries = async (params: {
 };
 
 const AdminEnquiriesPage: FC = () => {
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
   const [stnState, setStnState] = useState("");
   const [enqSource, setEnqSource] = useState("");
   const [searchedStnName, setSearchedStnName] = useState("");
-  const [appliedClick,setAppliedClick] = useState(0)
+  const [appliedClick, setAppliedClick] = useState(0);
+  const [addEmail, setAddEmail] = useState(false);
+  const [addState, setAddState] = useState(false);
+  const [addGuardianName, setAddGuardianName] = useState(false);
+  const [addRelation, setAddRelation] = useState(false);
+  const [addStnName, setAddStnName] = useState(true);
+  const [addGrade, setAddGrade] = useState(true);
+  const [addGuardianContact, setAddGuadianContact] = useState(true);
+  const [addSource, setAddSource] = useState(true);
+  const [addAsked, setAddAsked] = useState(true);
+
+  const extFields = {
+    addEmail,
+    addState,
+    addGuardianName,
+    addRelation,
+    addStnName,
+    addGrade,
+    addGuardianContact,
+    addSource,
+    addAsked,
+    setAddEmail,
+    setAddState,
+    setAddGuardianName,
+    setAddRelation,
+    setAddStnName,
+    setAddGrade,
+    setAddGuadianContact,
+    setAddSource,
+    setAddAsked
+  };
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchedStnName]);
 
   const { data, isLoading } = useQuery(
     ["enquiries", { page, limit, appliedClick, searchedStnName }],
@@ -73,14 +116,10 @@ const AdminEnquiriesPage: FC = () => {
         searchedName: searchedStnName,
       }),
     {
-      keepPreviousData: true, 
-      staleTime: 30000, 
+      keepPreviousData: true,
+      staleTime: 30000,
     }
   );
-  
-  useEffect(()=>{
-    setPage(1)
-  },[searchedStnName])
 
   const handleClearFilter = () => {
     setStnState("");
@@ -88,7 +127,7 @@ const AdminEnquiriesPage: FC = () => {
     setLimit(7);
     setPage(1);
     setSearchedStnName("");
-    setAppliedClick(0)
+    setAppliedClick(0);
   };
 
   const handleManuallyPageSet = (val: number) => {
@@ -98,7 +137,6 @@ const AdminEnquiriesPage: FC = () => {
       setPage(val);
     }
   };
-
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= (data?.totalPages || 1)) {
@@ -146,84 +184,105 @@ const AdminEnquiriesPage: FC = () => {
     setSearchedStnName,
     setAppliedClick,
   };
-  console.log(data)
+  console.log(data);
 
   return (
     <Box>
-      <Navbar/>
-    <Box p="5">
-      <Filters filterObj={filterObj} />
-
-      <Text fontSize="2xl" mb="4">
-        Admin Enquiries Dashboard
-      </Text>
-      <Text fontSize="lg" mb="4" fontWeight={"medium"}>
-        Total Enquiries : {data.total}
-      </Text>
-
-      <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
-        {isLoading ? <div>Loading...</div> : <TableList enqList={data?.enquiries || []} queryKey={["enquiries", { page, limit,  searchedStnName,appliedClick }]} />
-      }
-      </Box>
-      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}>
-        <Stack gap="5" width="150px" height={100}>
-          <SelectRoot
-            collection={noOfLimit}
-            onValueChange={(e) => setLimit(+e.value)}
-          >
-            <SelectLabel>limit</SelectLabel>
-            <SelectTrigger>
-              <SelectValueText placeholder={`${limit}`} />
-            </SelectTrigger>
-            <SelectContent>
-              {noOfLimit.items.map((num: any) => (
-                <SelectItem item={num} key={num.value}>
-                  {num.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </SelectRoot>
-        </Stack>
-        <Box justifyItems="center" alignItems="center">
-          <Button
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1}
-            mt="4"
-            mr="2"
-          >
-            Previous
-          </Button>
-          <Text display="inline" mx="2">
-            Page {page} / {data?.totalPages || 1}
-          </Text>
-          <Button
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page >= (data?.totalPages || 1)}
-            mt="4"
-          >
-            Next
-          </Button>
-          <Box>
-            <Input
-              type="number"
-              value={mPage}
-              onChange={(e) => {
-                setMPage(+e.target.value);
-              }}
-              width="75px"
-              justifyContent="center"
-              alignContent="center"
+      <Navbar />
+      <Box p="5">
+        <Text fontSize="2xl" mb="4">
+          Admin Enquiries Dashboard
+        </Text>
+        <Flex justifyContent="space-between">
+          <Flex gap="1rem">
+            <Filters filterObj={filterObj} />
+            <Text fontSize="lg" mb="4" fontWeight={"medium"}>
+              Total Enquiries : {data.total}
+            </Text>
+            {searchedStnName != "" || stnState != "" || enqSource != "" ? (
+              <Text>
+                Filters:{" "}
+                {` Searched: ${searchedStnName}> State: ${stnState}> Source: ${enqSource}`}
+              </Text>
+            ) : (
+              ""
+            )}
+          </Flex>
+          <FieldAddingCheckBox extFields={extFields} />
+        </Flex>
+        <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <TableList
+              enqList={data?.enquiries || []}
+              queryKey={[
+                "enquiries",
+                { page, limit, searchedStnName, appliedClick },
+              ]}
+              extFields={extFields}
             />
-            <br />
-            <Button
-              onClick={() => handleManuallyPageSet(mPage)}
-              variant={"subtle"}
-            >
-              Search
-            </Button>
-          </Box>
+          )}
         </Box>
-      </Grid>
+        <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }}>
+          <Stack gap="5" width="150px" height={100}>
+            <SelectRoot
+              collection={noOfLimit}
+              onValueChange={(e) => setLimit(+e.value)}
+            >
+              <SelectLabel>limit</SelectLabel>
+              <SelectTrigger>
+                <SelectValueText placeholder={`${limit}`} />
+              </SelectTrigger>
+              <SelectContent>
+                {noOfLimit.items.map((num) => (
+                  <SelectItem item={num} key={num.value}>
+                    {num.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectRoot>
+          </Stack>
+          <Box justifyItems="center" alignItems="center">
+            <Button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              mt="4"
+              mr="2"
+            >
+              Previous
+            </Button>
+            <Text display="inline" mx="2">
+              Page {page} / {data?.totalPages || 1}
+            </Text>
+            <Button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page >= (data?.totalPages || 1)}
+              mt="4"
+            >
+              Next
+            </Button>
+            <Box>
+              <Input
+                type="number"
+                value={mPage}
+                onChange={(e) => {
+                  setMPage(+e.target.value);
+                }}
+                width="75px"
+                justifyContent="center"
+                alignContent="center"
+              />
+              <br />
+              <Button
+                onClick={() => handleManuallyPageSet(mPage)}
+                variant={"subtle"}
+              >
+                Search
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
       </Box>
     </Box>
   );

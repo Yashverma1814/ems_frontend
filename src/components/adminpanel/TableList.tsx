@@ -1,6 +1,6 @@
 import { Enquiry } from "@/app/adminpanel/enquiries/page";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
-import { Button, Center, Spinner, Table } from "@chakra-ui/react";
+import { Box, Button, Center, Spinner, Table } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "react-query";
@@ -10,9 +10,11 @@ import moment from "moment";
 export const TableList = ({
   enqList,
   queryKey,
+  extFields,
 }: {
   enqList: Enquiry[];
   queryKey: any;
+  extFields: any;
 }) => {
   const queryClient = useQueryClient();
 
@@ -52,17 +54,46 @@ export const TableList = ({
         <Toaster />
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeader textAlign={"center"}>
+            {extFields.addStnName?<Table.ColumnHeader textAlign={"center"}>
               Student Name
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>Grade</Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>
+            </Table.ColumnHeader>:""}
+            {extFields.addGrade?<Table.ColumnHeader textAlign={"center"}>Grade</Table.ColumnHeader>:""}
+            
+            {extFields.addGuardianContact?<Table.ColumnHeader textAlign={"center"}>
               Guardian Contact
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>
+            </Table.ColumnHeader>:""}
+            {extFields.addSource?<Table.ColumnHeader textAlign={"center"}>
               Enquiry Source
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign={"center"}>Asked</Table.ColumnHeader>
+            </Table.ColumnHeader>:""}
+            {extFields.addEmail ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Email
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addState ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                State
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addGuardianName ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Guardian Name
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addRelation ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Relation
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addAsked?<Table.ColumnHeader textAlign={"center"}>Asked</Table.ColumnHeader>:""}
             <Table.ColumnHeader colSpan={2} textAlign={"center"}>
               Actions
             </Table.ColumnHeader>
@@ -71,20 +102,47 @@ export const TableList = ({
         <Table.Body>
           {enqList.map((enquiry: Enquiry) => (
             <Table.Row key={enquiry._id}>
-              <Table.Cell textAlign={"center"}>
-                
+              {extFields.addStnName?<Table.Cell textAlign={"center"}>
                 {enquiry.studentName}
-              </Table.Cell>
-              <Table.Cell textAlign={"center"}>{enquiry.grade}</Table.Cell>
-              <Table.Cell textAlign={"center"}>
+              </Table.Cell>:""}
+              {extFields.addGrade?<Table.Cell textAlign={"center"}>{enquiry.grade}</Table.Cell>:""}
+              {extFields.addGuardianContact?<Table.Cell textAlign={"center"}>
                 {enquiry.contactDetails.contactMain || ""}
-              </Table.Cell>
-              <Table.Cell textAlign={"center"}>
+              </Table.Cell>:""}
+              {extFields.addSource?<Table.Cell textAlign={"center"}>
                 {enquiry.enquirySource}
-              </Table.Cell>
-              <Table.Cell textAlign={"center"}>
+              </Table.Cell>:""}
+              {extFields.addEmail ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.contactDetails.email}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addState ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.address.state}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addGuardianName ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.guardianName}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addRelation ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.relation}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addAsked?<Table.Cell textAlign={"center"}>
                 {moment(enquiry.createdAt).fromNow()}
-              </Table.Cell>
+              </Table.Cell>:""}
               <Table.Cell textAlign={"center"} width={"5px"}>
                 <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
                   <Button variant={"subtle"} colorPalette="green">
