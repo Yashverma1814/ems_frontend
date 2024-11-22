@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import { TableList } from "@/components/adminpanel/TableList";
-import { noOfLimit, source } from "@/service/collection";
+import { noOfLimit, relation, source } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
 import Navbar from "@/components/adminpanel/Navbar";
 import {
@@ -75,15 +75,15 @@ const AdminEnquiriesPage: FC = () => {
   const [enqSource, setEnqSource] = useState(searchParams.get("source")||"");
   const [searchedStnName, setSearchedStnName] = useState(searchParams.get("searchedname")||"");
   const [appliedClick, setAppliedClick] = useState(0);
-  const [addEmail, setAddEmail] = useState(false);
-  const [addState, setAddState] = useState(false);
-  const [addGuardianName, setAddGuardianName] = useState(false);
-  const [addRelation, setAddRelation] = useState(false);
-  const [addStnName, setAddStnName] = useState(true);
-  const [addGrade, setAddGrade] = useState(true);
-  const [addGuardianContact, setAddGuadianContact] = useState(true);
-  const [addSource, setAddSource] = useState(true);
-  const [addAsked, setAddAsked] = useState(true);
+  const [addEmail, setAddEmail] = useState(searchParams.get("emailField")||false);
+  const [addState, setAddState] = useState(searchParams.get("stateField")||false);
+  const [addGuardianName, setAddGuardianName] = useState(searchParams.get("guardianNameField")||false);
+  const [addRelation, setAddRelation] = useState(searchParams.get("relationField")||false);
+  const [addStnName, setAddStnName] = useState(searchParams.get("stnNameField")||true);
+  const [addGrade, setAddGrade] = useState(searchParams.get("gradeField")||true);
+  const [addGuardianContact, setAddGuadianContact] = useState(searchParams.get("guardianContactField")||true);
+  const [addSource, setAddSource] = useState(searchParams.get("sourceField")||true);
+  const [addAsked, setAddAsked] = useState(searchParams.get("askedField")||true);
 
 
 
@@ -113,10 +113,10 @@ const AdminEnquiriesPage: FC = () => {
   }, [searchedStnName]);
 
   useEffect(()=>{
-    router.push(`?searchedname=${searchedStnName}&state=${stnState}&source=${enqSource}`,{
+    router.push(`?searchedname=${searchedStnName}&state=${stnState}&source=${enqSource}&stnNameField=${addStnName}&gradeField=${addGrade}&guardianContactField=${addGuardianContact}&sourceField=${addSource}&emailField=${addEmail}&stateField=${addState}&guardianNameField=${addGuardianName}&relationField=${addRelation}&askedField=${addAsked}`,{
       scroll:false
     })
-  },[searchedStnName,stnState,enqSource,router])
+  },[searchedStnName,stnState,enqSource,router,addStnName,addGrade,addGuardianContact,addSource,addEmail,addState,addGuardianName,addRelation,addAsked])
 
   const { data, isLoading } = useQuery(
     ["enquiries", { page, limit, appliedClick, searchedStnName }],
