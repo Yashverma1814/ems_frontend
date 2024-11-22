@@ -29,7 +29,6 @@ const Dashboard = () => {
   }, []);
 
   if (isLoading)
-    // toast.warning("loading")
     return (
       <Center height="100vh">
         <Spinner size="xl" />
