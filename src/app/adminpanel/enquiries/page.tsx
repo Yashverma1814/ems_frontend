@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import { TableList } from "@/components/adminpanel/TableList";
-import { noOfLimit } from "@/service/collection";
+import { noOfLimit, source } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
 import Navbar from "@/components/adminpanel/Navbar";
 import {
@@ -28,6 +28,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export interface Enquiry {
   _id: string;
@@ -62,13 +63,17 @@ const fetchEnquiries = async (params: {
 };
 
 const AdminEnquiriesPage: FC = () => {
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
-  const [stnState, setStnState] = useState("");
-  const [enqSource, setEnqSource] = useState("");
-  const [searchedStnName, setSearchedStnName] = useState("");
+  const [stnState, setStnState] = useState(searchParams.get("state")||"");
+  const [enqSource, setEnqSource] = useState(searchParams.get("source")||"");
+  const [searchedStnName, setSearchedStnName] = useState(searchParams.get("searchedname")||"");
   const [appliedClick, setAppliedClick] = useState(0);
   const [addEmail, setAddEmail] = useState(false);
   const [addState, setAddState] = useState(false);
@@ -79,6 +84,8 @@ const AdminEnquiriesPage: FC = () => {
   const [addGuardianContact, setAddGuadianContact] = useState(true);
   const [addSource, setAddSource] = useState(true);
   const [addAsked, setAddAsked] = useState(true);
+
+
 
   const extFields = {
     addEmail,
@@ -104,6 +111,12 @@ const AdminEnquiriesPage: FC = () => {
   useEffect(() => {
     setPage(1);
   }, [searchedStnName]);
+
+  useEffect(()=>{
+    router.push(`?searchedname=${searchedStnName}&state=${stnState}&source=${enqSource}`,{
+      scroll:false
+    })
+  },[searchedStnName,stnState,enqSource,router])
 
   const { data, isLoading } = useQuery(
     ["enquiries", { page, limit, appliedClick, searchedStnName }],
