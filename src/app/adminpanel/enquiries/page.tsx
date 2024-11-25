@@ -29,6 +29,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { FieldResetButton } from "@/components/adminpanel/FieldResetButton";
 
 export interface Enquiry {
   _id: string;
@@ -256,7 +257,10 @@ const AdminEnquiriesPage: FC = () => {
               ""
             )}
           </Flex>
-          <FieldAddingCheckBox extFields={extFields} />
+          <Flex>
+            <FieldAddingCheckBox extFields={extFields} />
+            <FieldResetButton extFields={extFields} />
+          </Flex>
         </Flex>
         <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
           {isLoading ? (

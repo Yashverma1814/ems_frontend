@@ -4,8 +4,20 @@ import { useRouter } from "next/navigation";
 import { BaseUrl } from "@/service/apis";
 import { useMutation, useQueryClient } from "react-query";
 import { toaster, Toaster } from "../ui/toaster";
-import { Button, Center, Spinner, Table } from "@chakra-ui/react";
+import { MdOutlineDoneOutline } from "react-icons/md";
 import { Enquiry } from "@/app/adminpanel/enquiries/page";
+import {
+  Button,
+  Center,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverRoot,
+  PopoverTrigger,
+  Spinner,
+  Table,
+} from "@chakra-ui/react";
+
 
 export const TableList = ({
   enqList,
@@ -190,18 +202,38 @@ export const TableList = ({
               ) : (
                 ""
               )}
-              
+
               <Table.Cell textAlign={"center"} width={"5px"}>
-                <Button
-                  variant={"subtle"}
-                  colorPalette="red"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteMutation.mutate(enquiry._id);
-                  }}
-                >
-                  Delete
-                </Button>
+                {/*  */}
+                <PopoverRoot positioning={{ sameWidth: true }}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant={"subtle"}
+                      colorPalette="red"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent width="auto">
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <Button
+                        variant="surface"
+                        colorPalette="green"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteMutation.mutate(enquiry._id);
+                        }}
+                      >
+                        Confirm Deletion <MdOutlineDoneOutline/>
+                      </Button>
+                    </PopoverBody>
+                  </PopoverContent>
+                </PopoverRoot>
               </Table.Cell>
             </Table.Row>
           ))}

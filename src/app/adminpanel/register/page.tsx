@@ -1,7 +1,10 @@
 "use client";
+import axios from "axios";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toaster, Toaster } from "@/components/ui/toaster";
+import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import {
   Button,
   Input,
@@ -11,9 +14,7 @@ import {
   Table,
   Spinner,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { BaseUrl, BaseUrlfe } from "@/service/apis";
-import { toaster, Toaster } from "@/components/ui/toaster";
+
 
 interface RegisterFormData {
   username: string;
