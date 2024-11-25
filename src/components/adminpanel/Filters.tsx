@@ -1,4 +1,4 @@
-import { source, states } from "@/service/collection";
+import { source, statesIndia } from "@/service/collection";
 import { IoFilterOutline } from "react-icons/io5";
 import { SearchBox } from "./SearchBox";
 import {
@@ -66,7 +66,7 @@ export const Filters = ({ filterObj }: FilterProps) => {
 
           <Stack gap="5" width="250px" height={100}>
             <SelectRoot
-              collection={states}
+              collection={statesIndia}
               onValueChange={(e) => filterObj.setStnState(e.value.toString())}
             >
               <SelectLabel>Select State</SelectLabel>
@@ -76,7 +76,7 @@ export const Filters = ({ filterObj }: FilterProps) => {
                 />
               </SelectTrigger>
               <SelectContent>
-                {states.items.map((s) => (
+                {statesIndia.items.map((s) => (
                   <SelectItem item={s} key={s.value}>
                     {s.label}
                   </SelectItem>
