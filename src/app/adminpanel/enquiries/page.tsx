@@ -222,6 +222,7 @@ const AdminEnquiriesPage: FC = () => {
             )}
           </Flex>
           <FieldAddingCheckBox extFields={extFields} />
+          
         </Flex>
         <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
           {isLoading ? (

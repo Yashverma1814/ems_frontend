@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useMutation, useQueryClient } from "react-query";
 import { toaster, Toaster } from "../ui/toaster";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 export const TableList = ({
   enqList,
@@ -37,6 +38,8 @@ export const TableList = ({
       },
     }
   );
+
+  const router = useRouter()
 
   const { isLoading } = deleteMutation;
 
@@ -101,7 +104,8 @@ export const TableList = ({
         </Table.Header>
         <Table.Body>
           {enqList.map((enquiry: Enquiry) => (
-            <Table.Row key={enquiry._id}>
+            
+            <Table.Row key={enquiry._id} onClick={()=> router.push(`enquiries/${enquiry._id}`)}>
               {extFields.addStnName?<Table.Cell textAlign={"center"}>
                 {enquiry.studentName}
               </Table.Cell>:""}
@@ -143,18 +147,21 @@ export const TableList = ({
               {extFields.addAsked?<Table.Cell textAlign={"center"}>
                 {moment(enquiry.createdAt).fromNow()}
               </Table.Cell>:""}
-              <Table.Cell textAlign={"center"} width={"5px"}>
+              {/* <Table.Cell textAlign={"center"} width={"5px"}>
                 <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
                   <Button variant={"subtle"} colorPalette="green">
                     View More
                   </Button>
                 </Link>
-              </Table.Cell>
+              </Table.Cell> */}
               <Table.Cell textAlign={"center"} width={"5px"}>
                 <Button
                   variant={"subtle"}
                   colorPalette="red"
-                  onClick={() => deleteMutation.mutate(enquiry._id)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    deleteMutation.mutate(enquiry._id)
+                  }}
                 >
                   Delete
                 </Button>
