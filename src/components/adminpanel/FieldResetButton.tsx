@@ -1,12 +1,23 @@
 import { HStack } from "@chakra-ui/react"
 import { Button } from "@/components/ui/button"
-import { RiMailLine } from "react-icons/ri"
+import { GrPowerReset } from "react-icons/gr";
 
-const Demo = () => {
+export const FieldResetButton = ({ extFields }: any) => {
+  const handleReset = () => {
+    extFields.setAddEmail(false)
+    extFields.setAddState(false)
+    extFields.setAddGuardianName(false)
+    extFields.setAddRelation(false)
+    extFields.setAddStnName(true)
+    extFields.setAddGrade(true)
+    extFields.setAddGuadianContact(true)
+    extFields.setAddSource(true)
+    extFields.setAddAsked(true)
+  }
   return (
     <HStack>
-      <Button colorPalette="teal" variant="solid">
-        <RiMailLine /> Email
+      <Button colorPalette="yellow" variant="outline" size="sm" marginBottom="10px" onClick={()=>handleReset()}>
+        <GrPowerReset />Reset
       </Button>
     </HStack>
   )

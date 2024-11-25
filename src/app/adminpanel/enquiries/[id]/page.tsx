@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { IoIosArrowBack } from "react-icons/io";
 import { TbListDetails } from "react-icons/tb";
 import { RiArrowRightLine } from "react-icons/ri";
 import { SiRemark } from "react-icons/si";
@@ -12,7 +11,7 @@ import moment from "moment";
 import { Toaster, toaster } from "@/components/ui/toaster";
 import "react-toastify/dist/ReactToastify.css";
 import EnquiryEditForm from "@/components/adminpanel/EnquiryEditForm";
-import { BaseUrl, BaseUrlfe } from "@/service/apis";
+import { BaseUrl } from "@/service/apis";
 import { AddRemark } from "@/components/adminpanel/AddRemark";
 import Navbar from "@/components/adminpanel/Navbar";
 import {
@@ -162,14 +161,6 @@ export const EnquiryDetail = () => {
       <Navbar />
       <Box p={8} maxW="1200px" mx="auto">
         <Toaster />
-        <Link href={`${BaseUrlfe}/adminpanel/enquiries`}>
-          <IoIosArrowBack
-            style={{
-              cursor: "pointer",
-              fontSize: "30px",
-            }}
-          />
-        </Link>
         <Tabs.Root defaultValue="details" variant="plain">
           <Tabs.List bg="bg.muted" rounded="l3" p="1">
             <Tabs.Trigger value="details">
