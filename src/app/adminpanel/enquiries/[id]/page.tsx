@@ -25,20 +25,22 @@ import {
   useDisclosure,
   Tabs,
 } from "@chakra-ui/react";
+import { fetchEnquiryDetail } from "@/service/queryFn";
 
 type RemarkFormData = {
   message: string;
   addedBy: any;
 };
 
-const fetchEnquiryDetail = async (id: any) => {
-  try {
-    const response = await axios.get(`${BaseUrl}/enquiries/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Failed to fetch enquiries", error);
-  }
-};
+// const fetchEnquiryDetail = async (id: any) => {
+//   try {
+//     const response = await axios.get(`${BaseUrl}/enquiries/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Failed to fetch enquiries", error);
+//   }
+// };
+
 
 export const EnquiryDetail = () => {
   const { onClose } = useDisclosure();

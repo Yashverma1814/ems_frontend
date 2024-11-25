@@ -1,10 +1,10 @@
 "use client";
 
+import axios from "axios";
+import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
 import { useQuery } from "react-query";
-import axios from "axios";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import { TableList } from "@/components/adminpanel/TableList";
@@ -13,6 +13,7 @@ import { Filters } from "@/components/adminpanel/Filters";
 import Navbar from "@/components/adminpanel/Navbar";
 import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
 import { FieldResetButton } from "@/components/adminpanel/FieldResetButton";
+import { GiArchiveResearch } from "react-icons/gi";
 import {
   Box,
   Button,
@@ -30,6 +31,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { Order } from "@/components/adminpanel/Order";
 
 export interface Enquiry {
   _id: string;
@@ -55,10 +57,12 @@ const fetchEnquiries = async (params: {
   state: string;
   enquirySource: string;
   searchedName: string;
+  sortingOrder: string;
 }) => {
-  const { limit, page, state, enquirySource, searchedName } = params;
+  const { limit, page, state, enquirySource, searchedName, sortingOrder } =
+    params;
   const response = await axios.get(
-    `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}`
+    `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}&sort=${sortingOrder}`
   );
   return response.data;
 };
@@ -71,6 +75,7 @@ const AdminEnquiriesPage: FC = () => {
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
+  const [sortingOrder, setSortingOrder] = useState("desc");
   const [stnState, setStnState] = useState(searchParams.get("state") || "");
   const [enqSource, setEnqSource] = useState(searchParams.get("source") || "");
   const [searchedStnName, setSearchedStnName] = useState(
@@ -78,31 +83,31 @@ const AdminEnquiriesPage: FC = () => {
   );
   const [appliedClick, setAppliedClick] = useState(0);
   const [addEmail, setAddEmail] = useState(
-    searchParams.get("emailField")==="true" || false
+    searchParams.get("emailField") === "true" || false
   );
   const [addState, setAddState] = useState(
-    searchParams.get("stateField")==="true" || false
+    searchParams.get("stateField") === "true" || false
   );
   const [addGuardianName, setAddGuardianName] = useState(
-    searchParams.get("guardianNameField")==="true" || false
+    searchParams.get("guardianNameField") === "true" || false
   );
   const [addRelation, setAddRelation] = useState(
-    searchParams.get("relationField")==="true" || false
+    searchParams.get("relationField") === "true" || false
   );
   const [addStnName, setAddStnName] = useState(
-    searchParams.get("stnNameField")==="true" || true
+    searchParams.get("stnNameField") === "true" || true
   );
   const [addGrade, setAddGrade] = useState(
-    searchParams.get("gradeField")==="true" || true
+    searchParams.get("gradeField") === "true" || true
   );
   const [addGuardianContact, setAddGuadianContact] = useState(
-    searchParams.get("guardianContactField")=== "true" || true
+    searchParams.get("guardianContactField") === "true" || true
   );
   const [addSource, setAddSource] = useState(
-    searchParams.get("sourceField")==="true" || true
+    searchParams.get("sourceField") === "true" || true
   );
   const [addAsked, setAddAsked] = useState(
-    searchParams.get("askedField")==="true" || true
+    searchParams.get("askedField") === "true" || true
   );
 
   const handleClearFilter = () => {
@@ -149,6 +154,10 @@ const AdminEnquiriesPage: FC = () => {
     setSearchedStnName,
     setAppliedClick,
   };
+  const orderObj = {
+    sortingOrder,
+    setSortingOrder,
+  };
 
   useEffect(() => {
     setPage(1);
@@ -176,9 +185,9 @@ const AdminEnquiriesPage: FC = () => {
     addRelation,
     addAsked,
   ]);
-
+  // console.log(enqOrder)
   const { data, isLoading } = useQuery(
-    ["enquiries", { page, limit, appliedClick, searchedStnName }],
+    ["enquiries", { page, limit, appliedClick, searchedStnName, sortingOrder }],
     () =>
       fetchEnquiries({
         limit,
@@ -186,6 +195,7 @@ const AdminEnquiriesPage: FC = () => {
         state: stnState,
         enquirySource: enqSource,
         searchedName: searchedStnName,
+        sortingOrder: sortingOrder,
       }),
     {
       keepPreviousData: true,
@@ -233,16 +243,18 @@ const AdminEnquiriesPage: FC = () => {
     );
   }
 
-  console.log(data);
-  console.log(addEmail,
-    addState,
-    addGuardianName,
-    addRelation,
-    addStnName,
-    addGrade,
-    addGuardianContact,
-    addSource,
-    addAsked,)
+  // console.log(data);
+  // console.log(
+  //   addEmail,
+  //   addState,
+  //   addGuardianName,
+  //   addRelation,
+  //   addStnName,
+  //   addGrade,
+  //   addGuardianContact,
+  //   addSource,
+  //   addAsked
+  // );
 
   return (
     <Box>
@@ -330,7 +342,7 @@ const AdminEnquiriesPage: FC = () => {
                 onChange={(e) => {
                   setMPage(+e.target.value);
                 }}
-                width="75px"
+                width="52px"
                 justifyContent="center"
                 alignContent="center"
               />
@@ -339,9 +351,12 @@ const AdminEnquiriesPage: FC = () => {
                 onClick={() => handleManuallyPageSet(mPage)}
                 variant={"subtle"}
               >
-                Search
+                <GiArchiveResearch />
               </Button>
             </Box>
+          </Box>
+          <Box justifyItems="right" alignItems="right">
+            <Order orderObj={orderObj} />
           </Box>
         </Grid>
       </Box>
