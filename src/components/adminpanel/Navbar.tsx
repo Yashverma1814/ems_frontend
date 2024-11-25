@@ -15,7 +15,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const Links = ["Dashboard", "Enquiries"];
+const Links = ["Dashboard", "Enquiries","Create-Enquiry"];
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -45,7 +45,6 @@ const Navbar = () => {
         maxW="1200px"
         mx="auto"
       >
-        {/* Logo */}
         <Image
           src="https://logowik.com/content/uploads/images/ems3178.logowik.com.webp"
           alt="EMS Logo"
@@ -67,11 +66,9 @@ const Navbar = () => {
           ))}
         </HStack>
 
-        {/* User Section */}
         <Flex alignItems="center">
           {token ? (
             <HStack spaceX={4} align="center">
-              {/* Custom Avatar */}
               <Box
                 width="40px"
                 height="40px"
