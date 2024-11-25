@@ -229,7 +229,7 @@ export const TableList = ({
                           deleteMutation.mutate(enquiry._id);
                         }}
                       >
-                        Confirm Deletion <MdOutlineDoneOutline/>
+                        Confirm <MdOutlineDoneOutline/>
                       </Button>
                     </PopoverBody>
                   </PopoverContent>

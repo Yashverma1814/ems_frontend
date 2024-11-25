@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/popover";
 
 export const FieldAddingCheckBox = ({ extFields }: any) => {
-  console.log(
-    extFields.addEmail,
-    extFields.addState,
-    extFields.addGuardianName,
-    extFields.addRelation
-  );
+  // console.log(
+  //   extFields.addEmail,
+  //   extFields.addState,
+  //   extFields.addGuardianName,
+  //   extFields.addRelation
+  // );
 
   return (
     <PopoverRoot positioning={{ placement: "bottom-end" }}>

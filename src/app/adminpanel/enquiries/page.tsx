@@ -12,6 +12,7 @@ import { noOfLimit } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
 import Navbar from "@/components/adminpanel/Navbar";
 import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
+import { FieldResetButton } from "@/components/adminpanel/FieldResetButton";
 import {
   Box,
   Button,
@@ -29,7 +30,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FieldResetButton } from "@/components/adminpanel/FieldResetButton";
 
 export interface Enquiry {
   _id: string;
@@ -78,31 +78,31 @@ const AdminEnquiriesPage: FC = () => {
   );
   const [appliedClick, setAppliedClick] = useState(0);
   const [addEmail, setAddEmail] = useState(
-    searchParams.get("emailField") || false
+    searchParams.get("emailField")==="true" || false
   );
   const [addState, setAddState] = useState(
-    searchParams.get("stateField") || false
+    searchParams.get("stateField")==="true" || false
   );
   const [addGuardianName, setAddGuardianName] = useState(
-    searchParams.get("guardianNameField") || false
+    searchParams.get("guardianNameField")==="true" || false
   );
   const [addRelation, setAddRelation] = useState(
-    searchParams.get("relationField") || false
+    searchParams.get("relationField")==="true" || false
   );
   const [addStnName, setAddStnName] = useState(
-    searchParams.get("stnNameField") || true
+    searchParams.get("stnNameField")==="true" || true
   );
   const [addGrade, setAddGrade] = useState(
-    searchParams.get("gradeField") || true
+    searchParams.get("gradeField")==="true" || true
   );
   const [addGuardianContact, setAddGuadianContact] = useState(
-    searchParams.get("guardianContactField") || true
+    searchParams.get("guardianContactField")=== "true" || true
   );
   const [addSource, setAddSource] = useState(
-    searchParams.get("sourceField") || true
+    searchParams.get("sourceField")==="true" || true
   );
   const [addAsked, setAddAsked] = useState(
-    searchParams.get("askedField") || true
+    searchParams.get("askedField")==="true" || true
   );
 
   const handleClearFilter = () => {
@@ -234,6 +234,15 @@ const AdminEnquiriesPage: FC = () => {
   }
 
   console.log(data);
+  console.log(addEmail,
+    addState,
+    addGuardianName,
+    addRelation,
+    addStnName,
+    addGrade,
+    addGuardianContact,
+    addSource,
+    addAsked,)
 
   return (
     <Box>
