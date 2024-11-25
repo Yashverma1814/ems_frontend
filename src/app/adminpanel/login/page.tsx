@@ -17,14 +17,21 @@ interface LoginResponse {
 }
 
 const AdminLoginPage = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const response = await axios.post<LoginResponse>(`${BaseUrl}/auth/login`, data);
+      const response = await axios.post<LoginResponse>(
+        `${BaseUrl}/auth/login`,
+        data
+      );
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("username", response.data.username);
       window.location.href = `${BaseUrlfe}/adminpanel/enquiries`;
@@ -58,8 +65,6 @@ const AdminLoginPage = () => {
             id="username"
             placeholder="Enter username"
             {...register("username", { required: "Username is required" })}
-            // focusBorderColor="green.400"
-            // errorBorderColor="red.400"x
           />
           {errors.username && (
             <Text color="red.500" mt="2" fontSize="sm">
@@ -76,8 +81,6 @@ const AdminLoginPage = () => {
             type="password"
             placeholder="Enter password"
             {...register("password", { required: "Password is required" })}
-            // focusBorderColor="green.400"
-            // errorBorderColor="red.400"
           />
           {errors.password && (
             <Text color="red.500" mt="2" fontSize="sm">
@@ -90,13 +93,7 @@ const AdminLoginPage = () => {
             {errorMessage}
           </Text>
         )}
-        <Button
-          mt="8"
-          colorScheme="green"
-          type="submit"
-          width="full"
-          // isDisabled={loading}
-        >
+        <Button mt="8" colorScheme="green" type="submit" width="full">
           {loading ? <Spinner size="sm" mr="2" /> : null} Login
         </Button>
       </form>
@@ -105,5 +102,3 @@ const AdminLoginPage = () => {
 };
 
 export default AdminLoginPage;
-
-

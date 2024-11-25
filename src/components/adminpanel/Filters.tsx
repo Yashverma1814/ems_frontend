@@ -1,4 +1,6 @@
 import { source, states } from "@/service/collection";
+import { IoFilterOutline } from "react-icons/io5";
+import { SearchBox } from "./SearchBox";
 import {
   Button,
   ButtonProps,
@@ -20,19 +22,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IoFilterOutline } from "react-icons/io5";
-import { SearchBox } from "./SearchBox";
 
 type FilterProps = {
-  filterObj: any
-}
+  filterObj: any;
+};
 
 export const Filters = ({ filterObj }: FilterProps) => {
-  // console.log(filterObj)
-  const handleApply: ButtonProps['onClick']  = (e) => {
-    // filterObj.fetchEnquiries();
+  const handleApply: ButtonProps["onClick"] = (e) => {
     filterObj.setPage(1);
-    filterObj.setAppliedClick(filterObj.appliedClick+1)
+    filterObj.setAppliedClick(filterObj.appliedClick + 1);
   };
 
   const searchObj = {

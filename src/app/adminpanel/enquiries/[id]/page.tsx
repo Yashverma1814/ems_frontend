@@ -1,9 +1,20 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { TbListDetails } from "react-icons/tb";
-
+import { RiArrowRightLine } from "react-icons/ri";
+import { SiRemark } from "react-icons/si";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import axios from "axios";
+import moment from "moment";
+import { Toaster, toaster } from "@/components/ui/toaster";
+import "react-toastify/dist/ReactToastify.css";
 import EnquiryEditForm from "@/components/adminpanel/EnquiryEditForm";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
+import { AddRemark } from "@/components/adminpanel/AddRemark";
+import Navbar from "@/components/adminpanel/Navbar";
 import {
   Box,
   Heading,
@@ -13,21 +24,8 @@ import {
   Center,
   Button,
   useDisclosure,
-  Flex,
   Tabs,
 } from "@chakra-ui/react";
-import axios from "axios";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { RiArrowRightLine } from "react-icons/ri";
-import "react-toastify/dist/ReactToastify.css";
-import { Toaster, toaster } from "@/components/ui/toaster";
-import { AddRemark } from "@/components/adminpanel/AddRemark";
-import { SiRemark } from "react-icons/si";
-import moment from "moment";
-import Navbar from "@/components/adminpanel/Navbar";
 
 type RemarkFormData = {
   message: string;
@@ -43,10 +41,13 @@ const fetchEnquiryDetail = async (id: any) => {
   }
 };
 
-
 export const EnquiryDetail = () => {
   const { onClose } = useDisclosure();
   const { id } = useParams();
+  const [token, setToken] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const [message, setMessage] = useState("");
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -63,9 +64,6 @@ export const EnquiryDetail = () => {
       enabled: !!id,
     }
   );
-  const [token, setToken] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -76,9 +74,6 @@ export const EnquiryDetail = () => {
       setUsername(storedUsername);
     }
   }, []);
-
-  const [message, setMessage] = useState("");
-  const secondButtonRef = useRef<HTMLButtonElement>(null);
 
   const mutation = useMutation(
     (remarkData: RemarkFormData) =>

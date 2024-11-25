@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Box, Flex, Card, Button, Center, Spinner } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import Link from "next/link";
-import { BaseUrlfe } from "@/service/apis";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import { Box, Flex, Card, Button, Center, Spinner } from "@chakra-ui/react";
 import Navbar from "@/components/adminpanel/Navbar";
+import { BaseUrlfe } from "@/service/apis";
+import "react-toastify/dist/ReactToastify.css";
 
 const fetchTotalEnquiries = async (): Promise<number> => {
   const response = await fetch("http://localhost:5000/enquiries/");

@@ -1,7 +1,6 @@
-import { Group, HStack, Input, Kbd } from "@chakra-ui/react";
+import { Group, HStack, Input} from "@chakra-ui/react";
 
 export const SearchBox = ({ searchObj }: any) => {
-    console.log(searchObj)
   return (
     <HStack gap="10" width="md">
       <Group attached>

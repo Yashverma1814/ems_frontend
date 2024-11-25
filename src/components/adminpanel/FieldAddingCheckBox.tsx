@@ -1,4 +1,7 @@
+import { extraFields } from "@/service/collection";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { Flex } from "@chakra-ui/react";
 import {
   PopoverArrow,
   PopoverBody,
@@ -6,15 +9,15 @@ import {
   PopoverRoot,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Checkbox } from "../ui/checkbox";
-import { extraFields } from "@/service/collection";
-import { Flex} from "@chakra-ui/react";
 
-export const FieldAddingCheckBox = ({extFields}:any) => {
+export const FieldAddingCheckBox = ({ extFields }: any) => {
+  console.log(
+    extFields.addEmail,
+    extFields.addState,
+    extFields.addGuardianName,
+    extFields.addRelation
+  );
 
-  console.log(extFields.addEmail,extFields.addState,extFields.addGuardianName,extFields.addRelation)
-
-  
   return (
     <PopoverRoot positioning={{ placement: "bottom-end" }}>
       <PopoverTrigger asChild>
@@ -25,20 +28,20 @@ export const FieldAddingCheckBox = ({extFields}:any) => {
       <PopoverContent w="200px">
         <PopoverArrow />
         <PopoverBody bgSize="sm">
-            {extraFields.map((field) => {
-              return (
-                <Flex key={field.value}>
+          {extraFields.map((field) => {
+            return (
+              <Flex key={field.value}>
                 <Checkbox
                   variant="outline"
                   checked={extFields[field.value]}
-                  onCheckedChange={(e)=>extFields[field.fn](!!e.checked)}
+                  onCheckedChange={(e) => extFields[field.fn](!!e.checked)}
                 >
                   {" "}
                   {field.label}
                 </Checkbox>
-                </Flex> 
-              );
-            })}
+              </Flex>
+            );
+          })}
         </PopoverBody>
       </PopoverContent>
     </PopoverRoot>

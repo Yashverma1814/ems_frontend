@@ -1,3 +1,5 @@
+import moment from "moment";
+import { Box, Flex, Heading, Stack, Text, Textarea } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import {
   DrawerActionTrigger,
@@ -11,20 +13,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Box, Flex, Heading, Stack, Text, Textarea } from "@chakra-ui/react";
-import moment from "moment";
-import Navbar from "./Navbar";
 
 export const AddRemark = ({ addRemarkObj }: any) => {
-
-  const handleAddRemark = () =>{
-      addRemarkObj.onSubmit({
-        message: addRemarkObj.message,
-        addedBy: addRemarkObj.username,
-      });
-      addRemarkObj.setMessage("");
-    
-  }
+  const handleAddRemark = () => {
+    addRemarkObj.onSubmit({
+      message: addRemarkObj.message,
+      addedBy: addRemarkObj.username,
+    });
+    addRemarkObj.setMessage("");
+  };
   return (
     <>
       <Box
@@ -68,10 +65,13 @@ export const AddRemark = ({ addRemarkObj }: any) => {
             Add remark
           </Button>
         </DrawerTrigger>
-        <DrawerContent offset="20" rounded="md"
-        style={{
-            transform:"translate(-50%,0)"
-        }}>
+        <DrawerContent
+          offset="20"
+          rounded="md"
+          style={{
+            transform: "translate(-50%,0)",
+          }}
+        >
           <DrawerHeader>
             <DrawerTitle>Add Your Remark here</DrawerTitle>
           </DrawerHeader>
@@ -89,11 +89,7 @@ export const AddRemark = ({ addRemarkObj }: any) => {
               <Button variant="outline">Cancel</Button>
             </DrawerActionTrigger>
             <DrawerActionTrigger asChild>
-            <Button
-              onClick={() => handleAddRemark() }
-            >
-              Add
-            </Button>
+              <Button onClick={() => handleAddRemark()}>Add</Button>
             </DrawerActionTrigger>
           </DrawerBody>
           <DrawerFooter></DrawerFooter>

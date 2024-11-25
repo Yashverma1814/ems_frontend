@@ -47,7 +47,7 @@ export const grade = createListCollection({
     { label: "GRADE 11", value: "eleventh class" },
     { label: "GRADE 12", value: "twelfth class" },
   ],
-}) 
+});
 export const relation = createListCollection({
   items: [
     { label: "Father", value: "father" },
@@ -55,7 +55,7 @@ export const relation = createListCollection({
     { label: "Gaurdian", value: "gaurdian" },
     { label: "Other", value: "other" },
   ],
-})
+});
 export const statesIndia = createListCollection({
   items: [
     { label: "Uttarakhand", value: "uttarakhand" },
@@ -91,23 +91,29 @@ export const statesIndia = createListCollection({
 });
 
 export const enqSource = createListCollection({
-  items:[
+  items: [
     { label: "Website", value: "website" },
     { label: "Referral", value: "referral" },
     { label: "Other", value: "other" },
-  ]
-})
+  ],
+});
 
 export const extraFields = [
-    { label: "Student Name", value: "addStnName",fn:"setAddStnName" },
-    { label: "Grade", value: "addGrade",fn:"setAddGrade" },
-    { label: "Guardian Contact", value: "addGuardianContact",fn:"setAddGuadianContact" },
-    { label: "Source", value: "addSource",fn:"setAddSource" },
-    { label: "Asked", value: "addAsked",fn:"setAddAsked" },
-    { label: "Email", value: "addEmail",fn:"setAddEmail" },
-    { label: "State", value: "addState" ,fn:"setAddState"},
-    { label: "Gaurdian Name", value: "addGuardianName",fn:"setAddGuardianName" },
-    { label: "Relation", value: "addRelation",fn:"setAddRelation" }
-  ]
-
-
+  { label: "Student Name", value: "addStnName", fn: "setAddStnName" },
+  { label: "Grade", value: "addGrade", fn: "setAddGrade" },
+  {
+    label: "Guardian Contact",
+    value: "addGuardianContact",
+    fn: "setAddGuadianContact",
+  },
+  { label: "Source", value: "addSource", fn: "setAddSource" },
+  { label: "Asked", value: "addAsked", fn: "setAddAsked" },
+  { label: "Email", value: "addEmail", fn: "setAddEmail" },
+  { label: "State", value: "addState", fn: "setAddState" },
+  {
+    label: "Gaurdian Name",
+    value: "addGuardianName",
+    fn: "setAddGuardianName",
+  },
+  { label: "Relation", value: "addRelation", fn: "setAddRelation" },
+];

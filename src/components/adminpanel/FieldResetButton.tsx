@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react"
 import { Button } from "@/components/ui/button"
-import { RiArrowRightLine, RiMailLine } from "react-icons/ri"
+import { RiMailLine } from "react-icons/ri"
 
 const Demo = () => {
   return (

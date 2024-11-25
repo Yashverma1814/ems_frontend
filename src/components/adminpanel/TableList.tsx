@@ -1,12 +1,11 @@
-import { Enquiry } from "@/app/adminpanel/enquiries/page";
-import { BaseUrl, BaseUrlfe } from "@/service/apis";
-import { Box, Button, Center, Spinner, Table } from "@chakra-ui/react";
 import axios from "axios";
-import Link from "next/link";
-import { useMutation, useQueryClient } from "react-query";
-import { toaster, Toaster } from "../ui/toaster";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import { BaseUrl } from "@/service/apis";
+import { useMutation, useQueryClient } from "react-query";
+import { toaster, Toaster } from "../ui/toaster";
+import { Button, Center, Spinner, Table } from "@chakra-ui/react";
+import { Enquiry } from "@/app/adminpanel/enquiries/page";
 
 export const TableList = ({
   enqList,
@@ -39,7 +38,7 @@ export const TableList = ({
     }
   );
 
-  const router = useRouter()
+  const router = useRouter();
 
   const { isLoading } = deleteMutation;
 
@@ -57,17 +56,35 @@ export const TableList = ({
         <Toaster />
         <Table.Header>
           <Table.Row>
-            {extFields.addStnName?<Table.ColumnHeader textAlign={"center"}>
-              Student Name
-            </Table.ColumnHeader>:""}
-            {extFields.addGrade?<Table.ColumnHeader textAlign={"center"}>Grade</Table.ColumnHeader>:""}
-            
-            {extFields.addGuardianContact?<Table.ColumnHeader textAlign={"center"}>
-              Guardian Contact
-            </Table.ColumnHeader>:""}
-            {extFields.addSource?<Table.ColumnHeader textAlign={"center"}>
-              Enquiry Source
-            </Table.ColumnHeader>:""}
+            {extFields.addStnName ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Student Name
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addGrade ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Grade
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+
+            {extFields.addGuardianContact ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Guardian Contact
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
+            {extFields.addSource ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Enquiry Source
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
             {extFields.addEmail ? (
               <Table.ColumnHeader textAlign={"center"}>
                 Email
@@ -96,7 +113,13 @@ export const TableList = ({
             ) : (
               ""
             )}
-            {extFields.addAsked?<Table.ColumnHeader textAlign={"center"}>Asked</Table.ColumnHeader>:""}
+            {extFields.addAsked ? (
+              <Table.ColumnHeader textAlign={"center"}>
+                Asked
+              </Table.ColumnHeader>
+            ) : (
+              ""
+            )}
             <Table.ColumnHeader colSpan={2} textAlign={"center"}>
               Actions
             </Table.ColumnHeader>
@@ -104,18 +127,36 @@ export const TableList = ({
         </Table.Header>
         <Table.Body>
           {enqList.map((enquiry: Enquiry) => (
-            
-            <Table.Row key={enquiry._id} onClick={()=> router.push(`enquiries/${enquiry._id}`)}>
-              {extFields.addStnName?<Table.Cell textAlign={"center"}>
-                {enquiry.studentName}
-              </Table.Cell>:""}
-              {extFields.addGrade?<Table.Cell textAlign={"center"}>{enquiry.grade}</Table.Cell>:""}
-              {extFields.addGuardianContact?<Table.Cell textAlign={"center"}>
-                {enquiry.contactDetails.contactMain || ""}
-              </Table.Cell>:""}
-              {extFields.addSource?<Table.Cell textAlign={"center"}>
-                {enquiry.enquirySource}
-              </Table.Cell>:""}
+            <Table.Row
+              key={enquiry._id}
+              onClick={() => router.push(`enquiries/${enquiry._id}`)}
+            >
+              {extFields.addStnName ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.studentName}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addGrade ? (
+                <Table.Cell textAlign={"center"}>{enquiry.grade}</Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addGuardianContact ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.contactDetails.contactMain || ""}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addSource ? (
+                <Table.Cell textAlign={"center"}>
+                  {enquiry.enquirySource}
+                </Table.Cell>
+              ) : (
+                ""
+              )}
               {extFields.addEmail ? (
                 <Table.Cell textAlign={"center"}>
                   {enquiry.contactDetails.email}
@@ -138,15 +179,17 @@ export const TableList = ({
                 ""
               )}
               {extFields.addRelation ? (
+                <Table.Cell textAlign={"center"}>{enquiry.relation}</Table.Cell>
+              ) : (
+                ""
+              )}
+              {extFields.addAsked ? (
                 <Table.Cell textAlign={"center"}>
-                  {enquiry.relation}
+                  {moment(enquiry.createdAt).fromNow()}
                 </Table.Cell>
               ) : (
                 ""
               )}
-              {extFields.addAsked?<Table.Cell textAlign={"center"}>
-                {moment(enquiry.createdAt).fromNow()}
-              </Table.Cell>:""}
               {/* <Table.Cell textAlign={"center"} width={"5px"}>
                 <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
                   <Button variant={"subtle"} colorPalette="green">
@@ -159,8 +202,8 @@ export const TableList = ({
                   variant={"subtle"}
                   colorPalette="red"
                   onClick={(e) => {
-                    e.stopPropagation()
-                    deleteMutation.mutate(enquiry._id)
+                    e.stopPropagation();
+                    deleteMutation.mutate(enquiry._id);
                   }}
                 >
                   Delete

@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { RxAvatar } from "react-icons/rx";
+import { BaseUrlfe } from "@/service/apis";
+
 import {
   Box,
   Flex,
@@ -11,9 +14,6 @@ import {
   Image,
   Heading,
 } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { BaseUrlfe } from "@/service/apis";
-import { RxAvatar } from "react-icons/rx";
 
 const Links = ["Dashboard", "Enquiries"];
 
@@ -22,7 +22,6 @@ const Navbar = () => {
   const [token, setToken] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>("");
 
-  // Only access localStorage on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
       setToken(localStorage.getItem("token"));

@@ -1,7 +1,13 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { BaseUrl } from "@/service/apis";
+import { enqSource, grade, relation, statesIndia } from "@/service/collection";
+import { EnquiryFormData } from "@/service/typesForSubmission";
+import { Toaster, toaster } from "@/components/ui/toaster";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Box,
   Button,
@@ -14,10 +20,6 @@ import {
   Stack,
   Spinner,
 } from "@chakra-ui/react";
-import { useMutation } from "react-query";
-import { BaseUrl } from "@/service/apis";
-import { Toaster, toaster } from "@/components/ui/toaster";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   SelectContent,
   SelectItem,
@@ -25,8 +27,6 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "../ui/select";
-import { enqSource, grade, relation, statesIndia } from "@/service/collection";
-import { EnquiryFormData } from "@/service/typesForSubmission";
 
 export default function EnquiryForm() {
   const {
@@ -97,7 +97,14 @@ export default function EnquiryForm() {
         </Heading>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="3rem">
+          <Heading
+            mb="6"
+            as="h1"
+            size="lg"
+            textAlign="left"
+            color="teal.600"
+            marginTop="3rem"
+          >
             Student Information
           </Heading>
 
@@ -193,7 +200,14 @@ export default function EnquiryForm() {
             </GridItem>
           </Grid>
 
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
+          <Heading
+            mb="6"
+            as="h1"
+            size="lg"
+            textAlign="left"
+            color="teal.600"
+            marginTop="2rem"
+          >
             Contact Details
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
@@ -244,7 +258,14 @@ export default function EnquiryForm() {
             </GridItem>
           </Grid>
 
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
+          <Heading
+            mb="6"
+            as="h1"
+            size="lg"
+            textAlign="left"
+            color="teal.600"
+            marginTop="2rem"
+          >
             Address
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
@@ -280,7 +301,14 @@ export default function EnquiryForm() {
             </GridItem>
           </Grid>
 
-          <Heading mb="6" as="h1" size="lg" textAlign="left" color="teal.600" marginTop="2rem">
+          <Heading
+            mb="6"
+            as="h1"
+            size="lg"
+            textAlign="left"
+            color="teal.600"
+            marginTop="2rem"
+          >
             Others
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>

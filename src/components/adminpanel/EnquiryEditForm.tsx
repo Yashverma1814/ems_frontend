@@ -1,7 +1,11 @@
 "use client";
+import axios from "axios";
 import moment from "moment";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useParams } from "next/navigation";
+import { BaseUrl } from "@/service/apis";
+import { Toaster, toaster } from "@/components/ui/toaster";
 import {
   Box,
   Button,
@@ -23,11 +27,6 @@ import {
   DrawerCloseTrigger,
   createListCollection,
 } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { BaseUrl } from "@/service/apis";
-import { useParams } from "next/navigation";
-import { Toaster, toaster } from "@/components/ui/toaster";
-import { Field } from "../ui/field";
 
 type EnquiryFormData = {
   studentName: string;
@@ -72,8 +71,6 @@ export default function EnquiryEditForm() {
     formState: { errors },
     reset,
   } = useForm<EnquiryFormData>();
-
-  // console.log(closePopover)
 
   const { data, isLoading, isError } = useQuery(
     ["enquiry", id],
@@ -246,12 +243,11 @@ export default function EnquiryEditForm() {
                   </GridItem>
 
                   <GridItem>
-                    
-                      <Input
-                        placeholder="Current School"
-                        marginTop={"1.2rem"}
-                        {...register("currentSchool")}
-                      />
+                    <Input
+                      placeholder="Current School"
+                      marginTop={"1.2rem"}
+                      {...register("currentSchool")}
+                    />
                   </GridItem>
                 </Grid>
 

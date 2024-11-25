@@ -2,14 +2,16 @@
 
 import { FC, useEffect, useState } from "react";
 import { RiArrowRightLine } from "react-icons/ri";
+import { useQuery } from "react-query";
 import axios from "axios";
 import Link from "next/link";
-import { useQuery } from "react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BaseUrl, BaseUrlfe } from "@/service/apis";
 import { TableList } from "@/components/adminpanel/TableList";
-import { noOfLimit, relation, source } from "@/service/collection";
+import { noOfLimit } from "@/service/collection";
 import { Filters } from "@/components/adminpanel/Filters";
 import Navbar from "@/components/adminpanel/Navbar";
+import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
 import {
   Box,
   Button,
@@ -27,8 +29,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export interface Enquiry {
   _id: string;
@@ -63,7 +63,6 @@ const fetchEnquiries = async (params: {
 };
 
 const AdminEnquiriesPage: FC = () => {
-
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -71,21 +70,48 @@ const AdminEnquiriesPage: FC = () => {
   const [page, setPage] = useState(1);
   const [mPage, setMPage] = useState(1);
   const [limit, setLimit] = useState(7);
-  const [stnState, setStnState] = useState(searchParams.get("state")||"");
-  const [enqSource, setEnqSource] = useState(searchParams.get("source")||"");
-  const [searchedStnName, setSearchedStnName] = useState(searchParams.get("searchedname")||"");
+  const [stnState, setStnState] = useState(searchParams.get("state") || "");
+  const [enqSource, setEnqSource] = useState(searchParams.get("source") || "");
+  const [searchedStnName, setSearchedStnName] = useState(
+    searchParams.get("searchedname") || ""
+  );
   const [appliedClick, setAppliedClick] = useState(0);
-  const [addEmail, setAddEmail] = useState(searchParams.get("emailField")||false);
-  const [addState, setAddState] = useState(searchParams.get("stateField")||false);
-  const [addGuardianName, setAddGuardianName] = useState(searchParams.get("guardianNameField")||false);
-  const [addRelation, setAddRelation] = useState(searchParams.get("relationField")||false);
-  const [addStnName, setAddStnName] = useState(searchParams.get("stnNameField")||true);
-  const [addGrade, setAddGrade] = useState(searchParams.get("gradeField")||true);
-  const [addGuardianContact, setAddGuadianContact] = useState(searchParams.get("guardianContactField")||true);
-  const [addSource, setAddSource] = useState(searchParams.get("sourceField")||true);
-  const [addAsked, setAddAsked] = useState(searchParams.get("askedField")||true);
+  const [addEmail, setAddEmail] = useState(
+    searchParams.get("emailField") || false
+  );
+  const [addState, setAddState] = useState(
+    searchParams.get("stateField") || false
+  );
+  const [addGuardianName, setAddGuardianName] = useState(
+    searchParams.get("guardianNameField") || false
+  );
+  const [addRelation, setAddRelation] = useState(
+    searchParams.get("relationField") || false
+  );
+  const [addStnName, setAddStnName] = useState(
+    searchParams.get("stnNameField") || true
+  );
+  const [addGrade, setAddGrade] = useState(
+    searchParams.get("gradeField") || true
+  );
+  const [addGuardianContact, setAddGuadianContact] = useState(
+    searchParams.get("guardianContactField") || true
+  );
+  const [addSource, setAddSource] = useState(
+    searchParams.get("sourceField") || true
+  );
+  const [addAsked, setAddAsked] = useState(
+    searchParams.get("askedField") || true
+  );
 
-
+  const handleClearFilter = () => {
+    setStnState("");
+    setEnqSource("");
+    setLimit(7);
+    setPage(1);
+    setSearchedStnName("");
+    setAppliedClick(0);
+  };
 
   const extFields = {
     addEmail,
@@ -105,18 +131,50 @@ const AdminEnquiriesPage: FC = () => {
     setAddGrade,
     setAddGuadianContact,
     setAddSource,
-    setAddAsked
+    setAddAsked,
+  };
+
+  const filterObj = {
+    open,
+    stnState,
+    enqSource,
+    searchedStnName,
+    appliedClick,
+    setOpen,
+    setStnState,
+    setEnqSource,
+    handleClearFilter,
+    setPage,
+    setSearchedStnName,
+    setAppliedClick,
   };
 
   useEffect(() => {
     setPage(1);
   }, [searchedStnName]);
 
-  useEffect(()=>{
-    router.push(`?searchedname=${searchedStnName}&state=${stnState}&source=${enqSource}&stnNameField=${addStnName}&gradeField=${addGrade}&guardianContactField=${addGuardianContact}&sourceField=${addSource}&emailField=${addEmail}&stateField=${addState}&guardianNameField=${addGuardianName}&relationField=${addRelation}&askedField=${addAsked}`,{
-      scroll:false
-    })
-  },[searchedStnName,stnState,enqSource,router,addStnName,addGrade,addGuardianContact,addSource,addEmail,addState,addGuardianName,addRelation,addAsked])
+  useEffect(() => {
+    router.push(
+      `?searchedname=${searchedStnName}&state=${stnState}&source=${enqSource}&stnNameField=${addStnName}&gradeField=${addGrade}&guardianContactField=${addGuardianContact}&sourceField=${addSource}&emailField=${addEmail}&stateField=${addState}&guardianNameField=${addGuardianName}&relationField=${addRelation}&askedField=${addAsked}`,
+      {
+        scroll: false,
+      }
+    );
+  }, [
+    searchedStnName,
+    stnState,
+    enqSource,
+    router,
+    addStnName,
+    addGrade,
+    addGuardianContact,
+    addSource,
+    addEmail,
+    addState,
+    addGuardianName,
+    addRelation,
+    addAsked,
+  ]);
 
   const { data, isLoading } = useQuery(
     ["enquiries", { page, limit, appliedClick, searchedStnName }],
@@ -133,15 +191,6 @@ const AdminEnquiriesPage: FC = () => {
       staleTime: 30000,
     }
   );
-
-  const handleClearFilter = () => {
-    setStnState("");
-    setEnqSource("");
-    setLimit(7);
-    setPage(1);
-    setSearchedStnName("");
-    setAppliedClick(0);
-  };
 
   const handleManuallyPageSet = (val: number) => {
     if (val > (data?.totalPages || 1) || val <= 0) {
@@ -183,20 +232,6 @@ const AdminEnquiriesPage: FC = () => {
     );
   }
 
-  const filterObj = {
-    open,
-    stnState,
-    enqSource,
-    searchedStnName,
-    appliedClick,
-    setOpen,
-    setStnState,
-    setEnqSource,
-    handleClearFilter,
-    setPage,
-    setSearchedStnName,
-    setAppliedClick,
-  };
   console.log(data);
 
   return (
@@ -222,7 +257,6 @@ const AdminEnquiriesPage: FC = () => {
             )}
           </Flex>
           <FieldAddingCheckBox extFields={extFields} />
-          
         </Flex>
         <Box overflowX="auto" border="1px solid #E2E8F0" borderRadius="lg">
           {isLoading ? (
