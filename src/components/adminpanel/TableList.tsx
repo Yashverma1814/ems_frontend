@@ -190,13 +190,7 @@ export const TableList = ({
               ) : (
                 ""
               )}
-              {/* <Table.Cell textAlign={"center"} width={"5px"}>
-                <Link href={`${BaseUrlfe}/adminpanel/enquiries/${enquiry._id}`}>
-                  <Button variant={"subtle"} colorPalette="green">
-                    View More
-                  </Button>
-                </Link>
-              </Table.Cell> */}
+              
               <Table.Cell textAlign={"center"} width={"5px"}>
                 <Button
                   variant={"subtle"}
