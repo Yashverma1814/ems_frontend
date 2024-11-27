@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Box, Flex, Heading, Stack, Text, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Heading, Separator, Stack, Text, Textarea } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import {
   DrawerActionTrigger,
@@ -36,6 +36,7 @@ export const AddRemark = ({ addRemarkObj }: any) => {
         <Text>
           <strong>Remarks:</strong>{" "}
         </Text>
+        <Separator my="4"/>
         {addRemarkObj.data.remark.map((remark: any) => (
           <Box
             key={remark._id}
@@ -56,6 +57,7 @@ export const AddRemark = ({ addRemarkObj }: any) => {
             <Text>{remark.message}</Text>
           </Box>
         ))}
+
       </Box>
 
       <DrawerRoot size={"lg"}>

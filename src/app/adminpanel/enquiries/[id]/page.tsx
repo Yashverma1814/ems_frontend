@@ -24,6 +24,9 @@ import {
   Button,
   useDisclosure,
   Tabs,
+  Stack,
+  SimpleGrid,
+  Separator,
 } from "@chakra-ui/react";
 import { fetchEnquiryDetail } from "@/service/queryFn";
 
@@ -40,7 +43,6 @@ type RemarkFormData = {
 //     console.error("Failed to fetch enquiries", error);
 //   }
 // };
-
 
 export const EnquiryDetail = () => {
   const { onClose } = useDisclosure();
@@ -176,72 +178,161 @@ export const EnquiryDetail = () => {
             <Tabs.Indicator rounded="l2" />
           </Tabs.List>
           <Tabs.Content value="details">
-            <Box>
-              <Heading as="h2" size="2xl" mb={6} textAlign="center">
+            <Box
+              p={6}
+              shadow="md"
+              borderWidth="1px"
+              borderRadius="lg"
+              bg="white"
+              maxW="1200px"
+              mx="auto"
+            >
+              <Heading
+                as="h2"
+                size="xl"
+                mb={6}
+                textAlign="center"
+                color="teal.600"
+              >
                 Enquiry Details
               </Heading>
-              <VStack spaceX={4} align="flex-start">
-                <Text></Text>
-                <Text>
-                  <strong>Student Name:</strong> {data.studentName}
-                </Text>
-                <Text>
-                  <strong>Grade:</strong> {data.grade}
-                </Text>
-                <Text>
-                  <strong>Guardian Contact:</strong>{" "}
-                  {data.contactDetails.contactMain}
-                </Text>
-                <Text>
-                  <strong>Enquiry Source:</strong> {data.enquirySource}
-                </Text>
-                <Text>
-                  <strong>Guardian Name:</strong> {data.guardianName}
-                </Text>
-                <Text>
-                  <strong>Other Contact Number:</strong>{" "}
-                  {data.contactDetails.contactOpt}
-                </Text>
-                <Text>
-                  <strong>Relation with Student:</strong> {data.relation}
-                </Text>
-                <Text>
-                  <strong>D.O.B.:</strong>{" "}
-                  {moment(data.dateOfBirth).format("DD-MM-YYYY")}
-                </Text>
-                <Text>
-                  <strong>Email:</strong> {data.contactDetails.email}
-                </Text>
-                <Text>
-                  <strong>Address:</strong>{" "}
-                  {data.address.street +
-                    " " +
-                    data.address.city +
-                    " " +
-                    data.address.state +
-                    " " +
-                    data.address.country}
-                </Text>
-                <Text>
-                  <strong>Wanted Hostel Info?</strong>{" "}
-                  {data.wantHostelInfo ? "Yes" : "No"}
-                </Text>
-                <Text>
-                  <strong>Wanted Transportation Info?</strong>{" "}
-                  {data.wantTransportInfo ? "Yes" : "No"}
-                </Text>
-                <Text>
-                  <strong>Description:</strong> {data.description}
-                </Text>
-                <Text>
-                  <strong>AskedAt: </strong>
-                  {moment(data.createdAt).format(
-                    "dddd, MMMM Do YYYY, HH:mm:SS"
-                  )}
-                </Text>
+              <Separator mb={4} />
+              <SimpleGrid columns={{ base: 1, md: 2 }} spaceX={6}>
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600" marginLeft="1.5rem">
+                    Student Name:
+                  </Text>
+                  <Text marginLeft="1.5rem" marginBottom="0.5rem">
+                    {data.studentName}
+                  </Text>
+                </Stack>
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Guardian Name:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.guardianName}</Text>
+                </Stack>
 
-                <EnquiryEditForm />
-              </VStack>
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Relation with Student:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.relation}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Grade:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.grade}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    D.O.B.:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {moment(data.dateOfBirth).format("DD-MM-YYYY")}
+                  </Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Current School:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.currentSchool}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Guardian Contact:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.contactDetails.contactMain}
+                  </Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Other Contact Number:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.contactDetails.contactOpt}
+                  </Text>
+                </Stack>
+
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Email:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.contactDetails.email}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Social Media:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.contactDetails.socialMediaHandles.twitter}
+                  </Text>
+                </Stack>
+
+                
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Address:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.address.street}, {data.address.city},{" "}
+                    {data.address.state}, {data.address.country}
+                  </Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Enquiry Source:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.enquirySource}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Description:
+                  </Text>
+                  <Text marginBottom="0.5rem">{data.description?data.description:"Not Provided"}</Text>
+                </Stack>
+
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Wanted Hostel Info?:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.wantHostelInfo ? "Yes" : "No"}
+                  </Text>
+                </Stack>
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Wanted Transportation Info?:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {data.wantTransportInfo ? "Yes" : "No"}
+                  </Text>
+                </Stack>
+                
+                <Stack>
+                  <Text fontWeight="bold" color="gray.600">
+                    Asked At:
+                  </Text>
+                  <Text marginBottom="0.5rem">
+                    {moment(data.createdAt).format(
+                      "dddd, MMMM Do YYYY, HH:mm:SS"
+                    )}
+                  </Text>
+                </Stack>
+              </SimpleGrid>
+              <Separator my={6} />
+              <EnquiryEditForm />
             </Box>
           </Tabs.Content>
           <Tabs.Content value="remarks">
