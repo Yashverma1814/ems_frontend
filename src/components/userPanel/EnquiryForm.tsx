@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -78,6 +77,7 @@ export default function EnquiryForm() {
       w="full"
       h="100vh"
       p="4"
+      marginTop="7rem"
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -110,24 +110,32 @@ export default function EnquiryForm() {
 
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem>
-              <Input
-                placeholder="Student Name *"
-                {...register("studentName", {
-                  required: "Student Name is required",
-                })}
-              />
+              <label>
+                {" "}
+                Student Name <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Student Name *"
+                  {...register("studentName", {
+                    required: "Student Name is required",
+                  })}
+                />
+              </label>
               {errors.studentName && (
                 <Text color="red.500">{errors.studentName.message}</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <Input
-                placeholder="Guardian Name *"
-                {...register("guardianName", {
-                  required: "Guardian Name is required",
-                })}
-              />
+              <label>
+                {" "}
+                Gaurdian Name <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Guardian Name *"
+                  {...register("guardianName", {
+                    required: "Guardian Name is required",
+                  })}
+                />
+              </label>
               {errors.guardianName && (
                 <Text color="red.500">
                   required{errors.guardianName.message}
@@ -136,67 +144,84 @@ export default function EnquiryForm() {
             </GridItem>
 
             <GridItem>
-              <SelectRoot
-                collection={relation}
-                size="md"
-                {...register("relation", { required: "Relation is required" })}
-              >
-                <SelectTrigger>
-                  <SelectValueText placeholder="Select Relation *" />
-                </SelectTrigger>
-                <SelectContent>
-                  {relation.items.map((rel) => (
-                    <SelectItem item={rel} key={rel.value}>
-                      {rel.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectRoot>
+              <label>
+                Relation <span style={{ color: "red" }}>*</span>
+                <SelectRoot
+                  collection={relation}
+                  size="md"
+                  {...register("relation", {
+                    required: "Relation is required",
+                  })}
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Relation *" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {relation.items.map((rel) => (
+                      <SelectItem item={rel} key={rel.value}>
+                        {rel.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              </label>
               {errors.relation && (
                 <Text color="red.500">{errors.relation.message}</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <SelectRoot
-                collection={grade}
-                size="md"
-                {...register("grade", { required: "Grade is required" })}
-              >
-                <SelectTrigger>
-                  <SelectValueText placeholder="Select Grade of Student" />
-                </SelectTrigger>
-                <SelectContent>
-                  {grade.items.map((gra) => (
-                    <SelectItem item={gra} key={gra.value}>
-                      {gra.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectRoot>
+              <label>
+                {" "}
+                Grade <span style={{ color: "red" }}>*</span>
+                <SelectRoot
+                  collection={grade}
+                  size="md"
+                  {...register("grade", { required: "Grade is required" })}
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Grade of Student" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {grade.items.map((gra) => (
+                      <SelectItem item={gra} key={gra.value}>
+                        {gra.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              </label>
               {errors.grade && (
                 <Text color="red.500">{errors.grade.message}</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <Input
-                type="date"
-                placeholder="Date of Birth *"
-                {...register("dateOfBirth", {
-                  required: "Date of Birth is required",
-                })}
-              />
+              <label>
+                {" "}
+                Date Of Birth <span style={{ color: "red" }}>*</span>
+                <Input
+                  type="date"
+                  placeholder="Date of Birth *"
+                  {...register("dateOfBirth", {
+                    required: "Date of Birth is required",
+                  })}
+                />
+              </label>
               {errors.dateOfBirth && (
                 <Text color="red.500">{errors.dateOfBirth.message}</Text>
               )}
             </GridItem>
             <GridItem>
-              <Input
-                type="text"
-                placeholder="Current School"
-                {...register("currentSchool")}
-              />
+              <label>
+                {" "}
+                Current School
+                <Input
+                  type="text"
+                  placeholder="Current School"
+                  {...register("currentSchool")}
+                />
+              </label>
             </GridItem>
           </Grid>
 
@@ -212,49 +237,70 @@ export default function EnquiryForm() {
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem>
-              <Input
-                placeholder="Guardian Phone *"
-                maxLength={10}
-                {...register("contactDetails.contactMain", {
-                  required: "Phone number is required",
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: "Please enter a valid phone number",
-                  },
-                })}
-              />
+              <label>
+                {" "}
+                Gaurdian Phone <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Guardian Phone *"
+                  maxLength={10}
+                  {...register("contactDetails.contactMain", {
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "Please enter a valid phone number",
+                    },
+                  })}
+                />
+              </label>
               {errors.contactDetails?.contactMain && (
                 <Text color="red.500">Phone Number is Required</Text>
               )}
             </GridItem>
 
             <GridItem>
-              <Input
-                placeholder="Guardian Phone 2 (Optional)"
-                maxLength={10}
-                {...register("contactDetails.contactOpt", {
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: "Please enter a valid phone number",
-                  },
-                })}
-              />
+              <label>
+                {" "}
+                Gaurdian Phone 2{" "}
+                <span style={{ color: "green" }}>(Optional)</span>
+                <Input
+                  placeholder="Guardian Phone 2 (Optional)"
+                  maxLength={10}
+                  {...register("contactDetails.contactOpt", {
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: "Please enter a valid phone number",
+                    },
+                  })}
+                />
+              </label>
             </GridItem>
 
             <GridItem>
-              <Input
-                placeholder="Guardian Email *"
-                {...register("contactDetails.email", {
-                  required: "Email is required",
-                })}
-              />
+              <label>
+                {" "}
+                Email <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Guardian Email *"
+                  {...register("contactDetails.email", {
+                    required: "Email is required",
+                  })}
+                />
+              </label>
+              {errors.contactDetails?.email && (
+                <Text color="red.500">
+                  {errors.contactDetails?.email.message}
+                </Text>
+              )}
             </GridItem>
 
             <GridItem>
-              <Input
-                placeholder="Social Media"
-                {...register("contactDetails.socialMediaHandles.twitter")}
-              />
+              <label>
+                Social Media
+                <Input
+                  placeholder="Social Media"
+                  {...register("contactDetails.socialMediaHandles.twitter")}
+                />
+              </label>
             </GridItem>
           </Grid>
 
@@ -270,34 +316,83 @@ export default function EnquiryForm() {
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6}>
             <GridItem>
-              <Input placeholder="Street" {...register("address.street")} />
+              <label>
+                {" "}
+                House No.
+                <Input placeholder="Street" {...register("address.street")} />
+              </label>
             </GridItem>
             <GridItem>
-              <Input placeholder="City" {...register("address.city")} />
+              <label>
+                {" "}
+                City <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="City"
+                  {...register("address.city", {
+                    required: "City is required",
+                  })}
+                />
+              </label>
+              {errors.address?.city && (
+                <Text color="red.500">{errors.address?.city.message}</Text>
+              )}
             </GridItem>
             <GridItem>
-              <SelectRoot
-                collection={statesIndia}
-                size="md"
-                {...register("address.state")}
-              >
-                <SelectTrigger>
-                  <SelectValueText placeholder="Select states" />
-                </SelectTrigger>
-                <SelectContent>
-                  {statesIndia.items.map((sta) => (
-                    <SelectItem item={sta} key={sta.value}>
-                      {sta.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectRoot>
+              <label>
+                {" "}
+                State <span style={{ color: "red" }}>*</span>
+                <SelectRoot
+                  collection={statesIndia}
+                  size="md"
+                  {...register("address.state", {
+                    required: "State is required",
+                  })}
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select states" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statesIndia.items.map((sta) => (
+                      <SelectItem item={sta} key={sta.value}>
+                        {sta.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              </label>
+              {errors.address?.state && (
+                <Text color="red.500">{errors.address?.state.message}</Text>
+              )}
             </GridItem>
             <GridItem>
-              <Input placeholder="Zipcode" {...register("address.zipCode")} />
+              <label>
+                {" "}
+                Zipcode <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Zipcode"
+                  {...register("address.zipCode", {
+                    required: "Zipcode is required",
+                  })}
+                />
+              </label>
+              {errors.address?.zipCode && (
+                <Text color="red.500">{errors.address?.zipCode.message}</Text>
+              )}
             </GridItem>
             <GridItem>
-              <Input placeholder="Country" {...register("address.country")} />
+              <label>
+                {" "}
+                Country <span style={{ color: "red" }}>*</span>
+                <Input
+                  placeholder="Country"
+                  {...register("address.country", {
+                    required: "Country is required",
+                  })}
+                />
+              </label>
+              {errors.address?.country && (
+                <Text color="red.500">{errors.address?.country.message}</Text>
+              )}
             </GridItem>
           </Grid>
 
@@ -313,30 +408,38 @@ export default function EnquiryForm() {
           </Heading>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
             <GridItem>
-              <SelectRoot
-                collection={enqSource}
-                size="md"
-                {...register("enquirySource")}
-                width="250px"
-              >
-                <SelectTrigger>
-                  <SelectValueText placeholder="Select Source" />
-                </SelectTrigger>
-                <SelectContent>
-                  {enqSource.items.map((sou) => (
-                    <SelectItem item={sou} key={sou.value}>
-                      {sou.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectRoot>
+              <label>
+                {" "}
+                Enquiry Source
+                <SelectRoot
+                  collection={enqSource}
+                  size="md"
+                  {...register("enquirySource")}
+                  width="250px"
+                >
+                  <SelectTrigger>
+                    <SelectValueText placeholder="Select Source" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {enqSource.items.map((sou) => (
+                      <SelectItem item={sou} key={sou.value}>
+                        {sou.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectRoot>
+              </label>
             </GridItem>
 
             <GridItem>
-              <Textarea
-                placeholder="Description"
-                {...register("description")}
-              />
+              <label>
+                {" "}
+                Description
+                <Textarea
+                  placeholder="Description"
+                  {...register("description")}
+                />
+              </label>
             </GridItem>
 
             <GridItem>

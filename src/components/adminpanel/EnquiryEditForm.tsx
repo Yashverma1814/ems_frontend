@@ -179,75 +179,94 @@ export default function EnquiryEditForm() {
                   gap={6}
                 >
                   <GridItem>
-                    <Input
-                      placeholder="Student Name"
-                      {...register("studentName", {
-                        required: "Student Name is required",
-                      })}
-                    />
+                    <label>
+                      {" "}
+                      Student Name
+                      <Input
+                        placeholder="Student Name"
+                        {...register("studentName", {
+                          required: "Student Name is required",
+                        })}
+                      />
+                    </label>
                     {errors.studentName && (
                       <Text color="red.500">{errors.studentName.message}</Text>
                     )}
                   </GridItem>
 
                   <GridItem>
-                    <Input
-                      placeholder="Guardian Name"
-                      {...register("guardianName", {
-                        required: "Guardian Name is required",
-                      })}
-                    />
+                    <label>
+                      {" "}
+                      Gaurdian Name
+                      <Input
+                        placeholder="Guardian Name"
+                        {...register("guardianName", {
+                          required: "Guardian Name is required",
+                        })}
+                      />
+                    </label>
+
                     {errors.guardianName && (
                       <Text color="red.500">{errors.guardianName.message}</Text>
                     )}
                   </GridItem>
 
                   <GridItem>
-                    <select
-                      {...register("relation", {
-                        required: "Relation is required",
-                      })}
-                      style={{
-                        width: "100%",
-                        padding: "8px",
-                        borderRadius: "8px",
-                        border: "1px solid #E2E8F0",
-                      }}
-                    >
-                      <option value="">Relation with Child</option>
-                      <option value="father">Father</option>
-                      <option value="mother">Mother</option>
-                      <option value="guardian">Guardian</option>
-                      <option value="other">Other</option>
-                    </select>
-
+                    <label>
+                      Relation
+                      <select
+                        {...register("relation", {
+                          required: "Relation is required",
+                        })}
+                        style={{
+                          width: "100%",
+                          padding: "8px",
+                          borderRadius: "8px",
+                          border: "1px solid #E2E8F0",
+                        }}
+                      >
+                        <option value="">Relation with Child</option>
+                        <option value="father">Father</option>
+                        <option value="mother">Mother</option>
+                        <option value="guardian">Guardian</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </label>
                     {errors.relation && (
                       <Text color="red.500">{errors.relation.message}</Text>
                     )}
                   </GridItem>
 
                   <GridItem>
-                    <Text>
-                      <strong>D.O.B.:</strong> Current:{" "}
-                      {moment(data.dateOfBirth).format("YYYY-MM-DD")}
-                    </Text>
-                    <Input
-                      type="date"
-                      placeholder="Date of Birth"
-                      {...register("dateOfBirth")}
-                      defaultValue="2020-11-05"
-                    />
+                    <label>
+                      {" "}
+                      Date of Birth
+                      <Text>
+                        <strong>D.O.B.:</strong> Current:{" "}
+                        {moment(data.dateOfBirth).format("YYYY-MM-DD")}
+                      </Text>
+                      <Input
+                        type="date"
+                        placeholder="Date of Birth"
+                        {...register("dateOfBirth")}
+                        defaultValue="2020-11-05"
+                      />
+                    </label>
                     {errors.dateOfBirth && (
                       <Text color="red.500">{errors.dateOfBirth.message}</Text>
                     )}
                   </GridItem>
 
                   <GridItem>
-                    <Input
-                      placeholder="Current School"
-                      marginTop={"1.2rem"}
-                      {...register("currentSchool")}
-                    />
+                    <label>
+                      {" "}
+                      Current School
+                      <Input
+                        placeholder="Current School"
+                        marginTop={"1.2rem"}
+                        {...register("currentSchool")}
+                      />
+                    </label>
                   </GridItem>
                 </Grid>
 
@@ -267,17 +286,21 @@ export default function EnquiryEditForm() {
                   gap={6}
                 >
                   <GridItem>
-                    <Input
-                      placeholder="Guardian Phone"
-                      maxLength={10}
-                      {...register("contactDetails.contactMain", {
-                        required: "Phone number is required",
-                        pattern: {
-                          value: /^[0-9]*$/,
-                          message: "Please enter a valid phone number",
-                        },
-                      })}
-                    />
+                    <label>
+                      {" "}
+                      Gaurdian Phone
+                      <Input
+                        placeholder="Guardian Phone"
+                        maxLength={10}
+                        {...register("contactDetails.contactMain", {
+                          required: "Phone number is required",
+                          pattern: {
+                            value: /^[0-9]*$/,
+                            message: "Please enter a valid phone number",
+                          },
+                        })}
+                      />
+                    </label>
                     {errors.contactDetails?.contactMain && (
                       <Text color="red.500">
                         {errors.contactDetails.contactMain.message}
@@ -286,17 +309,26 @@ export default function EnquiryEditForm() {
                   </GridItem>
 
                   <GridItem>
-                    <Input
-                      placeholder="Guardian Email"
-                      {...register("contactDetails.email")}
-                    />
+                    <label>
+                      {" "}
+                      Email
+                      <Input
+                        placeholder="Guardian Email"
+                        {...register("contactDetails.email")}
+                      />
+                    </label>
                   </GridItem>
 
                   <GridItem>
-                    <Input
-                      placeholder="Social Media (Twitter)"
-                      {...register("contactDetails.socialMediaHandles.twitter")}
-                    />
+                    <label>
+                      Social Media
+                      <Input
+                        placeholder="Social Media (Twitter)"
+                        {...register(
+                          "contactDetails.socialMediaHandles.twitter"
+                        )}
+                      />
+                    </label>
                   </GridItem>
                 </Grid>
 
@@ -315,34 +347,60 @@ export default function EnquiryEditForm() {
                   gap={6}
                 >
                   <GridItem>
-                    <Input
-                      placeholder="Street"
-                      {...register("address.street")}
-                    />
+                    <label>
+                      {" "}
+                      House No.
+                      <Input
+                        placeholder="Building/Flat/Colony"
+                        {...register("address.street")}
+                      />
+                    </label>
                   </GridItem>
                   <GridItem>
-                    <Input placeholder="City" {...register("address.city")} />
+                    <label>
+                      {" "}
+                      City
+                      <Input placeholder="City" {...register("address.city")} />
+                    </label>
                   </GridItem>
                   <GridItem>
-                    <select
-                      {...register("address.state")}
-                      style={{
-                        width: "100%",
-                        padding: "8px",
-                        borderRadius: "8px",
-                        border: "1px solid #E2E8F0",
-                      }}
-                    >
-                      <option value="">Select State</option>
-                      <option value="uttarakhand">Uttarakhand</option>
-                      <option value="delhi">Delhi</option>
-                    </select>
+                    <label>
+                      {" "}
+                      State
+                      <select
+                        {...register("address.state")}
+                        style={{
+                          width: "100%",
+                          padding: "8px",
+                          borderRadius: "8px",
+                          border: "1px solid #E2E8F0",
+                        }}
+                      >
+                        <option value="">Select State</option>
+                        <option value="uttarakhand">Uttarakhand</option>
+                        <option value="delhi">Delhi</option>
+                      </select>
+                    </label>
                   </GridItem>
                   <GridItem>
-                    <Input
-                      placeholder="Country"
-                      {...register("address.country")}
-                    />
+                    <label>
+                      {" "}
+                      Zipcode
+                      <Input
+                        placeholder="Zipcode"
+                        {...register("address.zipCode")}
+                      />
+                    </label>
+                  </GridItem>
+                  <GridItem>
+                    <label>
+                      {" "}
+                      Country <span style={{ color: "red" }}>*</span>
+                      <Input
+                        placeholder="Country"
+                        {...register("address.country")}
+                      />
+                    </label>
                   </GridItem>
                 </Grid>
 
@@ -362,10 +420,14 @@ export default function EnquiryEditForm() {
                   gap={6}
                 >
                   <GridItem>
-                    <Textarea
-                      placeholder="Description"
-                      {...register("description")}
-                    />
+                    <label>
+                      {" "}
+                      Description
+                      <Textarea
+                        placeholder="Description"
+                        {...register("description")}
+                      />
+                    </label>
                   </GridItem>
                   <GridItem>
                     <label
