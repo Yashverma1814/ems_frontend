@@ -58,11 +58,12 @@ const fetchEnquiries = async (params: {
   enquirySource: string;
   searchedName: string;
   sortingOrder: string;
+  nameSortOrder:string
 }) => {
-  const { limit, page, state, enquirySource, searchedName, sortingOrder } =
+  const { limit, page, state, enquirySource, searchedName, sortingOrder,nameSortOrder } =
     params;
   const response = await axios.get(
-    `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}&sort=${sortingOrder}`
+    `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}&sort=${sortingOrder}&nameSort=${nameSortOrder}`
   );
   return response.data;
 };
@@ -81,6 +82,7 @@ const AdminEnquiriesPage: FC = () => {
   const [searchedStnName, setSearchedStnName] = useState(
     searchParams.get("searchedname") || ""
   );
+  const [nameSortOrder,setNameSortOrder] = useState("desc")
   const [appliedClick, setAppliedClick] = useState(0);
   const [addEmail, setAddEmail] = useState(
     searchParams.get("emailField") === "true" || false
@@ -157,6 +159,8 @@ const AdminEnquiriesPage: FC = () => {
   const orderObj = {
     sortingOrder,
     setSortingOrder,
+    nameSortOrder,
+    setNameSortOrder
   };
 
   useEffect(() => {
@@ -187,7 +191,7 @@ const AdminEnquiriesPage: FC = () => {
   ]);
   // console.log(enqOrder)
   const { data, isLoading } = useQuery(
-    ["enquiries", { page, limit, appliedClick, searchedStnName, sortingOrder }],
+    ["enquiries", { page, limit, appliedClick, searchedStnName, sortingOrder,nameSortOrder }],
     () =>
       fetchEnquiries({
         limit,
@@ -196,6 +200,7 @@ const AdminEnquiriesPage: FC = () => {
         enquirySource: enqSource,
         searchedName: searchedStnName,
         sortingOrder: sortingOrder,
+        nameSortOrder:nameSortOrder,
       }),
     {
       keepPreviousData: true,
@@ -289,6 +294,7 @@ const AdminEnquiriesPage: FC = () => {
           ) : (
             <TableList
               enqList={data?.enquiries || []}
+              sortingObj={orderObj}
               queryKey={[
                 "enquiries",
                 { page, limit, searchedStnName, appliedClick },
@@ -356,7 +362,6 @@ const AdminEnquiriesPage: FC = () => {
             </Box>
           </Box>
           <Box justifyItems="right" alignItems="right">
-            <Order orderObj={orderObj} />
           </Box>
         </Grid>
       </Box>

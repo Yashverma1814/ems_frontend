@@ -6,6 +6,9 @@ import { useMutation, useQueryClient } from "react-query";
 import { toaster, Toaster } from "../ui/toaster";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { Enquiry } from "@/app/adminpanel/enquiries/page";
+import { TbSortAscending2, TbSortAscendingLetters, TbSortDescendingLetters } from "react-icons/tb";
+import { TbSortDescending2 } from "react-icons/tb";
+
 import {
   Button,
   Center,
@@ -21,13 +24,17 @@ import {
 
 export const TableList = ({
   enqList,
+  sortingObj,
   queryKey,
   extFields,
 }: {
   enqList: Enquiry[];
+  sortingObj:any;
   queryKey: any;
   extFields: any;
 }) => {
+
+
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation(
@@ -50,6 +57,36 @@ export const TableList = ({
     }
   );
 
+
+  const handleCreatedSorting = () =>{
+    if(sortingObj.sortingOrder==""){
+      sortingObj.setSortingOrder("desc")
+    }
+    if(sortingObj.sortingOrder=="asc"){
+      sortingObj.setSortingOrder("desc")
+      sortingObj.setNameSortOrder("")
+    }
+    else if(sortingObj.sortingOrder=="desc"){
+      sortingObj.setSortingOrder("asc")
+      sortingObj.setNameSortOrder("")
+    }
+  }
+
+  const handleNameSorting = () =>{
+    if(sortingObj.nameSortOrder==""){
+      sortingObj.setNameSortOrder("asc")
+    }
+    if(sortingObj.nameSortOrder=="asc"){
+      sortingObj.setNameSortOrder("desc")
+      sortingObj.setSortingOrder("")
+    }
+    else if(sortingObj.nameSortOrder=="desc"){
+      sortingObj.setNameSortOrder("asc")
+      sortingObj.setSortingOrder("")
+    }
+  }
+
+
   const router = useRouter();
 
   const { isLoading } = deleteMutation;
@@ -70,7 +107,7 @@ export const TableList = ({
           <Table.Row>
             {extFields.addStnName ? (
               <Table.ColumnHeader textAlign={"center"}>
-                Student Name
+                Student Name<button onClick={handleNameSorting}>{sortingObj.nameSortOrder=="asc"?<TbSortAscendingLetters />: sortingObj.nameSortOrder=="desc" ?<TbSortDescendingLetters />:<TbSortAscendingLetters />}</button>  
               </Table.ColumnHeader>
             ) : (
               ""
@@ -127,7 +164,7 @@ export const TableList = ({
             )}
             {extFields.addAsked ? (
               <Table.ColumnHeader textAlign={"center"}>
-                Asked
+                Created <button onClick={handleCreatedSorting}>{sortingObj.sortingOrder=="asc"?<TbSortAscending2 />: sortingObj.sortingOrder=="desc" ?<TbSortDescending2 />:<TbSortDescending2 />}</button>
               </Table.ColumnHeader>
             ) : (
               ""

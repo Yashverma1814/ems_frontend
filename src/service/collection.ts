@@ -21,7 +21,6 @@ export const states = createListCollection({
 export const source = createListCollection({
   items: [
     { label: "Website", value: "website" },
-    { label: "School Fair", value: "school_fair" },
     { label: "Referral", value: "referral" },
     { label: "Other", value: "other" },
   ],
