@@ -98,13 +98,18 @@ export const TableList = ({
   }
 
   return (
-    <Table.ScrollArea borderWidth="1px">
-      <Table.Root size="sm" variant="outline">
+    <Table.ScrollArea
+      borderWidth="1px"
+      overflowX="auto"
+      overflowY="auto"
+      maxH="md"
+    >
+      <Table.Root size="lg" variant="outline">
         <Toaster />
         <Table.Header>
           <Table.Row>
             {extFields.addStnName ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Student Name
                 <button onClick={handleNameSorting}>
                   {sortingObj.nameSortOrder == "asc" ? (
@@ -120,7 +125,7 @@ export const TableList = ({
               ""
             )}
             {extFields.addGrade ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Grade
               </Table.ColumnHeader>
             ) : (
@@ -128,49 +133,50 @@ export const TableList = ({
             )}
 
             {extFields.addGuardianContact ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Guardian Contact
               </Table.ColumnHeader>
             ) : (
               ""
             )}
             {extFields.addSource ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Enquiry Source
               </Table.ColumnHeader>
             ) : (
               ""
             )}
             {extFields.addEmail ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Email
               </Table.ColumnHeader>
             ) : (
               ""
             )}
+
             {extFields.addState ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 State
               </Table.ColumnHeader>
             ) : (
               ""
             )}
             {extFields.addGuardianName ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Guardian Name
               </Table.ColumnHeader>
             ) : (
               ""
             )}
             {extFields.addRelation ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Relation
               </Table.ColumnHeader>
             ) : (
               ""
             )}
             {extFields.addAsked ? (
-              <Table.ColumnHeader textAlign={"center"}>
+              <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Created{" "}
                 <button onClick={handleCreatedSorting}>
                   {sortingObj.sortingOrder == "asc" ? (
@@ -185,7 +191,7 @@ export const TableList = ({
             ) : (
               ""
             )}
-            <Table.ColumnHeader colSpan={2} textAlign={"center"}>
+            <Table.ColumnHeader colSpan={2} textAlign={"center"} minW="3xs">
               Actions
             </Table.ColumnHeader>
           </Table.Row>
