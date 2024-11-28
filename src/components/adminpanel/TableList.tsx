@@ -8,6 +8,8 @@ import { MdOutlineDoneOutline } from "react-icons/md";
 import { Enquiry } from "@/app/adminpanel/enquiries/page";
 import { TbSortAscending2, TbSortAscendingLetters, TbSortDescendingLetters } from "react-icons/tb";
 import { TbSortDescending2 } from "react-icons/tb";
+import { MdDeleteSweep } from "react-icons/md";
+
 
 import {
   Button,
@@ -252,7 +254,7 @@ export const TableList = ({
                         e.stopPropagation();
                       }}
                     >
-                      Delete
+                      <MdDeleteSweep />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent width="auto">

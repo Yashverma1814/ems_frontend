@@ -14,6 +14,10 @@ import Navbar from "@/components/adminpanel/Navbar";
 import { FieldAddingCheckBox } from "@/components/adminpanel/FieldAddingCheckBox";
 import { FieldResetButton } from "@/components/adminpanel/FieldResetButton";
 import { GiArchiveResearch } from "react-icons/gi";
+import { MdOutlineNavigateNext } from "react-icons/md";
+import { GrNext, GrPrevious } from "react-icons/gr";
+
+
 import {
   Box,
   Button,
@@ -329,7 +333,7 @@ const AdminEnquiriesPage: FC = () => {
               mt="4"
               mr="2"
             >
-              Previous
+              <GrPrevious />
             </Button>
             <Text display="inline" mx="2">
               Page {page} / {data?.totalPages || 1}
@@ -339,7 +343,7 @@ const AdminEnquiriesPage: FC = () => {
               disabled={page >= (data?.totalPages || 1)}
               mt="4"
             >
-              Next
+              <GrNext />
             </Button>
             <Box>
               <Input

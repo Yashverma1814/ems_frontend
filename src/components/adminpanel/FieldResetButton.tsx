@@ -17,7 +17,7 @@ export const FieldResetButton = ({ extFields }: any) => {
   return (
     <HStack>
       <Button colorPalette="yellow" variant="outline" size="sm" marginBottom="10px" onClick={()=>handleReset()}>
-        <GrPowerReset />Reset
+        <GrPowerReset />
       </Button>
     </HStack>
   )

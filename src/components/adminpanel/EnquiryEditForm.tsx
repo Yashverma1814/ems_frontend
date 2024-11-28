@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "next/navigation";
 import { BaseUrl } from "@/service/apis";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { FiEdit } from "react-icons/fi";
 import {
   Box,
   Button,
@@ -140,7 +141,7 @@ export default function EnquiryEditForm() {
       <DrawerBackdrop />
       <DrawerTrigger asChild>
         <Button colorPalette={"green"} variant="subtle">
-          Edit Enquiry
+          <FiEdit />
         </Button>
       </DrawerTrigger>
       <DrawerContent
