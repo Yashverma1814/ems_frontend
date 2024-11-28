@@ -12,7 +12,7 @@ export default function Home() {
     else{
         router.push('adminpanel/login')
     }
-  });
+  },[router]);
   return <div className={styles.page}>
     Redirecting.....
   </div>;

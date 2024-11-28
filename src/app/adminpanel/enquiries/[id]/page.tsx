@@ -4,7 +4,7 @@ import { TbListDetails } from "react-icons/tb";
 import { RiArrowRightLine } from "react-icons/ri";
 import { SiRemark } from "react-icons/si";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 import moment from "moment";
@@ -51,6 +51,7 @@ export const EnquiryDetail = () => {
   const [username, setUsername] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
+  const router = useRouter()
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -130,6 +131,7 @@ export const EnquiryDetail = () => {
     );
   }
   if (isError)
+    
     return (
       <Text color="red.500" textAlign="center">
         Error loading enquiry details.
