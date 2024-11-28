@@ -270,7 +270,7 @@ const AdminEnquiriesPage: FC = () => {
       <Navbar />
       <Box p="5">
         <Text fontSize="2xl" mb="4">
-          Admin Enquiries Dashboard
+          Enquiries List
         </Text>
         <Flex justifyContent="space-between">
           <Flex gap="1rem">

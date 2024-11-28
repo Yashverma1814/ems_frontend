@@ -34,7 +34,7 @@ const AdminLoginPage = () => {
       );
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("username", response.data.username);
-      window.location.href = `${BaseUrlfe}/adminpanel/enquiries`;
+      window.location.href = `${BaseUrlfe}/adminpanel/dashboard`;
     } catch (error) {
       setErrorMessage("Invalid username or password");
     } finally {
