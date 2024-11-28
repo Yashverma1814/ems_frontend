@@ -15,7 +15,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const Links = ["Dashboard", "Enquiries","Create-Enquiry"];
+const Links = ["Dashboard", "Enquiries", "Create-Enquiry"];
 
 const Navbar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);

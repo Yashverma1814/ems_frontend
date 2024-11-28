@@ -15,7 +15,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-
 interface RegisterFormData {
   username: string;
   password: string;

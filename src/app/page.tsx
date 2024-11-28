@@ -8,12 +8,9 @@ export default function Home() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       router.push("adminpanel/dashboard");
+    } else {
+      router.push("adminpanel/login");
     }
-    else{
-        router.push('adminpanel/login')
-    }
-  },[router]);
-  return <div className={styles.page}>
-    Redirecting.....
-  </div>;
+  }, [router]);
+  return <div className={styles.page}>Redirecting.....</div>;
 }

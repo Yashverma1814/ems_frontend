@@ -7,10 +7,9 @@ export default function Home() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       router.push("dashboard");
+    } else {
+      router.push("login");
     }
-    else{
-        router.push('login')
-    }
-  },[router]);
+  }, [router]);
   return <div>Redirecting ....</div>;
 }

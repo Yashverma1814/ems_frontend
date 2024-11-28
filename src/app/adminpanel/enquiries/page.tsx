@@ -17,7 +17,6 @@ import { GiArchiveResearch } from "react-icons/gi";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { GrNext, GrPrevious } from "react-icons/gr";
 
-
 import {
   Box,
   Button,
@@ -62,10 +61,17 @@ const fetchEnquiries = async (params: {
   enquirySource: string;
   searchedName: string;
   sortingOrder: string;
-  nameSortOrder:string
+  nameSortOrder: string;
 }) => {
-  const { limit, page, state, enquirySource, searchedName, sortingOrder,nameSortOrder } =
-    params;
+  const {
+    limit,
+    page,
+    state,
+    enquirySource,
+    searchedName,
+    sortingOrder,
+    nameSortOrder,
+  } = params;
   const response = await axios.get(
     `${BaseUrl}/enquiries/paginate?limit=${limit}&page=${page}&state=${state}&enquirySource=${enquirySource}&searchedName=${searchedName}&sort=${sortingOrder}&nameSort=${nameSortOrder}`
   );
@@ -86,7 +92,7 @@ const AdminEnquiriesPage: FC = () => {
   const [searchedStnName, setSearchedStnName] = useState(
     searchParams.get("searchedname") || ""
   );
-  const [nameSortOrder,setNameSortOrder] = useState("desc")
+  const [nameSortOrder, setNameSortOrder] = useState("desc");
   const [appliedClick, setAppliedClick] = useState(0);
   const [addEmail, setAddEmail] = useState(
     searchParams.get("emailField") === "true" || false
@@ -164,7 +170,7 @@ const AdminEnquiriesPage: FC = () => {
     sortingOrder,
     setSortingOrder,
     nameSortOrder,
-    setNameSortOrder
+    setNameSortOrder,
   };
 
   useEffect(() => {
@@ -195,7 +201,17 @@ const AdminEnquiriesPage: FC = () => {
   ]);
   // console.log(enqOrder)
   const { data, isLoading } = useQuery(
-    ["enquiries", { page, limit, appliedClick, searchedStnName, sortingOrder,nameSortOrder }],
+    [
+      "enquiries",
+      {
+        page,
+        limit,
+        appliedClick,
+        searchedStnName,
+        sortingOrder,
+        nameSortOrder,
+      },
+    ],
     () =>
       fetchEnquiries({
         limit,
@@ -204,7 +220,7 @@ const AdminEnquiriesPage: FC = () => {
         enquirySource: enqSource,
         searchedName: searchedStnName,
         sortingOrder: sortingOrder,
-        nameSortOrder:nameSortOrder,
+        nameSortOrder: nameSortOrder,
       }),
     {
       keepPreviousData: true,
@@ -365,8 +381,7 @@ const AdminEnquiriesPage: FC = () => {
               </Button>
             </Box>
           </Box>
-          <Box justifyItems="right" alignItems="right">
-          </Box>
+          <Box justifyItems="right" alignItems="right"></Box>
         </Grid>
       </Box>
     </Box>

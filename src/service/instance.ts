@@ -2,7 +2,7 @@ import axios from "axios";
 import { BaseUrl } from "./apis";
 
 const enqInstance = axios.create({
-  baseURL: BaseUrl, 
+  baseURL: BaseUrl,
   headers: {
     "Content-Type": "application/json",
   },

@@ -51,7 +51,7 @@ export const EnquiryDetail = () => {
   const [username, setUsername] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -131,7 +131,6 @@ export const EnquiryDetail = () => {
     );
   }
   if (isError)
-    
     return (
       <Text color="red.500" textAlign="center">
         Error loading enquiry details.
@@ -263,7 +262,6 @@ export const EnquiryDetail = () => {
                   </Text>
                 </Stack>
 
-
                 <Stack>
                   <Text fontWeight="bold" color="gray.600">
                     Email:
@@ -280,7 +278,6 @@ export const EnquiryDetail = () => {
                   </Text>
                 </Stack>
 
-                
                 <Stack>
                   <Text fontWeight="bold" color="gray.600">
                     Address:
@@ -302,7 +299,9 @@ export const EnquiryDetail = () => {
                   <Text fontWeight="bold" color="gray.600">
                     Description:
                   </Text>
-                  <Text marginBottom="0.5rem">{data.description?data.description:"Not Provided"}</Text>
+                  <Text marginBottom="0.5rem">
+                    {data.description ? data.description : "Not Provided"}
+                  </Text>
                 </Stack>
 
                 <Stack>
@@ -321,7 +320,7 @@ export const EnquiryDetail = () => {
                     {data.wantTransportInfo ? "Yes" : "No"}
                   </Text>
                 </Stack>
-                
+
                 <Stack>
                   <Text fontWeight="bold" color="gray.600">
                     Asked At:

@@ -1,4 +1,4 @@
-import { Group, HStack, Input} from "@chakra-ui/react";
+import { Group, HStack, Input } from "@chakra-ui/react";
 
 export const SearchBox = ({ searchObj }: any) => {
   return (
@@ -7,7 +7,9 @@ export const SearchBox = ({ searchObj }: any) => {
         <Input
           placeholder="Placeholder"
           value={searchObj.searchedStnName}
-          onChange={(e) => {searchObj.setSearchedStnName(e.target.value)}}
+          onChange={(e) => {
+            searchObj.setSearchedStnName(e.target.value);
+          }}
         />
       </Group>
     </HStack>

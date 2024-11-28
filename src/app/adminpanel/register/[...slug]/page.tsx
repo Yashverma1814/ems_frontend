@@ -5,7 +5,7 @@ import { useEffect } from "react";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    router.back()
-  },[router]);
+    router.back();
+  }, [router]);
   return <div>Redirecting ....</div>;
 }
