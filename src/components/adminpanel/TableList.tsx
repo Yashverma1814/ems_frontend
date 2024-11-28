@@ -23,6 +23,7 @@ import {
   PopoverRoot,
   PopoverTrigger,
   Spinner,
+  Sticky,
   Table,
 } from "@chakra-ui/react";
 
@@ -102,12 +103,12 @@ export const TableList = ({
       borderWidth="1px"
       overflowX="auto"
       overflowY="auto"
-      maxH="md"
+      maxH="sm"
     >
-      <Table.Root size="lg" variant="outline">
+      <Table.Root size="lg" variant="outline" stickyHeader>
         <Toaster />
         <Table.Header>
-          <Table.Row>
+          <Table.Row style={{position:"sticky",top:"0px",zIndex:10}}>
             {extFields.addStnName ? (
               <Table.ColumnHeader textAlign={"center"} minW="3xs">
                 Student Name
