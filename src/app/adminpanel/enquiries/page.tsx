@@ -122,6 +122,10 @@ const AdminEnquiriesPage: FC = () => {
     searchParams.get("askedField") === "true" || true
   );
 
+  useEffect(()=>{
+    setPage(1)
+  },[limit])
+
   const handleClearFilter = () => {
     setStnState("");
     setEnqSource("");
